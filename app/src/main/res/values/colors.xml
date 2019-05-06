@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="veeverblack">#2c2c2c</color>
+    <color name="lime1">#c2ff56</color>
+    <color name="lime2">#86ff55</color>
+
 </resources>
