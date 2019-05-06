@@ -2,6 +2,7 @@ package com.veever.main;
 
 import android.app.Application;
 
+import com.veever.main.manager.APIManager;
 import com.veever.main.manager.DatabaseManager;
 
 public class VeeverApplication extends Application {
@@ -11,6 +12,7 @@ public class VeeverApplication extends Application {
         super.onCreate();
 
         DatabaseManager.initialize(this);
+        APIManager.initialize(this);
 
     }
 
