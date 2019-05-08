@@ -6,6 +6,43 @@
     android:background="@color/veeverblack"
     tools:context=".MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp">
+
+        <ImageButton
+            android:id="@+id/tb_activate"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/button_eye_off"
+            android:scaleType="fitCenter"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tv_veever_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INITIALIZED"
+            android:textColor="@color/veeverwhite"
+            android:textSize="20sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+    <!-- main screen content -->
+    <TextView
+        android:id="@+id/tv_user_direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/veeverwhite"
+        android:layout_centerInParent="true"
+        android:text="Tap on the upper area \n of the screen to \n activate "
+        android:maxLines="3"
+        android:textAlignment="center" />
+
     <TextView
         android:id="@+id/tv_veever"
         android:layout_width="match_parent"
@@ -13,10 +50,8 @@
         android:text="VEEVER"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/veeverwhite"
-        android:textSize="26sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:layout_alignParentBottom="true"/>
-
-
 
 </RelativeLayout>
