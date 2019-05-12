@@ -9,6 +9,7 @@ import com.veever.main.api.BeaconsEndPoint;
 import com.veever.main.api.SpotEndPoint;
 import com.veever.main.api.SpotResponse;
 import com.veever.main.datamodel.Beacon;
+import com.veever.main.datamodel.Spot;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,6 +45,7 @@ public class APIManager {
         spotEndPoint = retrofit.create(SpotEndPoint.class);
 
         fetchBeacons();
+        fetchSpot();
     }
 
     public static void initialize(Context context) {
@@ -55,9 +57,13 @@ public class APIManager {
         beaconList.enqueue(new Callback<List<Beacon>>() {
             @Override
             public void onResponse(Call<List<Beacon>> call, Response<List<Beacon>> response) {
-                for(Beacon beacon: response.body()) {
-                    Log.e(TAG, "onResponse: list - " + beacon.toString());
+
+                if (response.body() == null && !response.isSuccessful()) {
+                    Log.e(TAG, "onResponse: failed to fetch beacons");
+                    return;
                 }
+
+                DatabaseManager.getInstance().saveBeacons(response.body());
             }
 
             @Override
@@ -67,9 +73,24 @@ public class APIManager {
         });
     }
 
-    public void fetchSpots(final Callback<SpotResponse> callback) {
-        final Call<SpotResponse> beaconList = spotEndPoint.fetchSpots();
-        beaconList.enqueue(callback);
-    }
+    public void fetchSpot() {
+        final Call<List<Spot>> spotList = spotEndPoint.fetchSpots();
+        spotList.enqueue(new Callback<List<Spot>>() {
+            @Override
+            public void onResponse(Call<List<Spot>> call, Response<List<Spot>> response) {
 
+                if (response.body() == null && !response.isSuccessful()) {
+                    Log.e(TAG, "onResponse: failed to fetch spots");
+                    return;
+                }
+
+                DatabaseManager.getInstance().saveSpots(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Spot>> call, Throwable t) {
+
+            }
+        });
+    }
 }

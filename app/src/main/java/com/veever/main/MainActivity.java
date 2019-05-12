@@ -204,8 +204,9 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                    // logToDisplay("The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away.");
                 }
             }
-
         };
+
+
         try {
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
             beaconManager.addRangeNotifier(rangeNotifier);
