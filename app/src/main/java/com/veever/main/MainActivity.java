@@ -21,6 +21,7 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.veever.main.datamodel.Spot;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -34,6 +35,7 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     TextView textViewVeeverStatus;
 
     boolean isActivated = false;
+
+    public static String lastShownBeacon = null;
 
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
@@ -198,14 +202,15 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 if (beacons.size() > 0) {
-                    Log.d(TAG, "didRangeBeaconsInRegion called with beacon count:  "+beacons.size());
+                    Log.d(TAG, "detected beacon count: "+beacons.size());
+
                     Beacon firstBeacon = beacons.iterator().next();
+                    showDialog(firstBeacon.toString());
+
                     Log.e(TAG, "didRangeBeaconsInRegion: " + firstBeacon.toString());
-                   // logToDisplay("The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away.");
                 }
             }
         };
-
 
         try {
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
@@ -214,4 +219,11 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
             beaconManager.addRangeNotifier(rangeNotifier);
         } catch (RemoteException e) {   }
     }
+
+
+    public void showDialog(String beaconInfo) {
+        BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(beaconInfo);
+        newFragment.show(getSupportFragmentManager(), "dialog");
+    }
+
 }
