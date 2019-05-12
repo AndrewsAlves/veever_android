@@ -59,27 +59,27 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
 
     boolean isActivated = false;
 
-    public static String lastShownBeacon = null;
+    public static String lastShownBeacon = " ";
 
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
-    private BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
+    private BeaconManager beaconManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        //beaconManager.bind(this);
         // setting beacon regions
-        Log.d(TAG, "setting up background monitoring for beacons and power saving");
+        //Log.d(TAG, "setting up background monitoring for beacons and power saving");
         // wake up the app when a beacon is seen
-        Region region = new Region("backgroundRegion",
-                null, null, null);
-        regionBootstrap = new RegionBootstrap(this, region);
-        backgroundPowerSaver = new BackgroundPowerSaver(this);
-        beaconManager.bind(this);
+        //Region region = new Region("backgroundRegion",
+        //        null, null, null);
+        //regionBootstrap = new RegionBootstrap(this, region);
+        //backgroundPowerSaver = new BackgroundPowerSaver(this);
+
     }
 
     @Override
@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
     }
 
     ////////////////////
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        Log.d(TAG, "onPermissionsChecked() called with: report = [" + report + "]");
+                        Log.e(TAG, "onPermissionsChecked() called with: report = [" + report + "]");
                         enableBluetooth();
                         enableMonitoring();
                     }
@@ -175,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         Region region = new Region("backgroundRegion",
                 null, null, null);
         regionBootstrap = new RegionBootstrap(this, region);
+        beaconManager.bind(this);
     }
 
     //////////////////
@@ -198,6 +205,8 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
 
     @Override
     public void onBeaconServiceConnect() {
+
+        beaconManager.removeAllRangeNotifiers();
         RangeNotifier rangeNotifier = new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
@@ -205,7 +214,13 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                     Log.d(TAG, "detected beacon count: "+beacons.size());
 
                     Beacon firstBeacon = beacons.iterator().next();
+
+                    if (lastShownBeacon.equals(firstBeacon.toString())) {
+                        return;
+                    }
+
                     showDialog(firstBeacon.toString());
+                    lastShownBeacon = firstBeacon.toString();
 
                     Log.e(TAG, "didRangeBeaconsInRegion: " + firstBeacon.toString());
                 }
@@ -219,7 +234,6 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
             beaconManager.addRangeNotifier(rangeNotifier);
         } catch (RemoteException e) {   }
     }
-
 
     public void showDialog(String beaconInfo) {
         BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(beaconInfo);
