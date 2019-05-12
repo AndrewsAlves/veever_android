@@ -173,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         regionBootstrap = new RegionBootstrap(this, region);
     }
 
+    //////////////////
+    /// BEACON OVERRIDE FUNC
+    //////////////////
+
     @Override
     public void didEnterRegion(Region region) {
 

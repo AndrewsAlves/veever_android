@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context=".BeaconDialogFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/bg_lime_gradient_top">
+
+        <TextView
+            android:id="@+id/tv_main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MAIN TITLE"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:textColor="@color/veeverblack"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUBTITLE"
+        android:layout_centerInParent="true"
+        android:textSize="28sp"
+        android:textColor="@color/veeverblack"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_lime_gradient_bottom">
+
+        <TextView
+            android:id="@+id/tv_user_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SOUTH"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:textColor="@color/veeverblack"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
