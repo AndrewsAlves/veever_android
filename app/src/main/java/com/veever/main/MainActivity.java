@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     @BindView(R.id.tb_activate)
     ImageButton imageButtonActivate;
 
+    @BindView(R.id.ib_settings)
+    ImageButton imageButtonSettings;
+
     @BindView(R.id.tv_user_direction)
     TextView textViewUserDirection;
 
@@ -62,8 +66,12 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     TextView textViewVeeverStatus;
 
     boolean isActivated = false;
+    public TOSManager textToSpeak;
+
 
     public static String lastShownBeacon = " ";
+
+    public Handler handleDialog;
 
    // private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
@@ -76,7 +84,10 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         ButterKnife.bind(this);
 
         beaconManager = BeaconManager.getInstanceForApplication(this);
+        textToSpeak = new TOSManager(this);
 
+        handleDialog = new Handler();
+        //textToSpeak.speak("Tap on the upper area of the screen to activate ");
        // beaconManager.bind(this);
         // setting beacon regions
         //Log.d(TAG, "setting up background monitoring for beacons and power saving");
@@ -91,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
@@ -156,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeeverStatus.setText("ACTIVATED");
         imageButtonActivate.setImageResource(R.drawable.button_eye_on);
+        imageButtonSettings.setImageResource(R.drawable.setting_on);
         isActivated = true;
     }
 
@@ -166,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeeverStatus.setText("INITIALISED");
         imageButtonActivate.setImageResource(R.drawable.button_eye_off);
+        imageButtonSettings.setImageResource(R.drawable.setting_off);
         isActivated = false;
     }
 
@@ -264,6 +276,17 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
         fragmentTransaction.commit(); // save the changes
+        removeDialog();
+    }
+
+    public void removeDialog() {
+        handleDialog.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager().beginTransaction().
+                        remove(getSupportFragmentManager().findFragmentById(R.id.frame_dialog_fragment)).commit();
+            }
+        },3000);
     }
 
 }

@@ -48,9 +48,21 @@
         android:id="@+id/tv_veever"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
         android:src="@drawable/veever_off"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"/>
+
+    <ImageButton
+        android:id="@+id/ib_settings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/setting_off"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="20dp"/>
 
     <FrameLayout
         android:id="@+id/frame_dialog_fragment"
