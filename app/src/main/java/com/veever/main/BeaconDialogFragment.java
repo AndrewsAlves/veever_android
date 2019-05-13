@@ -67,9 +67,6 @@ public class BeaconDialogFragment extends Fragment {
             textViewDirection.setText(direction);
             textViewMainTitle.setText(title);
             textViewSubtitle.setText(subtitle);
-
-           // Log.e(TAG, "onCreateView: uuid: " + uuid + " major: " + major + " minor: " + minor);
-            //DatabaseManager.getInstance().getSpotFromRealm(uuid,major,minor);
         }
 
         return v;

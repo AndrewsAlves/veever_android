@@ -138,20 +138,12 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     }
 
     public void disableMonitoring() {
-  //      if (regionBootstrap != null) {
-  //         regionBootstrap.disable();
-   //         regionBootstrap = null;
- //       }
         setupUIDisabled();
         beaconManager.unbind(this);
-        //beaconManager = null;
         lastShownBeacon = " ";
     }
 
     public void enableMonitoring() {
-    //    Region region = new Region("backgroundRegion",
-   ///             null, null, null);
-     //   regionBootstrap = new RegionBootstrap(this, region);
         setupUIEnabled();
         lastShownBeacon = " ";
         beaconManager.bind(this);
@@ -162,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeever.setImageResource(R.drawable.veever_on);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
-        textViewVeeverStatus.setText("Activated");
+        textViewVeeverStatus.setText("ACTIVATED");
         imageButtonActivate.setImageResource(R.drawable.button_eye_on);
         isActivated = true;
     }
@@ -172,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeever.setImageResource(R.drawable.veever_off);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
-        textViewVeeverStatus.setText("Initialised");
+        textViewVeeverStatus.setText("INITIALISED");
         imageButtonActivate.setImageResource(R.drawable.button_eye_off);
         isActivated = false;
     }
@@ -216,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 if (beacons.size() > 0) {
-                    Log.d(TAG, "detected beacon count: "+beacons.size());
 
                     Beacon firstBeacon = beacons.iterator().next();
 
@@ -241,20 +232,15 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     }
 
     public void showDialog(Beacon beacon) {
+
         if (!isActivated) {
             return;
         }
-
-        Log.e(TAG, "showDialog: " + beacon.getId1().toString() + " " + beacon.getId2().toInt() + " " + beacon.getId3().toInt());
 
         com.veever.main.datamodel.Beacon beacon1 = DatabaseManager.getInstance().getBeacon(
                 beacon.getId1().toString(),
                 beacon.getId2().toInt(),
                 beacon.getId3().toInt());
-
-        for (com.veever.main.datamodel.Beacon beacon2 : DatabaseManager.getInstance().getBeaconList()) {
-           // Log.e(TAG, "showDialog: " + beacon2.uuid + " " + beacon2.major + " " + beacon2.minor);
-        }
 
         if (beacon1 == null) {
             Log.e(TAG, "showDialog: beacon null");

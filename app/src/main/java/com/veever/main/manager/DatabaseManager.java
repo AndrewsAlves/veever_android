@@ -1,7 +1,6 @@
 package com.veever.main.manager;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.veever.main.VeeverMigration;
 import com.veever.main.datamodel.Beacon;
@@ -9,10 +8,9 @@ import com.veever.main.datamodel.Spot;
 
 import java.util.List;
 
-import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmMigration;
+
 
 public class DatabaseManager {
 
@@ -55,34 +53,11 @@ public class DatabaseManager {
     }
 
     public List<Beacon> getBeaconList() {
-
         List<Beacon> beaconList = realm.where(Beacon.class).findAll();
-
         return realm.copyFromRealm(beaconList);
     }
 
-    public Spot getSpotFromRealm(String uuid, String major, String minor) {
-
-        Spot spot = null;
-
-        Beacon beacon = realm.where(Beacon.class)
-                .equalTo("uuid",uuid)
-                .equalTo("major", major)
-                .equalTo("minor", minor)
-                .findFirst();
-
-        if (beacon != null) {
-          spot = realm.where(Spot.class).equalTo("id",beacon.spotid).findFirst();
-        }
-
-        return spot;
-    }
-
     public Beacon getBeacon(String uuid, int major, int minor) {
-
-        Log.e(TAG, "getBeacon: uuid: " + uuid);
-        Log.e(TAG, "getBeacon: major: " + major);
-        Log.e(TAG, "getBeacon: minor: " + minor);
 
         Beacon beacon = realm.where(Beacon.class)
                 .equalTo("uuid",uuid.toUpperCase())
@@ -91,7 +66,6 @@ public class DatabaseManager {
                 .findFirst();
 
         if (beacon == null) {
-            Log.e(TAG, "getBeacon: beacon null");
             return null;
         }
 
@@ -100,9 +74,11 @@ public class DatabaseManager {
 
     public Spot getSpot(String spotid) {
 
-        Log.e(TAG, "getSpot: id: " + spotid);
-
         Spot spot = realm.where(Spot.class).equalTo("id",spotid).findFirst();
+
+        if (spot == null) {
+            return null;
+        }
 
         return realm.copyFromRealm(spot);
     }
