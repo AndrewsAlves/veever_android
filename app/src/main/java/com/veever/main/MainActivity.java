@@ -10,10 +10,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.RemoteException;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.karumi.dexter.Dexter;
@@ -22,6 +25,7 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.veever.main.datamodel.Spot;
+import com.veever.main.manager.DatabaseManager;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.tv_veever)
-    TextView textViewVeever;
+    ImageView textViewVeever;
 
     @BindView(R.id.tb_activate)
     ImageButton imageButtonActivate;
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
 
     public static String lastShownBeacon = " ";
 
-    private RegionBootstrap regionBootstrap;
+   // private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
 
@@ -70,8 +74,10 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         beaconManager = BeaconManager.getInstanceForApplication(this);
-        //beaconManager.bind(this);
+
+       // beaconManager.bind(this);
         // setting beacon regions
         //Log.d(TAG, "setting up background monitoring for beacons and power saving");
         // wake up the app when a beacon is seen
@@ -96,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        beaconManager.unbind(this);
+
     }
 
     ////////////////////
@@ -106,35 +112,10 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     @OnClick(R.id.tb_activate)
     public void activate() {
         if (isActivated) {
-            deactivateVeever();
+            disableMonitoring();
             return;
         }
-
-        activateVeever();
-    }
-
-    public void activateVeever() {
-
-        textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
-        textViewVeever.setTextColor(getResources().getColor(R.color.lime2));
-        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
-        imageButtonActivate.setImageResource(R.drawable.button_eye_on);
-
         startBeaconMonitoring();
-
-        isActivated = true;
-    }
-
-    public void deactivateVeever() {
-
-        textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
-        textViewVeever.setTextColor(getResources().getColor(R.color.veeverwhite));
-        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
-        imageButtonActivate.setImageResource(R.drawable.button_eye_off);
-
-        disableMonitoring();
-
-        isActivated = false;
     }
 
     public void startBeaconMonitoring() {
@@ -151,11 +132,49 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                     }
 
                     @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-
-                    }
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) { }
                 })
                 .check();
+    }
+
+    public void disableMonitoring() {
+  //      if (regionBootstrap != null) {
+  //         regionBootstrap.disable();
+   //         regionBootstrap = null;
+ //       }
+        setupUIDisabled();
+        beaconManager.unbind(this);
+        //beaconManager = null;
+        lastShownBeacon = " ";
+    }
+
+    public void enableMonitoring() {
+    //    Region region = new Region("backgroundRegion",
+   ///             null, null, null);
+     //   regionBootstrap = new RegionBootstrap(this, region);
+        setupUIEnabled();
+        lastShownBeacon = " ";
+        beaconManager.bind(this);
+    }
+
+    public void setupUIEnabled() {
+
+        textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
+        textViewVeever.setImageResource(R.drawable.veever_on);
+        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
+        textViewVeeverStatus.setText("Activated");
+        imageButtonActivate.setImageResource(R.drawable.button_eye_on);
+        isActivated = true;
+    }
+
+    public void setupUIDisabled() {
+
+        textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
+        textViewVeever.setImageResource(R.drawable.veever_off);
+        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
+        textViewVeeverStatus.setText("Initialised");
+        imageButtonActivate.setImageResource(R.drawable.button_eye_off);
+        isActivated = false;
     }
 
     public void enableBluetooth() {
@@ -168,20 +187,6 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                 Log.e(TAG, "onPermissionsChecked: bluetooth turned ON");
             }
         }
-    }
-
-    public void disableMonitoring() {
-        if (regionBootstrap != null) {
-            regionBootstrap.disable();
-            regionBootstrap = null;
-        }
-    }
-
-    public void enableMonitoring() {
-        Region region = new Region("backgroundRegion",
-                null, null, null);
-        regionBootstrap = new RegionBootstrap(this, region);
-        beaconManager.bind(this);
     }
 
     //////////////////
@@ -219,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                         return;
                     }
 
-                    showDialog(firstBeacon.toString());
+                    showDialog(firstBeacon);
                     lastShownBeacon = firstBeacon.toString();
 
                     Log.e(TAG, "didRangeBeaconsInRegion: " + firstBeacon.toString());
@@ -235,9 +240,44 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
         } catch (RemoteException e) {   }
     }
 
-    public void showDialog(String beaconInfo) {
-        BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(beaconInfo);
-        newFragment.show(getSupportFragmentManager(), "dialog");
+    public void showDialog(Beacon beacon) {
+        if (!isActivated) {
+            return;
+        }
+
+        Log.e(TAG, "showDialog: " + beacon.getId1().toString() + " " + beacon.getId2().toInt() + " " + beacon.getId3().toInt());
+
+        com.veever.main.datamodel.Beacon beacon1 = DatabaseManager.getInstance().getBeacon(
+                beacon.getId1().toString(),
+                beacon.getId2().toInt(),
+                beacon.getId3().toInt());
+
+        for (com.veever.main.datamodel.Beacon beacon2 : DatabaseManager.getInstance().getBeaconList()) {
+           // Log.e(TAG, "showDialog: " + beacon2.uuid + " " + beacon2.major + " " + beacon2.minor);
+        }
+
+        if (beacon1 == null) {
+            Log.e(TAG, "showDialog: beacon null");
+            return;
+        }
+
+        Spot spot = DatabaseManager.getInstance().getSpot(beacon1.spotid);
+
+        if (spot == null) {
+            Log.e(TAG, "showDialog: spot null");
+            return;
+        }
+
+        loadFragment(spot);
+        Log.e(TAG, "showDialog: " + beacon.getId1().toString() + " " + beacon.getId2().toInt() + " " + beacon.getId3().toInt());
+
+    }
+
+    private void loadFragment(Spot spot) {
+        BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(spot.spotName,spot.spotDescription,spot.zoneLocation);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
+        fragmentTransaction.commit(); // save the changes
     }
 
 }

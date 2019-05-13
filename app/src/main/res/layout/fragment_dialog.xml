@@ -4,11 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:minWidth="280dp"
     tools:context=".BeaconDialogFragment">
 
     <RelativeLayout
+        android:id="@+id/topview"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:layout_alignParentTop="true"
         android:background="@drawable/bg_lime_gradient_top">
 
         <TextView
@@ -24,14 +28,22 @@
 
     <TextView
         android:id="@+id/tv_subtitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SUBTITLE"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:layout_above="@id/bottomView"
+        android:layout_below="@id/topview"
         android:layout_centerInParent="true"
-        android:textSize="28sp"
+        android:background="@color/veeverwhite"
         android:textColor="@color/veeverblack"/>
 
     <RelativeLayout
+        android:id="@+id/bottomView"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"

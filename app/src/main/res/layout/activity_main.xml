@@ -7,8 +7,9 @@
     tools:context=".MainActivity">
 
     <RelativeLayout
+        android:id="@+id/top_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="250dp">
 
         <ImageButton
             android:id="@+id/tb_activate"
@@ -43,15 +44,25 @@
         android:maxLines="3"
         android:textAlignment="center" />
 
-    <TextView
+    <ImageView
         android:id="@+id/tv_veever"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="VEEVER"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/veeverwhite"
-        android:textSize="20sp"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/veever_off"
         android:layout_alignParentBottom="true"/>
+
+    <FrameLayout
+        android:id="@+id/frame_dialog_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@id/tv_veever"
+        android:layout_below="@id/top_view">
+
+    </FrameLayout>
 
 </RelativeLayout>

@@ -63,6 +63,10 @@ public class APIManager {
                     return;
                 }
 
+                for (Beacon beacon : response.body()) {
+                    Log.e(TAG, "onResponse: beacon uuid " + beacon.uuid + " " + beacon.major);
+                }
+
                 DatabaseManager.getInstance().saveBeacons(response.body());
             }
 
@@ -82,6 +86,10 @@ public class APIManager {
                 if (response.body() == null && !response.isSuccessful()) {
                     Log.e(TAG, "onResponse: failed to fetch spots");
                     return;
+                }
+
+                for (Spot beacon : response.body()) {
+                    Log.e(TAG, "onResponse: spot id " + beacon.id);
                 }
 
                 DatabaseManager.getInstance().saveSpots(response.body());

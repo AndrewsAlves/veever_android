@@ -20,7 +20,7 @@ public class Beacon extends RealmObject {
     @SerializedName("minor")
     public int minor;
 
-    @SerializedName("spotid")
+    @SerializedName("spotId")
     public String spotid;
 
     @SerializedName("active")
