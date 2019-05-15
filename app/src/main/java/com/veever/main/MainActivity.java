@@ -27,6 +27,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.manager.DatabaseManager;
+import com.veever.main.manager.VeeverSensorManager;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -102,11 +103,13 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     @Override
     protected void onStart() {
         super.onStart();
+        VeeverSensorManager.getInstance().register();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        VeeverSensorManager.getInstance().unRegister();
     }
 
     @Override

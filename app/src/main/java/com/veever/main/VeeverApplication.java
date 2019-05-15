@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.veever.main.manager.APIManager;
 import com.veever.main.manager.DatabaseManager;
+import com.veever.main.manager.VeeverSensorManager;
 
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
@@ -16,6 +17,7 @@ public class VeeverApplication extends Application {
 
         DatabaseManager.initialize(this);
         APIManager.initialize(this);
+        VeeverSensorManager.initialise(this);
 
         BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
 
