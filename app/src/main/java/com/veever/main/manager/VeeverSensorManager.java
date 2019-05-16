@@ -7,6 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import com.veever.main.GeoDirections;
+
 import static android.content.Context.SENSOR_SERVICE;
 
 public class VeeverSensorManager implements SensorEventListener {
@@ -24,6 +26,8 @@ public class VeeverSensorManager implements SensorEventListener {
     private float[] mR = new float[9];
     private float[] mOrientation = new float[3];
     private float mCurrentDegree = 0f;
+
+    public GeoDirections geoDirection;
 
     public static VeeverSensorManager getInstance() {
         return ourInstance;
@@ -71,15 +75,64 @@ public class VeeverSensorManager implements SensorEventListener {
 
             // TODO log orientation
 
-            mCurrentDegree = -azimuthInDegress;
+            mCurrentDegree = azimuthInDegress;
+            setGeoDirections();
+        }
+    }
 
-            Log.e(TAG, "onSensorChanged: current degree: " + mCurrentDegree);
+    private void setGeoDirections() {
+        if (mCurrentDegree >= 337.5 || mCurrentDegree <= 22.5) {
+            geoDirection = GeoDirections.NORTH;
+        } else if(mCurrentDegree >= 22.5 && mCurrentDegree <= 67.5){
+            geoDirection = GeoDirections.NORTH_EAST;
+        }else if(mCurrentDegree >= 67.5 && mCurrentDegree <= 112.5){
+            geoDirection = GeoDirections.EAST;
+        }else if(mCurrentDegree >= 112.5 && mCurrentDegree <= 157.5){
+            geoDirection = GeoDirections.SOUTH_EAST;
+        }else if(mCurrentDegree >= 157.5 && mCurrentDegree <= 202.5){
+            geoDirection = GeoDirections.SOUTH;
+        }else if(mCurrentDegree >= 202.5 && mCurrentDegree <= 247.5){
+            geoDirection = GeoDirections.SOUTH_WEST;
+        }else if(mCurrentDegree >= 247.5 && mCurrentDegree <= 292.5){
+            geoDirection = GeoDirections.WEST;
+        }else if(mCurrentDegree >= 292.5 && mCurrentDegree <= 337.5){
+            geoDirection = GeoDirections.NORTH_WEST;
         }
 
+        Log.e(TAG, "onSensorChanged: current direction: " + geoDirection.name());
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public GeoDirections getGeoDirection() {
+        return geoDirection;
+    }
+
+    public String getDirectionText() {
+
+            switch (geoDirection) {
+                case NORTH:
+                    return geoDirection.name();
+                case NORTH_EAST:
+                    return "NORTH EAST";
+                case EAST:
+                    return geoDirection.name();
+                case SOUTH_EAST:
+                    return "SOUTH EAST";
+                case SOUTH:
+                    return geoDirection.name();
+                case SOUTH_WEST:
+                    return "SOUTH WEST";
+                case WEST:
+                    return geoDirection.name();
+                case NORTH_WEST:
+                    return "NORTH WEST";
+                default:
+                    return null;
+
+            }
     }
 }

@@ -29,6 +29,7 @@ public class DatabaseManager {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name("veever")
                 .schemaVersion(1)
+                .deleteRealmIfMigrationNeeded()
                 .migration(new VeeverMigration())
                 .build();
 
@@ -50,6 +51,12 @@ public class DatabaseManager {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(spotList);
         realm.commitTransaction();
+    }
+
+    public void getSpotOrients() {
+
+        Spot spot = realm.where(Spot.class).findFirst();
+
     }
 
     public List<Beacon> getBeaconList() {

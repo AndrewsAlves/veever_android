@@ -83,15 +83,13 @@ public class APIManager {
             @Override
             public void onResponse(Call<List<Spot>> call, Response<List<Spot>> response) {
 
+                Log.e(TAG, "onResponse: got respoce  " + response.body().toString());
+
                 if (response.body() == null && !response.isSuccessful()) {
                     Log.e(TAG, "onResponse: failed to fetch spots");
                     return;
                 }
-
-                for (Spot beacon : response.body()) {
-                    Log.e(TAG, "onResponse: spot id " + beacon.id);
-                }
-
+                
                 DatabaseManager.getInstance().saveSpots(response.body());
             }
 

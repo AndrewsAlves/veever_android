@@ -25,6 +25,7 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.veever.main.datamodel.OrientationInfo;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.manager.DatabaseManager;
 import com.veever.main.manager.VeeverSensorManager;
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                     }
 
                     showDialog(firstBeacon);
-                    lastShownBeacon = firstBeacon.toString();
+
 
                     Log.e(TAG, "didRangeBeaconsInRegion: " + firstBeacon.toString());
                 }
@@ -269,13 +270,22 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
             return;
         }
 
-        loadFragment(spot);
-        Log.e(TAG, "showDialog: " + beacon.getId1().toString() + " " + beacon.getId2().toInt() + " " + beacon.getId3().toInt());
+        String title;
+        String description;
+        String direction = VeeverSensorManager.getInstance().getDirectionText();
+        GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
 
+       if (spot.getDirectionInfo(geoDirection) != null) {
+           OrientationInfo directionInfo = spot.getDirectionInfo(geoDirection);
+           title = directionInfo.title;
+           description = directionInfo.description;
+           loadFragment(title, description, direction);
+           //lastShownBeacon = beacon.toString();
+       }
     }
 
-    private void loadFragment(Spot spot) {
-        BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(spot.spotName,spot.spotDescription,spot.zoneLocation);
+    private void loadFragment(String title, String description, String direction) {
+        BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(title, description, direction);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
         fragmentTransaction.commit(); // save the changes
