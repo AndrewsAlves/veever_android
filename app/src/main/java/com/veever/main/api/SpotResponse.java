@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
 
+/**
+ * Created by Andrews on 17,May,2019
+ */
+
 public class SpotResponse {
 
     @SerializedName("id")

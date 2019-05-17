@@ -8,8 +8,13 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.veever.main.GeoDirections;
+import com.veever.main.MainActivity;
 
 import static android.content.Context.SENSOR_SERVICE;
+
+/**
+ * Created by Andrews on 17,May,2019
+ */
 
 public class VeeverSensorManager implements SensorEventListener {
 
@@ -27,7 +32,9 @@ public class VeeverSensorManager implements SensorEventListener {
     private float[] mOrientation = new float[3];
     private float mCurrentDegree = 0f;
 
-    public GeoDirections geoDirection;
+    private GeoDirections geoDirection;
+
+    public MainActivity mainActivity;
 
     public static VeeverSensorManager getInstance() {
         return ourInstance;
@@ -76,11 +83,15 @@ public class VeeverSensorManager implements SensorEventListener {
             // TODO log orientation
 
             mCurrentDegree = azimuthInDegress;
-            setGeoDirections();
+            // set geo direction and update the activity for new direction info
+            setGeoAndDialog();
         }
     }
 
-    private void setGeoDirections() {
+    private void setGeoAndDialog() {
+
+        GeoDirections lastGeoDirection = geoDirection;
+
         if (mCurrentDegree >= 337.5 || mCurrentDegree <= 22.5) {
             geoDirection = GeoDirections.NORTH;
         } else if(mCurrentDegree >= 22.5 && mCurrentDegree <= 67.5){
@@ -99,13 +110,15 @@ public class VeeverSensorManager implements SensorEventListener {
             geoDirection = GeoDirections.NORTH_WEST;
         }
 
-        Log.e(TAG, "onSensorChanged: current direction: " + geoDirection.name());
+        if (lastGeoDirection != geoDirection) {
+            mainActivity.showDialog();
+            Log.e(TAG, "onSensorChanged: current direction: " + geoDirection.name());
+        }
+
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
     public GeoDirections getGeoDirection() {
         return geoDirection;

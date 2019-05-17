@@ -1,17 +1,10 @@
 package com.veever.main;
 
 import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.RemoteException;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,22 +26,23 @@ import com.veever.main.manager.VeeverSensorManager;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
-import org.altbeacon.beacon.startup.BootstrapNotifier;
-import org.altbeacon.beacon.startup.RegionBootstrap;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements BootstrapNotifier , BeaconConsumer {
+/**
+ * Created by Andrews on 17,May,2019
+ */
+
+public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     private static final String TAG = "MainActivity";
 
@@ -74,10 +68,12 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     public static String lastShownBeacon = " ";
 
     public Handler handleDialog;
-
    // private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
+
+    public List<Beacon> stableBeaconList;
+    public Collection<Beacon> beaconCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,31 +194,23 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
     }
 
     //////////////////
-    /// BEACON OVERRIDE FUNC
+    /// BEACON OVERRIDE
     //////////////////
 
     @Override
-    public void didEnterRegion(Region region) {
-
-    }
-
-    @Override
-    public void didExitRegion(Region region) {
-
-    }
-
-    @Override
-    public void didDetermineStateForRegion(int i, Region region) {
-
-    }
-
-    @Override
     public void onBeaconServiceConnect() {
+
+        Log.d(TAG, "onBeaconServiceConnect() called");
 
         beaconManager.removeAllRangeNotifiers();
         RangeNotifier rangeNotifier = new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+
+                Log.d(TAG, "didRangeBeaconsInRegion() called with: beacons = [" + beacons + "], region = [" + region + "]");
+
+               beaconCollection = beacons;
+
                 if (beacons.size() > 0) {
 
                     Beacon firstBeacon = beacons.iterator().next();
@@ -230,11 +218,6 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                     if (lastShownBeacon.equals(firstBeacon.toString())) {
                         return;
                     }
-
-                    showDialog(firstBeacon);
-
-
-                    Log.e(TAG, "didRangeBeaconsInRegion: " + firstBeacon.toString());
                 }
             }
         };
@@ -244,15 +227,22 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
             beaconManager.addRangeNotifier(rangeNotifier);
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
             beaconManager.addRangeNotifier(rangeNotifier);
-        } catch (RemoteException e) {   }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void showDialog(Beacon beacon) {
+    public void showDialog() {
 
         if (!isActivated) {
             return;
         }
 
+        if (stableBeaconList.size() == 0) {
+            return;
+        }
+
+        Beacon beacon = stableBeaconList.get(0);
         com.veever.main.datamodel.Beacon beacon1 = DatabaseManager.getInstance().getBeacon(
                 beacon.getId1().toString(),
                 beacon.getId2().toInt(),
@@ -280,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
            title = directionInfo.title;
            description = directionInfo.description;
            loadFragment(title, description, direction);
-           //lastShownBeacon = beacon.toString();
        }
     }
 
@@ -300,6 +289,21 @@ public class MainActivity extends AppCompatActivity implements BootstrapNotifier
                         remove(getSupportFragmentManager().findFragmentById(R.id.frame_dialog_fragment)).commit();
             }
         },3000);
+    }
+
+    public Beacon getClosestBeacon() {
+
+        Beacon closetBeacon = null;
+
+        for (Beacon beacon : stableBeaconList) {
+            for (Beacon beacon1 : stableBeaconList) {
+                if (beacon.getDistance() < beacon1.getDistance()) {
+                    closetBeacon = beacon;
+                }
+            }
+        }
+
+        return closetBeacon;
     }
 
 }

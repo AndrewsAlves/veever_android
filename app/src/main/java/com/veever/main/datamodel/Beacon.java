@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Created by Andrews on 17,May,2019
+ */
+
 public class Beacon extends RealmObject {
 
     @PrimaryKey

@@ -2,6 +2,10 @@ package com.veever.main.api;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Created by Andrews on 17,May,2019
+ */
+
 public class BeaconResponse {
 
     @SerializedName("id")

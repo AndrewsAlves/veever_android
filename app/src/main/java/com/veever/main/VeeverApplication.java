@@ -9,6 +9,10 @@ import com.veever.main.manager.VeeverSensorManager;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 
+/**
+ * Created by Andrews on 17,May,2019
+ */
+
 public class VeeverApplication extends Application {
 
     @Override

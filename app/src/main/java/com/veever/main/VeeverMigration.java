@@ -7,6 +7,10 @@ import io.realm.RealmMigration;
 import io.realm.RealmSchema;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Created by Andrews on 17,May,2019
+ */
+
 public class VeeverMigration implements RealmMigration {
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {

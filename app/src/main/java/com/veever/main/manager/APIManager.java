@@ -21,6 +21,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Created by Andrews on 17,May,2019
+ */
+
 public class APIManager {
     private static final String TAG = "API manager";
     private static APIManager ourInstance;
