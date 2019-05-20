@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/RegularTextViewStyle</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -13,6 +14,25 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="RegularTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.Regular</item>
+    </style>
+
+    <style name="TextAppearance.Heavy" parent="android:TextAppearance">
+        <!-- Custom Attr-->
+        <item name="android:fontFamily">@font/sf_heavy</item>
+    </style>
+
+    <style name="TextAppearance.Thin" parent="android:TextAppearance">
+        <!-- Custom Attr-->
+        <item name="android:fontFamily">@font/sf_light</item>
+    </style>
+
+    <style name="TextAppearance.Regular" parent="android:TextAppearance">
+        <!-- Custom Attr-->
+        <item name="android:fontFamily">@font/sf_regular</item>
     </style>
 
 </resources>
