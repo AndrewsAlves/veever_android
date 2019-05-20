@@ -3,6 +3,7 @@ package com.veever.main;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.support.v4.app.FragmentTransaction;
@@ -30,6 +31,7 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -62,12 +64,12 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     TextView textViewVeeverStatus;
 
     boolean isActivated = false;
-    public TOSManager textToSpeak;
-
 
     public static String lastShownBeacon = " ";
 
     public Handler handleDialog;
+
+    public Handler updateBeaconsHandler;
    // private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
@@ -82,9 +84,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         ButterKnife.bind(this);
 
         beaconManager = BeaconManager.getInstanceForApplication(this);
-        textToSpeak = new TOSManager(this);
+        beaconManager.setEnableScheduledScanJobs(false);
 
         handleDialog = new Handler();
+        stableBeaconList = new ArrayList<>();
+
+        TextToSpeechManager.getInstance().speak("Veever Initialised. Tap on the upper area of the screen to activate");
+
         //textToSpeak.speak("Tap on the upper area of the screen to activate ");
        // beaconManager.bind(this);
         // setting beacon regions
@@ -95,12 +101,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         //regionBootstrap = new RegionBootstrap(this, region);
         //backgroundPowerSaver = new BackgroundPowerSaver(this);
 
+        // update randing beacons for every 3 seconds
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        VeeverSensorManager.getInstance().register();
+        VeeverSensorManager.getInstance().register(this);
     }
 
     @Override
@@ -112,7 +119,82 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
 
+    public void enableMonitoring() {
+        setupUIEnabled();
+        beaconManager.bind(this);
+        startUpdatingBeacons();
+    }
+
+    public void disableMonitoring() {
+        setupUIDisabled();
+        beaconManager.unbind(this);
+        stopUpdatingBeacons();
+    }
+
+    public void startUpdatingBeacons() {
+        updateBeaconsHandler = new Handler();
+        updateBeaconsHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateBeaconsList();
+            }
+        }, 3000);
+    }
+
+    public void stopUpdatingBeacons() {
+        updateBeaconsHandler.removeCallbacksAndMessages(null);
+    }
+
+    public void updateBeaconsList() {
+
+        if (!isActivated) {
+            return;
+        }
+
+        startUpdatingBeacons();
+
+        Log.e(TAG, "updateBeaconsList() called");
+
+        if (beaconCollection == null) {
+            return;
+        }
+
+        stableBeaconList.clear();
+        stableBeaconList.addAll(beaconCollection);
+    }
+
+    public void setupUIEnabled() {
+        textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
+        textViewVeever.setImageResource(R.drawable.veever_on);
+        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
+        textViewVeeverStatus.setText("ACTIVATED");
+        imageButtonActivate.setImageResource(R.drawable.button_eye_on);
+        imageButtonSettings.setImageResource(R.drawable.setting_on);
+        isActivated = true;
+    }
+
+    public void setupUIDisabled() {
+        textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
+        textViewVeever.setImageResource(R.drawable.veever_off);
+        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
+        textViewVeeverStatus.setText("INITIALISED");
+        imageButtonActivate.setImageResource(R.drawable.button_eye_off);
+        imageButtonSettings.setImageResource(R.drawable.setting_off);
+        isActivated = false;
+    }
+
+    public void enableBluetooth() {
+        final BluetoothAdapter bAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bAdapter == null) {
+            Log.e(TAG, "onPermissionsChecked: bluetooth service not available");
+        } else {
+            if (!bAdapter.isEnabled()) {
+                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1);
+                Log.e(TAG, "onPermissionsChecked: bluetooth turned ON");
+            }
+        }
     }
 
     ////////////////////
@@ -147,52 +229,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 .check();
     }
 
-    public void disableMonitoring() {
-        setupUIDisabled();
-        beaconManager.unbind(this);
-        lastShownBeacon = " ";
-    }
-
-    public void enableMonitoring() {
-        setupUIEnabled();
-        lastShownBeacon = " ";
-        beaconManager.bind(this);
-    }
-
-    public void setupUIEnabled() {
-
-        textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
-        textViewVeever.setImageResource(R.drawable.veever_on);
-        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
-        textViewVeeverStatus.setText("ACTIVATED");
-        imageButtonActivate.setImageResource(R.drawable.button_eye_on);
-        imageButtonSettings.setImageResource(R.drawable.setting_on);
-        isActivated = true;
-    }
-
-    public void setupUIDisabled() {
-
-        textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
-        textViewVeever.setImageResource(R.drawable.veever_off);
-        textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
-        textViewVeeverStatus.setText("INITIALISED");
-        imageButtonActivate.setImageResource(R.drawable.button_eye_off);
-        imageButtonSettings.setImageResource(R.drawable.setting_off);
-        isActivated = false;
-    }
-
-    public void enableBluetooth() {
-        final BluetoothAdapter bAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bAdapter == null) {
-            Log.e(TAG, "onPermissionsChecked: bluetooth service not available");
-        } else {
-            if (!bAdapter.isEnabled()) {
-                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1);
-                Log.e(TAG, "onPermissionsChecked: bluetooth turned ON");
-            }
-        }
-    }
-
     //////////////////
     /// BEACON OVERRIDE
     //////////////////
@@ -200,7 +236,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @Override
     public void onBeaconServiceConnect() {
 
-        Log.d(TAG, "onBeaconServiceConnect() called");
+        Log.e(TAG, "onBeaconServiceConnect() called");
+
+        TextToSpeechManager.getInstance().speak("Veever Activated. Follow the directions");
 
         beaconManager.removeAllRangeNotifiers();
         RangeNotifier rangeNotifier = new RangeNotifier() {
@@ -208,28 +246,27 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 
                 Log.d(TAG, "didRangeBeaconsInRegion() called with: beacons = [" + beacons + "], region = [" + region + "]");
-
                beaconCollection = beacons;
-
-                if (beacons.size() > 0) {
-
-                    Beacon firstBeacon = beacons.iterator().next();
-
-                    if (lastShownBeacon.equals(firstBeacon.toString())) {
-                        return;
-                    }
-                }
             }
         };
 
         try {
-            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+            beaconManager.startRangingBeaconsInRegion(new Region("veever", null, null, null));
             beaconManager.addRangeNotifier(rangeNotifier);
-            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+            beaconManager.startRangingBeaconsInRegion(new Region("veever", null, null, null));
             beaconManager.addRangeNotifier(rangeNotifier);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    @Override
+    public void unbindService(ServiceConnection conn) {
+        super.unbindService(conn);
+        Log.e(TAG, "unbindService() called with: conn = [" + conn + "]");
+        TextToSpeechManager.getInstance().speak("Veever Deactivated");
     }
 
     public void showDialog() {
@@ -237,6 +274,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         if (!isActivated) {
             return;
         }
+
+        Log.d(TAG, "showDialog() called");
 
         if (stableBeaconList.size() == 0) {
             return;
@@ -274,6 +313,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     private void loadFragment(String title, String description, String direction) {
+        handleDialog.removeCallbacksAndMessages(null);
         BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(title, description, direction);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
@@ -305,5 +345,4 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         return closetBeacon;
     }
-
 }

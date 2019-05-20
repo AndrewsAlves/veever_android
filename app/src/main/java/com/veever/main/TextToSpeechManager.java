@@ -1,5 +1,6 @@
 package com.veever.main;
 
+import android.app.Application;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -7,13 +8,26 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-public class TOSManager {
+/**
+ * Created by Admin on 20,May,2019
+ */
+public class TextToSpeechManager {
+
+    private static  TextToSpeechManager ourInstance;
 
     public TextToSpeech textToSpeech;
 
-    public TOSManager(final Context context) {
+    public static TextToSpeechManager getInstance() {
+        return ourInstance;
+    }
 
-        textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
+    public static void initialise(Application application) {
+        ourInstance = new TextToSpeechManager(application);
+    }
+
+    private TextToSpeechManager(final Application application) {
+
+        textToSpeech = new TextToSpeech(application.getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
@@ -27,7 +41,7 @@ public class TOSManager {
                     }
                     Log.i("TTS", "Initialization success.");
                 } else {
-                    Toast.makeText(context, "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(application.getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -47,4 +61,5 @@ public class TOSManager {
             textToSpeech.shutdown();
         }
     }
+
 }

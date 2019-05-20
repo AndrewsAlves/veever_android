@@ -54,9 +54,10 @@ public class VeeverSensorManager implements SensorEventListener {
 
     }
 
-    public void register() {
+    public void register(MainActivity activity) {
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
+        mainActivity = activity;
     }
 
     public void unRegister() {

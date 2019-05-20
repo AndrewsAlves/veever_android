@@ -22,6 +22,7 @@ public class VeeverApplication extends Application {
         DatabaseManager.initialize(this);
         APIManager.initialize(this);
         VeeverSensorManager.initialise(this);
+        TextToSpeechManager.initialise(this);
 
         BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
 

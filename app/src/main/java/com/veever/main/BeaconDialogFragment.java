@@ -4,6 +4,7 @@ package com.veever.main;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -70,6 +71,8 @@ public class BeaconDialogFragment extends Fragment {
             textViewDirection.setText(direction);
             textViewMainTitle.setText(title);
             textViewSubtitle.setText(subtitle);
+
+            TextToSpeechManager.getInstance().speak(subtitle);
         }
 
         return v;
