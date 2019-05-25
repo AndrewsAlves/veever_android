@@ -18,7 +18,11 @@ import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
 import com.veever.main.datamodel.OrientationInfo;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.manager.DatabaseManager;
@@ -68,14 +72,17 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     public static String lastShownBeacon = " ";
 
     public Handler handleDialog;
-
     public Handler updateBeaconsHandler;
+    public Handler updateOrirentationHander;
+
    // private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
 
     public List<Beacon> stableBeaconList;
     public Collection<Beacon> beaconCollection;
+
+    private String lastGeoDirection = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         beaconManager.setEnableScheduledScanJobs(false);
 
         handleDialog = new Handler();
+        updateOrirentationHander = new Handler();
+
         stableBeaconList = new ArrayList<>();
 
         TextToSpeechManager.getInstance().speak("Veever Initialised. Tap on the upper area of the screen to activate");
@@ -212,20 +221,32 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     public void startBeaconMonitoring() {
 
+        MultiplePermissionsListener snackbarListener =
+                SnackbarOnAnyDeniedMultiplePermissionsListener.Builder
+                        .with(findViewById(android.R.id.content), R.string.app_permission_location)
+                        .withOpenSettingsButton(R.string.app_permission_settings)
+                        .build();
+
+        MultiplePermissionsListener multiplePermissionsListener = new MultiplePermissionsListener() {
+            @Override
+            public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                Log.e(TAG, "onPermissionsChecked() called with: report = [" + report + "]");
+
+                if (report.areAllPermissionsGranted()) {
+                    enableBluetooth();
+                    enableMonitoring();
+                }
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) { }
+        };
+
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.BLUETOOTH_ADMIN)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        Log.e(TAG, "onPermissionsChecked() called with: report = [" + report + "]");
-                        enableBluetooth();
-                        enableMonitoring();
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) { }
-                })
+                .withListener(new CompositeMultiplePermissionsListener(multiplePermissionsListener, snackbarListener))
                 .check();
     }
 
@@ -304,18 +325,26 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         String direction = VeeverSensorManager.getInstance().getDirectionText();
         GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
 
-       if (spot.getDirectionInfo(geoDirection) != null) {
-           OrientationInfo directionInfo = spot.getDirectionInfo(geoDirection);
-           title = directionInfo.title;
-           description = directionInfo.description;
-           loadFragment(title, description, direction);
-       }
+        if (lastGeoDirection.equals(direction)) {
+            return;
+        }
+
+        if (spot.getDirectionInfo(geoDirection) != null) {
+            OrientationInfo directionInfo = spot.getDirectionInfo(geoDirection);
+            title = directionInfo.title;
+            description = directionInfo.description;
+            loadFragment(title, description, direction);
+            lastGeoDirection = direction;
+            updateOrientationInfo();
+        }
+
     }
 
     private void loadFragment(String title, String description, String direction) {
         handleDialog.removeCallbacksAndMessages(null);
         BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(title, description, direction);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fade_in,R.anim.fade_out);
         fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
         fragmentTransaction.commit(); // save the changes
         removeDialog();
@@ -326,9 +355,21 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             @Override
             public void run() {
                 getSupportFragmentManager().beginTransaction().
-                        remove(getSupportFragmentManager().findFragmentById(R.id.frame_dialog_fragment)).commit();
+                        remove(getSupportFragmentManager()
+                                .findFragmentById(R.id.frame_dialog_fragment))
+                        .setCustomAnimations(R.anim.fade_out,R.anim.fade_in)
+                        .commit();
             }
         },3000);
+    }
+
+    public void updateOrientationInfo() {
+        updateOrirentationHander.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                lastGeoDirection = " ";
+            }
+        }, 4000);
     }
 
     public Beacon getClosestBeacon() {

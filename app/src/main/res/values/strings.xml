@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">veever-android</string>
+    <string name="app_name">Veever</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app.permission.location">Location access is needed</string>
+    <string name="app.permission.settings">Settings</string>
+
 </resources>

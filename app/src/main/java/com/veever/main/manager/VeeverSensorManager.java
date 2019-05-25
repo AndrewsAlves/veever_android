@@ -33,6 +33,7 @@ public class VeeverSensorManager implements SensorEventListener {
     private float mCurrentDegree = 0f;
 
     private GeoDirections geoDirection;
+    private GeoDirections lastGeoDirection;
 
     public MainActivity mainActivity;
 
@@ -91,7 +92,7 @@ public class VeeverSensorManager implements SensorEventListener {
 
     private void setGeoAndDialog() {
 
-        GeoDirections lastGeoDirection = geoDirection;
+         lastGeoDirection = geoDirection;
 
         if (mCurrentDegree >= 337.5 || mCurrentDegree <= 22.5) {
             geoDirection = GeoDirections.NORTH;
