@@ -21,8 +21,8 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
-import com.karumi.dexter.listener.single.PermissionListener;
-import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
+
+import com.kuassivi.component.RipplePulseRelativeLayout;
 import com.veever.main.datamodel.OrientationInfo;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.manager.DatabaseManager;
@@ -58,8 +58,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @BindView(R.id.tb_activate)
     ImageButton imageButtonActivate;
 
-    @BindView(R.id.ib_settings)
-    ImageButton imageButtonSettings;
+   // @BindView(R.id.ib_settings)
+   // ImageButton imageButtonSettings;
+
+    @BindView(R.id.pulseLayout)
+    RipplePulseRelativeLayout pulsatorLayout;
+    @BindView(R.id.pulseLayout1)
+    RipplePulseRelativeLayout pulsatorLayout1;
 
     @BindView(R.id.tv_user_direction)
     TextView textViewUserDirection;
@@ -175,22 +180,26 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void setupUIEnabled() {
+        pulsatorLayout.startPulse();
+        pulsatorLayout1.startPulse();
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeever.setImageResource(R.drawable.veever_on);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeeverStatus.setText("ACTIVATED");
         imageButtonActivate.setImageResource(R.drawable.button_eye_on);
-        imageButtonSettings.setImageResource(R.drawable.setting_on);
+       // imageButtonSettings.setImageResource(R.drawable.setting_on);
         isActivated = true;
     }
 
     public void setupUIDisabled() {
+        pulsatorLayout.stopPulse();
+        pulsatorLayout1.stopPulse();
         textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeever.setImageResource(R.drawable.veever_off);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeeverStatus.setText("INITIALISED");
         imageButtonActivate.setImageResource(R.drawable.button_eye_off);
-        imageButtonSettings.setImageResource(R.drawable.setting_off);
+      //  imageButtonSettings.setImageResource(R.drawable.setting_off);
         isActivated = false;
     }
 
@@ -337,7 +346,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             lastGeoDirection = direction;
             updateOrientationInfo();
         }
-
     }
 
     private void loadFragment(String title, String description, String direction) {
@@ -369,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             public void run() {
                 lastGeoDirection = " ";
             }
-        }, 4000);
+        }, 8000);
     }
 
     public Beacon getClosestBeacon() {

@@ -3,13 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/veeverblack"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/top_view"
+    <com.kuassivi.component.RipplePulseRelativeLayout
+        android:id="@+id/pulseLayout"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="250dp"
+        app:pulse_layout_RippleStartRadiusPercent="1"
+        app:pulse_layout_RippleEndRadiusPercent="50"
+        app:pulse_layout_ShowPreview="true"
+        app:pulse_layout_PulseType="stroke"
+        app:pulse_layout_RippleColor="@color/lime1"
+        app:pulse_layout_PulseDuration="1800">
 
         <ImageButton
             android:id="@+id/tb_activate"
@@ -19,6 +26,42 @@
             android:src="@drawable/button_eye_off"
             android:scaleType="fitCenter"
             android:background="?selectableItemBackgroundBorderless"/>
+
+        <com.kuassivi.component.RipplePulseRelativeLayout
+            android:id="@+id/pulseLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:pulse_layout_RippleStartRadiusPercent="1"
+            app:pulse_layout_RippleEndRadiusPercent="50"
+            app:pulse_layout_ShowPreview="true"
+            app:pulse_layout_PulseType="stroke"
+            app:pulse_layout_RippleColor="@color/lime1"
+            app:pulse_layout_StartDelay="800"
+            app:pulse_layout_PulseDuration="1600"/>
+
+        <com.kuassivi.component.RipplePulseRelativeLayout
+            android:id="@+id/pulseLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:pulse_layout_RippleStartRadiusPercent="1"
+            app:pulse_layout_RippleEndRadiusPercent="50"
+            app:pulse_layout_ShowPreview="true"
+            app:pulse_layout_PulseType="stroke"
+            app:pulse_layout_RippleColor="@color/lime1"
+            app:pulse_layout_StartDelay="800"
+            app:pulse_layout_PulseDuration="1600"/>
+
+        <com.kuassivi.component.RipplePulseRelativeLayout
+            android:id="@+id/pulseLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:pulse_layout_RippleStartRadiusPercent="1"
+            app:pulse_layout_RippleEndRadiusPercent="50"
+            app:pulse_layout_ShowPreview="true"
+            app:pulse_layout_PulseType="stroke"
+            app:pulse_layout_RippleColor="@color/lime1"
+            app:pulse_layout_StartDelay="1200"
+            app:pulse_layout_PulseDuration="1600"/>
 
        <!-- <com.veever.main.AlexaView
             android:id="@+id/alexaview"
@@ -36,7 +79,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"/>
 
-    </RelativeLayout>
+    </com.kuassivi.component.RipplePulseRelativeLayout>
 
     <!-- main screen content -->
     <TextView
@@ -55,12 +98,12 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:src="@drawable/veever_off"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="40dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"/>
 
     <ImageButton
+        android:visibility="gone"
         android:id="@+id/ib_settings"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -79,7 +122,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginBottom="20dp"
         android:layout_above="@id/tv_veever"
-        android:layout_below="@id/top_view">
+        android:layout_below="@id/pulseLayout">
 
     </FrameLayout>
 
