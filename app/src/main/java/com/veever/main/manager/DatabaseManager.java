@@ -33,7 +33,6 @@ public class DatabaseManager {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name("veever")
                 .schemaVersion(1)
-                .deleteRealmIfMigrationNeeded()
                 .migration(new VeeverMigration())
                 .build();
 

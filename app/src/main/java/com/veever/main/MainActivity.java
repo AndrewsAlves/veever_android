@@ -276,6 +276,11 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 
                 Log.d(TAG, "didRangeBeaconsInRegion() called with: beacons = [" + beacons + "], region = [" + region + "]");
+
+                //for (Beacon beacon : beacons) {
+                  //  Log.e(TAG, "didRangeBeaconsInRegion: id: " + beacon.getId1() + " distance: " + beacon.getDistance());
+                //}
+
                beaconCollection = beacons;
             }
         };
@@ -311,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
-        Beacon beacon = stableBeaconList.get(0);
+        Beacon beacon = getClosestBeacon();
         com.veever.main.datamodel.Beacon beacon1 = DatabaseManager.getInstance().getBeacon(
                 beacon.getId1().toString(),
                 beacon.getId2().toInt(),
@@ -383,6 +388,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     public Beacon getClosestBeacon() {
 
         Beacon closetBeacon = null;
+
+        if (stableBeaconList.size() == 1) {
+            return stableBeaconList.get(0);
+        }
 
         for (Beacon beacon : stableBeaconList) {
             for (Beacon beacon1 : stableBeaconList) {
