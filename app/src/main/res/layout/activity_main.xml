@@ -13,11 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         app:pulse_layout_RippleStartRadiusPercent="1"
-        app:pulse_layout_RippleEndRadiusPercent="50"
+        app:pulse_layout_RippleEndRadiusPercent="80"
         app:pulse_layout_ShowPreview="true"
         app:pulse_layout_PulseType="stroke"
         app:pulse_layout_RippleColor="@color/lime1"
-        app:pulse_layout_PulseDuration="1800">
+        app:pulse_layout_PulseDuration="2500">
 
         <ImageButton
             android:id="@+id/tb_activate"
@@ -37,7 +37,6 @@
             app:pulse_layout_ShowPreview="true"
             app:pulse_layout_PulseType="stroke"
             app:pulse_layout_RippleColor="@color/lime1"
-            app:pulse_layout_StartDelay="800"
             app:pulse_layout_PulseDuration="1600"/>
 
         <com.kuassivi.component.RipplePulseRelativeLayout
