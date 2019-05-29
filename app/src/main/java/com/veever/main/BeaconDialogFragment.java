@@ -72,7 +72,6 @@ public class BeaconDialogFragment extends Fragment {
             textViewMainTitle.setText(title);
             textViewSubtitle.setText(subtitle);
 
-            TextToSpeechManager.getInstance().speak(subtitle);
         }
 
         return v;

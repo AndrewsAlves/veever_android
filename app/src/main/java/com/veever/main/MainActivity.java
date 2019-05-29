@@ -334,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
-        String title;
-        String description;
+        String title = "LEWLARA/TBWA";
+        String description = "There is no point of interests mapped in this direction";
         String direction = VeeverSensorManager.getInstance().getDirectionText();
         GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
 
@@ -345,12 +345,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         if (spot.getDirectionInfo(geoDirection) != null) {
             OrientationInfo directionInfo = spot.getDirectionInfo(geoDirection);
-            title = directionInfo.title;
+            title = spot.spotName;
             description = directionInfo.description;
-            loadFragment(title, description, direction);
-            lastGeoDirection = direction;
-            updateOrientationInfo();
         }
+
+        loadFragment(title, description, direction);
+        lastGeoDirection = direction;
+        updateOrientationInfo();
+
+        TextToSpeechManager.getInstance().speak(spot.spotTitle + description + direction);
     }
 
     private void loadFragment(String title, String description, String direction) {

@@ -31,7 +31,7 @@ public class TextToSpeechManager {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    int ttsLang = textToSpeech.setLanguage(Locale.US);
+                    int ttsLang = textToSpeech.setLanguage(new Locale("pt", "POR"));
 
                     if (ttsLang == TextToSpeech.LANG_MISSING_DATA
                             || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
