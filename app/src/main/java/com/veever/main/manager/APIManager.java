@@ -69,6 +69,7 @@ public class APIManager {
 
                 for (Beacon beacon : response.body()) {
                     Log.e(TAG, "onResponse: beacon uuid " + beacon.uuid + " " + beacon.major);
+                    Log.e(TAG, "onResponse: beacon default language " + beacon.spotInfo.defaultLanguage  );
                 }
 
                 DatabaseManager.getInstance().saveBeacons(response.body());

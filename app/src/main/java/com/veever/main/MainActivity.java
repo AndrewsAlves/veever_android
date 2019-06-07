@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
-        Spot spot = DatabaseManager.getInstance().getSpot(beacon1.spotid);
+        Spot spot = beacon1.spotInfo.portuguese;
 
         if (spot == null) {
             Log.e(TAG, "showDialog: spot null");
@@ -405,5 +405,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         }
 
         return closetBeacon;
+    }
+
+    public void getDetectedBeacons() {
+
     }
 }

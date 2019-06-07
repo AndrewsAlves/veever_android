@@ -113,7 +113,7 @@ public class VeeverSensorManager implements SensorEventListener {
         }
 
         if (geoDirection != lastGeoDirection) {
-            mainActivity.showDialog();
+            //mainActivity.showDialog();
             Log.e(TAG, "onSensorChanged: current direction: " + geoDirection.name());
         }
 
