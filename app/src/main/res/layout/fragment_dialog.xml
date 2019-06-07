@@ -19,9 +19,10 @@
             android:id="@+id/tv_main_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MAIN TITLE"
+            android:text="@string/app.dialog.maintitle"
             android:layout_centerInParent="true"
             android:textSize="18sp"
+            android:textAllCaps="true"
             android:textColor="@color/veeverblack"/>
 
     </RelativeLayout>
@@ -30,7 +31,7 @@
         android:id="@+id/tv_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SUBTITLE"
+        android:text="@string/app.dialog.description.center"
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="18sp"
@@ -53,9 +54,10 @@
             android:id="@+id/tv_user_direction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SOUTH"
+            android:text="@string/app.dialog.direction"
             android:layout_centerInParent="true"
             android:textSize="18sp"
+            android:textAllCaps="true"
             android:textColor="@color/veeverblack"/>
 
     </RelativeLayout>

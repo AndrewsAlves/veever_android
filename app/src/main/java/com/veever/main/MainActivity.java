@@ -4,6 +4,7 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.support.v4.app.FragmentTransaction;
@@ -89,11 +90,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     private String lastGeoDirection = " ";
 
+    private Resources res;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        res = getResources();
 
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.setEnableScheduledScanJobs(false);
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         stableBeaconList = new ArrayList<>();
 
-        TextToSpeechManager.getInstance().speak("Veever Initialised. Tap on the upper area of the screen to activate");
+        TextToSpeechManager.getInstance().speak(res.getString(R.string.app_main_speak_veeverinitialised));
 
         //textToSpeak.speak("Tap on the upper area of the screen to activate ");
        // beaconManager.bind(this);
@@ -185,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeever.setImageResource(R.drawable.veever_on);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
-        textViewVeeverStatus.setText("ACTIVATED");
+        textViewVeeverStatus.setText(res.getString(R.string.app_main_activated));
         imageButtonActivate.setImageResource(R.drawable.button_eye_on);
        // imageButtonSettings.setImageResource(R.drawable.setting_on);
         isActivated = true;
@@ -197,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeever.setImageResource(R.drawable.veever_off);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
-        textViewVeeverStatus.setText("INITIALISED");
+        textViewVeeverStatus.setText(res.getString(R.string.app_main_initialised));
         imageButtonActivate.setImageResource(R.drawable.button_eye_off);
       //  imageButtonSettings.setImageResource(R.drawable.setting_off);
         isActivated = false;
@@ -268,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         Log.e(TAG, "onBeaconServiceConnect() called");
 
-        TextToSpeechManager.getInstance().speak("Veever Activated. Follow the directions");
+        TextToSpeechManager.getInstance().speak(res.getString(R.string.app_main_speak_veeveractivated));
 
         beaconManager.removeAllRangeNotifiers();
         RangeNotifier rangeNotifier = new RangeNotifier() {
@@ -295,13 +300,11 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         }
     }
 
-
-
     @Override
     public void unbindService(ServiceConnection conn) {
         super.unbindService(conn);
         Log.e(TAG, "unbindService() called with: conn = [" + conn + "]");
-        TextToSpeechManager.getInstance().speak("Veever Deactivated");
+        TextToSpeechManager.getInstance().speak(res.getString(R.string.app_main_speak_deactivated));
     }
 
     public void showDialog() {

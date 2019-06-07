@@ -72,9 +72,10 @@
             android:id="@+id/tv_veever_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="INITIALIZED"
+            android:text="@string/app.main.initialised"
             android:textColor="@color/veeverwhite"
             android:textSize="20sp"
+            android:textAllCaps="true"
             android:fontFamily="@font/sf_font_heavy"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"/>
@@ -89,7 +90,7 @@
         android:textSize="18sp"
         android:textColor="@color/veeverwhite"
         android:layout_centerInParent="true"
-        android:text="Tap on the upper area \n of the screen to \n activate "
+        android:text="@string/app.main.description.center"
         android:maxLines="3"
         android:textAlignment="center" />
 
@@ -98,7 +99,8 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:src="@drawable/veever_off"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"/>
 

@@ -6,4 +6,16 @@
     <string name="app.permission.location">Location access is needed</string>
     <string name="app.permission.settings">Settings</string>
 
+    <string name="app.main.initialised">Initialised</string>
+    <string name="app.main.activated">Activated</string>
+    <string name="app.main.description.center">Tap on the upper area \n of the screen to \n activate</string>
+
+    <string name="app.dialog.description.center">There is no point of interests mapped in this direction</string>
+    <string name="app.dialog.maintitle">Main title</string>
+    <string name="app.dialog.direction">Direction</string>
+
+    <string name="app.main.speak.veeverinitialised">Veever Initialised. Tap on the upper area of the screen to activate</string>
+    <string name="app.main.speak.veeveractivated">Veever Activated. Follow the directions</string>
+    <string name="app.main.speak.deactivated">Veever Deactivated</string>
+
 </resources>
