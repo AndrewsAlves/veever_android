@@ -19,7 +19,7 @@ public class VeeverMigration implements RealmMigration {
 
         if (oldVersion == 0) {
 
-            schema.create("Beacon")
+            /*schema.create("Beacon")
                     .addField("id", String.class)
                     .addPrimaryKey("id")
                     .addField("uuid", String.class)
@@ -41,7 +41,7 @@ public class VeeverMigration implements RealmMigration {
                     .addField("spotDescription", String.class)
                     .addField("beaconId", String.class)
                     .addField("createdAt", String.class)
-                    .addField("updatedAt", String.class);
+                    .addField("updatedAt", String.class); */
 
             oldVersion++;
         }

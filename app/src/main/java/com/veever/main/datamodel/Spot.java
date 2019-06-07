@@ -14,18 +14,8 @@ import io.realm.annotations.PrimaryKey;
 
 public class Spot extends RealmObject {
 
-    @PrimaryKey
-    @SerializedName("id")
-    public String id;
-
     @SerializedName("spotName")
     public String spotName;
-
-    @SerializedName("zoneLocation")
-    public String zoneLocation;
-
-    @SerializedName("active")
-    public boolean isActive;
 
     @SerializedName("spotTitle")
     public String spotTitle;
@@ -33,14 +23,11 @@ public class Spot extends RealmObject {
     @SerializedName("spotDescription")
     public String spotDescription;
 
-    @SerializedName("beaconId")
-    public String beaconId;
+    @SerializedName("zoneNotification")
+    public String zoneNotification;
 
-    @SerializedName("createdAt")
-    public String createdAt;
-
-    @SerializedName("updatedAt")
-    public String updatedAt;
+    @SerializedName("zoneLocation")
+    public String zoneLocation;
 
     @SerializedName("orientation")
     public Orientation orientation;

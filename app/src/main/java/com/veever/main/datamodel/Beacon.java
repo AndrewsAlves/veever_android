@@ -15,6 +15,9 @@ public class Beacon extends RealmObject {
     @SerializedName("id")
     public String id;
 
+    @SerializedName("shortCode")
+    public String shortCode;
+
     @SerializedName("uuid")
     public String uuid;
 
@@ -24,18 +27,25 @@ public class Beacon extends RealmObject {
     @SerializedName("minor")
     public int minor;
 
-    @SerializedName("spotId")
-    public String spotid;
-
-    @SerializedName("active")
-    public boolean isActive;
+    @SerializedName("spot")
+    public SpotInfo spotInfo;
 
     @SerializedName("rangingDistance")
     public String rangingDistance;
 
-    @SerializedName("immediate")
-    public String createdAt;
+    @SerializedName("deleted")
+    public boolean deleted;
 
     @SerializedName("updatedAt")
     public String updatedAt;
+
+    @SerializedName("updatedBy")
+    public String updatedBy;
+
+    @SerializedName("createdAt")
+    public String createdAt;
+
+    @SerializedName("createdBy")
+    public String createdBy;
+
 }
