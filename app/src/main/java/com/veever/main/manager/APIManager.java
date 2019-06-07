@@ -49,7 +49,6 @@ public class APIManager {
         spotEndPoint = retrofit.create(SpotEndPoint.class);
 
         fetchBeacons();
-        fetchSpot();
     }
 
     public static void initialize(Context context) {
@@ -77,29 +76,6 @@ public class APIManager {
 
             @Override
             public void onFailure(Call<List<Beacon>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    public void fetchSpot() {
-        final Call<List<Spot>> spotList = spotEndPoint.fetchSpots();
-        spotList.enqueue(new Callback<List<Spot>>() {
-            @Override
-            public void onResponse(Call<List<Spot>> call, Response<List<Spot>> response) {
-
-                Log.e(TAG, "onResponse: got respoce  " + response.body().toString());
-
-                if (response.body() == null && !response.isSuccessful()) {
-                    Log.e(TAG, "onResponse: failed to fetch spots");
-                    return;
-                }
-                
-                DatabaseManager.getInstance().saveSpots(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Spot>> call, Throwable t) {
 
             }
         });

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.veever.main.VeeverMigration;
 import com.veever.main.datamodel.Beacon;
 import com.veever.main.datamodel.Spot;
+import com.veever.main.datamodel.SpotInfo;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class DatabaseManager {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name("veever")
                 .schemaVersion(1)
+                .deleteRealmIfMigrationNeeded()
                 .migration(new VeeverMigration())
                 .build();
 
