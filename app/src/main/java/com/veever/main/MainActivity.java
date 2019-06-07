@@ -27,6 +27,7 @@ import com.kuassivi.component.RipplePulseRelativeLayout;
 import com.veever.main.datamodel.OrientationInfo;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.manager.DatabaseManager;
+import com.veever.main.manager.Settings;
 import com.veever.main.manager.VeeverSensorManager;
 
 import org.altbeacon.beacon.Beacon;
@@ -330,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
-        Spot spot = beacon1.spotInfo.portuguese;
+        Spot spot = Settings.getSpotBasedOnLanguage(this,beacon1.spotInfo);
 
         if (spot == null) {
             Log.e(TAG, "showDialog: spot null");
