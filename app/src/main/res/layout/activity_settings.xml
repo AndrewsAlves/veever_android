@@ -7,14 +7,6 @@
     android:background="@color/veeverblack"
     tools:context=".SettingsActivity">
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guild_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="206dp"/>
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -22,7 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
-        android:fontFamily="@font/sf_font_regular"
+        android:fontFamily="@font/sf_font_heavy"
         android:text="SETTINGS"
         android:textColor="@color/lime1"
         android:textSize="18sp"
@@ -30,175 +22,198 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/ll_speech"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@id/guild_center"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:layout_marginTop="50dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="80dp">
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_speach" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SPEECH \nRATE"
-            android:textAlignment="center"
-            android:textColor="@color/lime1"
-            android:textAllCaps="true"
-            android:textSize="12sp" />
+            <android.support.constraint.Guideline
+                android:id="@+id/guild_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_speech"
+                android:layout_width="100dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@id/guild_center"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/ll_demostration"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@id/guild_center"
-        app:layout_constraintTop_toBottomOf="@+id/ll_speech">
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_speach" />
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_demonstration" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SPEECH \nRATE"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lime1"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DEMOSTRATION \nMODE"
-            android:textAlignment="center"
-            android:textColor="@color/lime1"
-            android:textAllCaps="true"
-            android:textSize="12sp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_demostration"
+                android:layout_width="100dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@id/guild_center"
+                app:layout_constraintTop_toBottomOf="@+id/ll_speech">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_demonstration" />
 
-    <LinearLayout
-        android:id="@+id/ll_email"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@id/guild_center"
-        app:layout_constraintTop_toBottomOf="@+id/ll_demostration">
-
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_email" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DEMOSTRATION \nMODE"
-            android:textAlignment="center"
-            android:textColor="@color/lime1"
-            android:textAllCaps="true"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DEMOSTRATION \nMODE"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lime1"
+                    android:textSize="12sp" />
 
 
-    <LinearLayout
-        android:id="@+id/ll_interface"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@id/guild_center"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="50dp">
+            </LinearLayout>
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_launguage_interface" />
+            <LinearLayout
+                android:id="@+id/ll_email"
+                android:layout_width="100dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@id/guild_center"
+                app:layout_constraintTop_toBottomOf="@+id/ll_demostration">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="INTERFACE \nLANGUAGE"
-            android:textAlignment="center"
-            android:textColor="@color/lime1"
-            android:textAllCaps="true"
-            android:textSize="12sp" />
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_email" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONTACT \nVIA E-MAIL"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lime1"
+                    android:textSize="12sp" />
 
-    <LinearLayout
-        android:id="@+id/ll_terms"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@id/guild_center"
-        app:layout_constraintTop_toBottomOf="@+id/ll_interface">
+            </LinearLayout>
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_terms" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="INTERFACE \nLANGUAGE"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/lime1"
-            android:textSize="12sp" />
+            <LinearLayout
+                android:id="@+id/ll_interface"
+                android:layout_width="100dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@id/guild_center"
+                app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_launguage_interface" />
 
-    <LinearLayout
-        android:id="@+id/ll_web"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@id/guild_center"
-        app:layout_constraintTop_toBottomOf="@+id/ll_terms">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INTERFACE \nLANGUAGE"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lime1"
+                    android:textSize="12sp" />
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_web" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="INTERFACE \nLANGUAGE"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/lime1"
-            android:textSize="12sp" />
+            <LinearLayout
+                android:id="@+id/ll_terms"
+                android:layout_width="100dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@id/guild_center"
+                app:layout_constraintTop_toBottomOf="@+id/ll_interface">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_terms" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TERMS OF USE"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lime1"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_web"
+                android:layout_width="100dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@id/guild_center"
+                app:layout_constraintTop_toBottomOf="@+id/ll_terms">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_web" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WEBSITE"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lime1"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </ScrollView>
+
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -224,5 +239,10 @@
         android:src="@drawable/veever_on"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/fragment_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
