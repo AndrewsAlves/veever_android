@@ -23,6 +23,7 @@
             android:layout_centerInParent="true"
             android:textSize="18sp"
             android:textAllCaps="true"
+            android:fontFamily="@font/sf_font_heavy"
             android:textColor="@color/veeverblack"/>
 
     </RelativeLayout>
@@ -40,15 +41,23 @@
         android:layout_above="@id/bottomView"
         android:layout_below="@id/topview"
         android:layout_centerInParent="true"
+        android:fontFamily="@font/sf_font_regular"
         android:background="@color/veeverwhite"
         android:textColor="@color/veeverblack"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/bottomView"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical"
         android:background="@drawable/bg_lime_gradient_bottom">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow" />
 
         <TextView
             android:id="@+id/tv_user_direction"
@@ -58,8 +67,9 @@
             android:layout_centerInParent="true"
             android:textSize="18sp"
             android:textAllCaps="true"
+            android:fontFamily="@font/sf_font_heavy"
             android:textColor="@color/veeverblack"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -240,6 +240,81 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.3"
+        android:text="VERSION 1.0"
+        android:textColor="@color/veeverwhite"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_veever"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/rl_terms"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fl_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:alpha="0.7"
+            android:clickable="true"></FrameLayout>
+
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:layout_width="200dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_lime_gradient_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/veeverblack"
+                    android:textSize="14sp"
+                    android:text="CHOOSE"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/sf_font_heavy"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_privacy_policy__btn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="PRIVACY POLICY"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:fontFamily="@font/sf_font_heavy"
+                android:background="@color/veeverwhite"/>
+
+            <TextView
+                android:id="@+id/tv_terms_of_use__btn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="TERMS OF USE"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:fontFamily="@font/sf_font_heavy"
+                android:background="@drawable/bg_white_gradient_bottom"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
     <FrameLayout
         android:id="@+id/fragment_settings"
         android:layout_width="match_parent"

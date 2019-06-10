@@ -19,6 +19,12 @@ public class Settings {
     public static final String ENGLISH = "enUS";
     public static final String PORTUGUESE = "ptBR";
 
+    public static final String WEB_PORTAL = "enUS";
+    public static final String PRIVACY_POLICY = "enUS";
+    public static final String TERMS_OF_USE = "enUS";
+
+
+
     public static Spot getSpotBasedOnLanguage(Context context,SpotInfo spotInfo) {
         if (getSettings(context, PREFS_LANGUAGE).equals(ENGLISH)) {
             return spotInfo.english;

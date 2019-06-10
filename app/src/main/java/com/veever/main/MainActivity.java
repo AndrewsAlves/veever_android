@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @BindView(R.id.tb_activate)
     ImageButton imageButtonActivate;
 
-   // @BindView(R.id.ib_settings)
-   // ImageButton imageButtonSettings;
+    @BindView(R.id.ib_settings)
+    ImageButton imageButtonSettings;
 
     @BindView(R.id.pulseLayout)
     RipplePulseRelativeLayout pulsatorLayout;
@@ -133,11 +133,12 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @Override
     protected void onStop() {
         super.onStop();
-        VeeverSensorManager.getInstance().unRegister();
+
     }
 
     @Override
     protected void onDestroy() {
+        VeeverSensorManager.getInstance().unRegister();
         super.onDestroy();
     }
 
@@ -193,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeeverStatus.setText(res.getString(R.string.app_main_activated));
         imageButtonActivate.setImageResource(R.drawable.button_eye_on);
-       // imageButtonSettings.setImageResource(R.drawable.setting_on);
+        imageButtonSettings.setImageResource(R.drawable.setting_on);
         isActivated = true;
     }
 
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeeverStatus.setText(res.getString(R.string.app_main_initialised));
         imageButtonActivate.setImageResource(R.drawable.button_eye_off);
-      //  imageButtonSettings.setImageResource(R.drawable.setting_off);
+        imageButtonSettings.setImageResource(R.drawable.setting_off);
         isActivated = false;
     }
 
@@ -232,6 +233,12 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
         startBeaconMonitoring();
+    }
+
+    @OnClick(R.id.ib_settings)
+    public void clickSettings() {
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
     }
 
     public void startBeaconMonitoring() {

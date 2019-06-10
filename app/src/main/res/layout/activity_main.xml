@@ -105,7 +105,7 @@
         android:layout_alignParentBottom="true"/>
 
     <ImageButton
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/ib_settings"
         android:layout_width="50dp"
         android:layout_height="50dp"
