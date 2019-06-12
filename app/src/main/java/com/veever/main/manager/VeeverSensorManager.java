@@ -7,8 +7,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import com.veever.main.Events.UpdateDemoBeaconEvent;
 import com.veever.main.GeoDirections;
 import com.veever.main.MainActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -36,6 +39,8 @@ public class VeeverSensorManager implements SensorEventListener {
     private GeoDirections lastGeoDirection;
 
     public MainActivity mainActivity;
+
+    public boolean inDemo = false;
 
     public static VeeverSensorManager getInstance() {
         return ourInstance;
@@ -114,6 +119,9 @@ public class VeeverSensorManager implements SensorEventListener {
 
         if (geoDirection != lastGeoDirection) {
             mainActivity.showDialog();
+            if (inDemo) {
+                EventBus.getDefault().post(new UpdateDemoBeaconEvent());
+            }
             Log.e(TAG, "onSensorChanged: current direction: " + geoDirection.name());
         }
     }
@@ -148,5 +156,9 @@ public class VeeverSensorManager implements SensorEventListener {
                     return null;
 
             }
+    }
+
+    public void setDemo(boolean isDemo) {
+        this.inDemo = isDemo;
     }
 }

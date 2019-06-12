@@ -28,6 +28,7 @@ import com.veever.main.datamodel.OrientationInfo;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.manager.DatabaseManager;
 import com.veever.main.manager.Settings;
+import com.veever.main.manager.TextToSpeechManager;
 import com.veever.main.manager.VeeverSensorManager;
 
 import org.altbeacon.beacon.Beacon;
@@ -39,7 +40,6 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     @OnClick(R.id.ib_settings)
     public void clickSettings() {
-        Intent intent = new Intent(this, Settings.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 

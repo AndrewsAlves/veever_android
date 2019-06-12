@@ -12,7 +12,7 @@
     </item>
     <item android:id="@android:id/progress"
         android:gravity="center_vertical|fill_horizontal">
-        <scale android:scaleWidth="50%">
+        <scale android:scaleWidth="100%">
             <selector>
                 <item android:state_enabled="false"
                     android:drawable="@android:color/transparent" />
@@ -20,7 +20,7 @@
                     <shape android:shape="rectangle"
                         android:tint="@color/lime1">
                         <corners android:radius="1dp"/>
-                        <size android:height="30dp" />
+                        <size android:height="40dp" />
                         <solid android:color="@color/lime1" />
                     </shape>
                 </item>

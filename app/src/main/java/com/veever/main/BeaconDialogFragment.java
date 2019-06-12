@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 public class BeaconDialogFragment extends Fragment {
 
     private static final String TAG = "BeaconDialog";
+
     @BindView(R.id.tv_user_direction)
     TextView textViewDirection;
 

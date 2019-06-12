@@ -19,4 +19,12 @@ public class SpotInfo extends RealmObject {
     @SerializedName("enUS")
     public Spot english;
 
+    public Spot getDefaultLanguage() {
+        if (defaultLanguage.equals("ptBR")) {
+            return portuguese;
+        } else {
+            return english;
+        }
+    }
+
 }

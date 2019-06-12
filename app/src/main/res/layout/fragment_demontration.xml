@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/veeverblack"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".fragment.DemontrationFragment">
 
     <TextView
@@ -22,13 +24,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/ib_back__demonstration"
+    <TextView
+        android:id="@+id/tv_text_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/sf_font_heavy"
+        android:text="Use the switch below to \n simulate that a beacon\n has come into \n your range"
+        android:textAlignment="center"
+        android:textColor="@color/veeverwhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageButton
+        android:id="@+id/ib_back__demonstration"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="20dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,16 +68,17 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="100dp"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,17 +90,244 @@
             android:textSize="24sp" />
 
         <Switch
+            android:id="@+id/switch_demo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleX="2"
-            android:scaleY="2"
             android:layout_marginLeft="40dp"
             android:paddingLeft="40dp"
-            android:paddingRight="30dp"
             android:paddingTop="20dp"
-            android:paddingBottom="20dp"/>
+            android:paddingRight="30dp"
+            android:paddingBottom="20dp"
+            android:scaleX="2"
+            android:scaleY="2" />
 
     </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dialog_beacon"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:context=".BeaconDialogFragment"
+        tools:layout_editor_absoluteX="50dp">
+
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottomView"
+            android:layout_below="@id/topview"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/veeverwhite"
+            android:fontFamily="@font/sf_font_regular"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/app.dialog.description.center"
+            android:textAlignment="center"
+            android:textColor="@color/veeverblack"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomView"
+            app:layout_constraintTop_toBottomOf="@+id/topview" />
+
+
+        <RelativeLayout
+            android:id="@+id/topview"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/bg_lime_gradient_top">
+
+            <TextView
+                android:id="@+id/tv_main_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/sf_font_heavy"
+                android:text="@string/app.dialog.maintitle"
+                android:textAllCaps="true"
+                android:textColor="@color/veeverblack"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/bottomView"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_lime_gradient_bottom"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow" />
+
+            <TextView
+                android:id="@+id/tv_user_direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/sf_font_heavy"
+                android:text="@string/app.dialog.direction"
+                android:textAllCaps="true"
+                android:textColor="@color/veeverblack"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--- DIALOG -->
+
+    <android.support.constraint.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/cl_demo_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:alpha="0.7"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="335dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".dialog.DemonstrationDialogFragment">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/veeverwhite"></FrameLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/topview_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/bg_lime_gradient_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_main_title_dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/sf_font_heavy"
+                    android:text="Demonstration Mode"
+                    android:textAllCaps="true"
+                    android:textColor="@color/veeverblack"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Type the beacon demo code below or continue with the default one"
+                android:textAlignment="center"
+                android:textColor="@color/veeverblack"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topview_dialog" />
+
+            <EditText
+                android:id="@+id/et_shortcode"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_lime_gradient_bottom"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_cancel__btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:alpha="0.7"
+                    android:fontFamily="@font/sf_font_heavy"
+                    android:gravity="center"
+                    android:text="Cancel"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_continue__btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sf_font_heavy"
+                    android:gravity="center"
+                    android:text="Continue"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
 
 
 </android.support.constraint.ConstraintLayout>

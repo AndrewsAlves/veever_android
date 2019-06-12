@@ -95,4 +95,15 @@ public class DatabaseManager {
         return realm.copyFromRealm(spot);
     }
 
+    public Beacon getBeaconByShortCode(String shortCode) {
+
+        Beacon beacon = realm.where(Beacon.class).equalTo("shortCode",shortCode).findFirst();
+
+        if (beacon == null) {
+            return null;
+        }
+
+        return realm.copyFromRealm(beacon);
+    }
+
 }

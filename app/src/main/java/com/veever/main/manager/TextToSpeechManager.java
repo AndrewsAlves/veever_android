@@ -1,7 +1,6 @@
-package com.veever.main;
+package com.veever.main.manager;
 
 import android.app.Application;
-import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.widget.Toast;
@@ -60,6 +59,10 @@ public class TextToSpeechManager {
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+    }
+
+    public void setSpeechRate(float rate) {
+        textToSpeech.setSpeechRate(rate);
     }
 
 }

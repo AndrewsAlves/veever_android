@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.veever.main.manager.APIManager;
 import com.veever.main.manager.DatabaseManager;
+import com.veever.main.manager.TextToSpeechManager;
 import com.veever.main.manager.VeeverSensorManager;
 
 import org.altbeacon.beacon.BeaconManager;
