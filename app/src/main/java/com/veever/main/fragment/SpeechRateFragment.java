@@ -15,6 +15,8 @@ import com.veever.main.manager.TextToSpeechManager;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,7 +46,7 @@ public class SpeechRateFragment extends Fragment {
 
         speechRate = Float.valueOf(Settings.getSettings(getContext(), Settings.PREFS_SPEECHRATE));
         seekBar.setProgress(Math.round(speechRate * 50f));
-        textView.setText(String.valueOf(speechRate));
+        setText();
 
         TextToSpeechManager.getInstance().speak("Speech rate is " + speechRate);
 
@@ -52,7 +54,7 @@ public class SpeechRateFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 speechRate = progress / 50f;
-                textView.setText(String.valueOf(speechRate));
+                setText();
             }
 
             @Override
@@ -63,20 +65,31 @@ public class SpeechRateFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Settings.saveSpeechRate(getContext(), Float.toString(speechRate));
-                updateUi();
+                setText();
+                speak();
             }
         });
 
         return v;
     }
 
-    public void updateUi() {
-        textView.setText(String.valueOf(speechRate));
-        TextToSpeechManager.getInstance().setSpeechRate(speechRate);
-        TextToSpeechManager.getInstance().speak("Speech rate is " + speechRate);
+    public void setText() {
+        float percent = speechRate * 50f;
+        textView.setText(String.valueOf((int)percent));
     }
+
+    public void speak() {
+        float percent = speechRate * 50f;
+        TextToSpeechManager.getInstance().setSpeechRate(speechRate);
+        TextToSpeechManager.getInstance().speak(
+                getString(R.string.app_settings_speech_speechrate)
+                        + (int)percent
+                        + getString(R.string.app_settings_speechrate_percent));
+    }
+
     @OnClick(R.id.ib_back__speech)
     public void back() {
+        TextToSpeechManager.getInstance().stopSpeech();
         getActivity().getSupportFragmentManager().popBackStack();
     }
 }

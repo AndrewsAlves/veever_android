@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -50,7 +51,7 @@ import butterknife.OnClick;
  * Created by Andrews on 17,May,2019
  */
 
-public class MainActivity extends AppCompatActivity implements BeaconConsumer {
+public class MainActivity extends LocalizationActivity implements BeaconConsumer {
 
     private static final String TAG = "MainActivity";
 
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     private Resources res;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -133,7 +134,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @Override
     protected void onStop() {
         super.onStop();
-
+        disableMonitoring();
+        TextToSpeechManager.getInstance().stopSpeech();
     }
 
     @Override
@@ -165,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void stopUpdatingBeacons() {
+        if (updateBeaconsHandler == null) {
+            return;
+        }
+
         updateBeaconsHandler.removeCallbacksAndMessages(null);
     }
 
@@ -355,9 +361,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         }
 
         if (spot.getDirectionInfo(geoDirection) != null) {
-            OrientationInfo directionInfo = spot.getDirectionInfo(geoDirection);
+            OrientationInfo orientationInfo = spot.getDirectionInfo(geoDirection);
             title = spot.spotName;
-            description = directionInfo.description;
+            description = orientationInfo.description;
         }
 
         loadFragment(title, description, direction);

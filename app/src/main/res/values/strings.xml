@@ -2,7 +2,7 @@
     <string name="app_name">Veever</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="app.permission.location">Location access is needed</string>
     <string name="app.permission.settings">Settings</string>
 
@@ -17,5 +17,24 @@
     <string name="app.main.speak.veeverinitialised">Veever Initialised. Tap on the upper area of the screen to activate</string>
     <string name="app.main.speak.veeveractivated">Veever Activated. Follow the directions</string>
     <string name="app.main.speak.deactivated">Veever Deactivated</string>
+
+    <string name="app.settings.demostration.center">Type the beacon demo code below or continue  with the default one</string>
+    <string name="app.settings.demostration.cancel">Cancel</string>
+    <string name="app.settings.demostration.continue">Continue</string>
+    <string name="app.settings.languageinterface.title">INTERFACE LANGUAGE</string>
+    <string name="app.settings.languageinterface.portugaese" translatable="false">PORTUGUESE</string>
+    <string name="app.settings.languageinterface.english" translatable="false">ENGLISH</string>
+    <string name="app.settings.title">SETTINGS</string>
+    <string name="app.settings.speechrate.title">SPEECH  RATE</string>
+    <string name="app.settings.demonstration.title">DEMOSTRATION  MODE</string>
+    <string name="app.settings.contact">CONTACT  VIA E-MAIL</string>
+    <string name="app.settings.terms">TERMS OF USE</string>
+    <string name="app.settings.website">WEBSITE</string>
+    <string name="app.settings.version">VERSION 1.0</string>
+    <string name="app.settings.choose">CHOOSE</string>
+    <string name="app.settings.dialog.privacy">PRIVACY POLICY</string>
+    <string name="app.settings.demostration.title">DEMONSTRAION MODE</string>
+    <string name="app.settings.speech.speechrate">Speech rate is</string>
+    <string name="app.settings.speechrate.percent">percent</string>
 
 </resources>

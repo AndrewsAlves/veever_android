@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.datamodel.SpotInfo;
 
+import java.util.Locale;
+
 /**
  * Created by Andrews on 07,June,2019
  */
@@ -22,6 +24,8 @@ public class Settings {
     public static final String WEB_PORTAL = "https://veever.global";
     public static final String PRIVACY_POLICY = "https://veever.global/privacy";
     public static final String TERMS_OF_USE = "https://veever.global/terms";
+
+    public static final Locale LOCALE_PORTUGUESE = new Locale("pt", "POR");
 
     public static Spot getSpotBasedOnLanguage(Context context,SpotInfo spotInfo) {
         if (getSettings(context, PREFS_LANGUAGE).equals(ENGLISH)) {
@@ -53,14 +57,24 @@ public class Settings {
 
         switch (PREF_TYPE) {
             case PREFS_LANGUAGE:
-                defaultValue = PORTUGUESE;
+                defaultValue = ENGLISH;
                 break;
             case PREFS_SPEECHRATE:
-                defaultValue = "0.5";
+                defaultValue = "1.0f";
                 break;
         }
 
         return sp.getString(PREF_TYPE,defaultValue);
+    }
+
+    public static Locale getLanguageLocaleFromSettings(Context context) {
+        String language = getSettings(context, PREFS_LANGUAGE);
+
+        if (language.equals(PORTUGUESE)) {
+            return new Locale("pt", "POR");
+        } else {
+            return Locale.US;
+        }
     }
 
 }

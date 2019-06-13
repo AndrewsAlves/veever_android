@@ -17,7 +17,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/sf_font_heavy"
-        android:text="DEMONSTRAION MODE"
+        android:text="@string/app.settings.demostration.title"
         android:textColor="@color/lime1"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

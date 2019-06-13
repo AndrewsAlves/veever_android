@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.kuassivi.android.view:ripple-pulse-layout:0.1.9'
     implementation 'com.airbnb.android:lottie:2.3.1'
 
+    implementation 'com.akexorcist:localizationactivity:1.2.2'
 
     // http cliet retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

@@ -30,7 +30,14 @@ public class TextToSpeechManager {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    int ttsLang = textToSpeech.setLanguage(new Locale("pt", "POR"));
+
+                    int ttsLang = textToSpeech.setLanguage(Settings.getLanguageLocaleFromSettings(application.getBaseContext()));
+
+                    float speechRate = Float.valueOf(Settings.getSettings(
+                            application.getBaseContext(),
+                            Settings.PREFS_SPEECHRATE));
+
+                    textToSpeech.setSpeechRate(speechRate);
 
                     if (ttsLang == TextToSpeech.LANG_MISSING_DATA
                             || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -38,6 +45,9 @@ public class TextToSpeechManager {
                     } else {
                         Log.i("TTS", "Language Supported.");
                     }
+
+                    // set speech rate
+
                     Log.i("TTS", "Initialization success.");
                 } else {
                     Toast.makeText(application.getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
@@ -59,6 +69,16 @@ public class TextToSpeechManager {
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+    }
+
+    public void stopSpeech() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+        }
+    }
+
+    public void setLanguage(Locale locale) {
+        textToSpeech.setLanguage(locale);
     }
 
     public void setSpeechRate(float rate) {

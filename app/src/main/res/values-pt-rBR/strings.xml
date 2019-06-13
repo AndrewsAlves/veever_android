@@ -4,9 +4,33 @@
     <string name="app_name">Veever</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="app.permission.location">Location access is needed</string>
-    <string name="app.permission.settings">Settings</string>
+    <string name="app.permission.location">"O acesso à localização é necessário "</string>
+    <string name="app.permission.settings">"Definições "</string>
+    <string name="app.settings.demostration.center">"Digite o código de demonstração \n do beacon abaixo ou \n continue com o padrão "</string>
+    <string name="app.dialog.description.center">"Não há nenhum ponto de interesse mapeado nessa direção "</string>
+    <string name="app.dialog.direction">Direção</string>
+    <string name="app.dialog.maintitle">"Título principal "</string>
+    <string name="app.main.activated">ativado</string>
+    <string name="app.main.initialised">Inicializado</string>
+    <string name="app.main.speak.deactivated">"Veever Desativado "</string>
+    <string name="app.main.speak.veeveractivated">"Veever ativado. Siga as direções "</string>
+    <string name="app.main.speak.veeverinitialised">"Veever Inicializado. Toque na área superior da tela para ativar "</string>
+    <string name="app.settings.choose">"ESCOLHER "</string>
+    <string name="app.settings.contact">"CONTATO VIA E-MAIL "</string>
+    <string name="app.settings.demonstration.title">"MODO DE DEMONSTRAÇÃO "</string>
+    <string name="app.settings.demostration.cancel">Cancelar</string>
+    <string name="app.settings.demostration.continue">"Continuar "</string>
+    <string name="app.settings.demostration.title">"MODO DE DEMONSTRAÇÃO "</string>
+    <string name="app.settings.dialog.privacy">"POLÍTICA DE PRIVACIDADE "</string>
+    <string name="app.settings.languageinterface.title">"IDIOMA DA INTERFACE "</string>
+    <string name="app.settings.speechrate.title">"TAXA DE FALA "</string>
+    <string name="app.settings.title">"DEFINIÇÕES "</string>
+    <string name="app.settings.version">"VERSÃO 1.0 "</string>
+    <string name="app.settings.website">"LOCAL NA REDE INTERNET "</string>
+    <string name="app.main.description.center">"Toque na área superior \n da tela para ativar "</string>
+    <string name="app.settings.terms">"TERMOS DE USO "</string>
+    <string name="app.settings.speechrate.percent">"por cento "</string>
+    <string name="app.settings.speech.speechrate">"A taxa de fala é "</string>
 
 
 </resources>

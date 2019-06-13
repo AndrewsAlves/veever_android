@@ -1,10 +1,12 @@
 package com.veever.main.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,10 @@ import com.veever.main.GeoDirections;
 import com.veever.main.R;
 import com.veever.main.datamodel.Beacon;
 import com.veever.main.datamodel.OrientationInfo;
+import com.veever.main.datamodel.Spot;
 import com.veever.main.dialog.DemonstrationDialogFragment;
 import com.veever.main.manager.DatabaseManager;
+import com.veever.main.manager.TextToSpeechManager;
 import com.veever.main.manager.VeeverSensorManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,6 +45,7 @@ import static android.view.View.GONE;
  */
 public class DemontrationFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
+    private static final String TAG = "Demonstration fragment";
     @BindView(R.id.switch_demo)
     Switch switchDemo;
 
@@ -78,7 +83,6 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_demontration, container, false);
 
-
         ButterKnife.bind(this,v);
         switchDemo.setOnCheckedChangeListener(this);
         switchDemo.setChecked(false);
@@ -98,16 +102,39 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
     }
 
     public void hideKeyboard() {
-      EventBus.getDefault().post(new HideKeyboardEvent());
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(EditTextShortCode.getWindowToken(), 0);
     }
 
-    public void updateBeaconDialog() {
+    public void updateBeaconDialog(boolean readSpotDetails) {
         GeoDirections geoDirections = VeeverSensorManager.getInstance().getGeoDirection();
+        Spot spot = demoBeacon.spotInfo.getDefaultLanguage();
         OrientationInfo orientationInfo = demoBeacon.spotInfo.getDefaultLanguage().getDirectionInfo(geoDirections);
 
-        textViewMainTitle.setText(orientationInfo.title);
-        textViewSubtitle.setText(orientationInfo.description);
+        if (spot == null) {
+            return;
+        }
+
+        String title = "LEWLARA/TBWA";
+        String description = "There is no point of interests mapped in this direction";
+        String direction = VeeverSensorManager.getInstance().getDirectionText();
+
+        if (orientationInfo != null) {
+            title = spot.spotName;
+            description = orientationInfo.description;
+        }
+
+        String speechText = spot.spotTitle + description + direction;
+
+        if (readSpotDetails) {
+            speechText = "Spot Title is " + spot.spotTitle + "Spot Description is " + spot.spotDescription;
+        }
+
+        textViewMainTitle.setText(title);
+        textViewSubtitle.setText(description);
         textViewDirection.setText(VeeverSensorManager.getInstance().getDirectionText());
+
+        TextToSpeechManager.getInstance().speak(speechText);
     }
 
     @OnClick(R.id.ib_back__demonstration)
@@ -119,14 +146,13 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
         if (isChecked) {
-
             dialogView.setVisibility(View.VISIBLE);
             textViewCenter.setVisibility(GONE);
-
         } else {
             VeeverSensorManager.getInstance().setDemo(false);
             dialogBeacon.setVisibility(GONE);
             textViewCenter.setVisibility(View.VISIBLE);
+            TextToSpeechManager.getInstance().stopSpeech();
         }
     }
 
@@ -155,12 +181,12 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
         if (demoBeacon != null) {
             VeeverSensorManager.getInstance().setDemo(true);
-            updateBeaconDialog();
+            updateBeaconDialog(true);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UpdateDemoBeaconEvent event) {
-        updateBeaconDialog();
+        updateBeaconDialog(false);
     }
 }

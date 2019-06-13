@@ -1,7 +1,10 @@
 package com.veever.main;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
 
+import com.akexorcist.localizationactivity.core.LocalizationApplicationDelegate;
 import com.veever.main.manager.APIManager;
 import com.veever.main.manager.DatabaseManager;
 import com.veever.main.manager.TextToSpeechManager;
@@ -15,6 +18,8 @@ import org.altbeacon.beacon.BeaconParser;
  */
 
 public class VeeverApplication extends Application {
+
+    LocalizationApplicationDelegate localizationDelegate = new LocalizationApplicationDelegate(this);
 
     @Override
     public void onCreate() {
@@ -34,6 +39,22 @@ public class VeeverApplication extends Application {
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v")); // EDDYSTONE URL
 
         beaconManager.setDebug(true);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(localizationDelegate.attachBaseContext(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        localizationDelegate.onConfigurationChanged(this);
+    }
+
+    @Override
+    public Context getApplicationContext() {
+        return localizationDelegate.getApplicationContext(super.getApplicationContext());
     }
 
     // api key nearby = AIzaSyCrnrHAF6Z87vHhwVAV60muPjeoKaV7Yhw

@@ -19,12 +19,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+import com.veever.main.Events.ChangeLanguageEvent;
 import com.veever.main.Events.HideKeyboardEvent;
 import com.veever.main.fragment.DemontrationFragment;
 import com.veever.main.fragment.InterfaceLanguageFragment;
 import com.veever.main.fragment.SpeechRateFragment;
 import com.veever.main.manager.Settings;
+import com.veever.main.manager.TextToSpeechManager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -34,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends LocalizationActivity {
 
     @BindView(R.id.ll_speech)
     LinearLayout llSpeech;
@@ -53,10 +57,29 @@ public class SettingsActivity extends AppCompatActivity {
     RelativeLayout rlTerms;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (rlTerms.getVisibility() == View.VISIBLE) {
+            rlTerms.setVisibility(View.GONE);
+            return;
+        }
+
+        super.onBackPressed();
+        TextToSpeechManager.getInstance().stopSpeech();
     }
 
     @OnClick(R.id.ll_speech)
@@ -142,15 +165,9 @@ public class SettingsActivity extends AppCompatActivity {
         fragmentTransaction.commit(); // save the changes
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(HideKeyboardEvent event) {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = this.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(this);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    @Subscribe
+    public void onMessageEvent(ChangeLanguageEvent event) {
+        setLanguage(event.locale);
+        TextToSpeechManager.getInstance().setLanguage(event.locale);
     }
 }

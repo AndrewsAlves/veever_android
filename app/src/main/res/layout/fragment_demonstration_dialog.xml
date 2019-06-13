@@ -28,7 +28,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/sf_font_heavy"
-            android:text="Demonstration Mode"
+            android:text="@string/app.settings.demonstration.title"
             android:textAllCaps="true"
             android:textColor="@color/veeverblack"
             android:textSize="18sp"
@@ -46,7 +46,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Type the beacon demo code below or continue \nwith the default one"
+        android:text="@string/app.settings.demostration.center"
         android:textAlignment="center"
         android:textColor="@color/veeverblack"
         android:textSize="16sp"
@@ -85,7 +85,7 @@
             android:alpha="0.7"
             android:fontFamily="@font/sf_font_heavy"
             android:gravity="center"
-            android:text="Cancel"
+            android:text="@string/app.settings.demostration.cancel"
             android:textSize="18sp" />
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/sf_font_heavy"
             android:gravity="center"
-            android:text="Continue"
+            android:text="@string/app.settings.demostration.continue"
             android:textSize="18sp" />
 
     </LinearLayout>
