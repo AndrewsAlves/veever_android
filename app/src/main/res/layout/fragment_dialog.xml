@@ -19,13 +19,16 @@
 
         <TextView
             android:id="@+id/tv_main_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/app.dialog.maintitle"
             android:layout_centerInParent="true"
             android:textSize="18sp"
             android:textAllCaps="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:fontFamily="@font/sf_font_heavy"
+            android:textAlignment="center"
             android:textColor="@color/veeverblack"/>
 
     </RelativeLayout>

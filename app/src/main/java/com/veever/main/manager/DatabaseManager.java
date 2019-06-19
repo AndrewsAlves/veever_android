@@ -3,9 +3,8 @@ package com.veever.main.manager;
 import android.content.Context;
 
 import com.veever.main.VeeverMigration;
-import com.veever.main.datamodel.Beacon;
+import com.veever.main.datamodel.BeaconModel;
 import com.veever.main.datamodel.Spot;
-import com.veever.main.datamodel.SpotInfo;
 
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class DatabaseManager {
         ourInstance = new DatabaseManager(context);
     }
 
-    public void saveBeacons(List<Beacon> beaconList) {
+    public void saveBeacons(List<BeaconModel> beaconList) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(beaconList);
         realm.commitTransaction();
@@ -64,14 +63,14 @@ public class DatabaseManager {
 
     }
 
-    public List<Beacon> getBeaconList() {
-        List<Beacon> beaconList = realm.where(Beacon.class).findAll();
+    public List<BeaconModel> getBeaconList() {
+        List<BeaconModel> beaconList = realm.where(BeaconModel.class).findAll();
         return realm.copyFromRealm(beaconList);
     }
 
-    public Beacon getBeacon(String uuid, int major, int minor) {
+    public BeaconModel getBeacon(String uuid, int major, int minor) {
 
-        Beacon beacon = realm.where(Beacon.class)
+        BeaconModel beacon = realm.where(BeaconModel.class)
                 .equalTo("uuid",uuid.toUpperCase())
                 .equalTo("major", major)
                 .equalTo("minor", minor)
@@ -95,9 +94,9 @@ public class DatabaseManager {
         return realm.copyFromRealm(spot);
     }
 
-    public Beacon getBeaconByShortCode(String shortCode) {
+    public BeaconModel getBeaconByShortCode(String shortCode) {
 
-        Beacon beacon = realm.where(Beacon.class).equalTo("shortCode",shortCode).findFirst();
+        BeaconModel beacon = realm.where(BeaconModel.class).equalTo("shortCode",shortCode).findFirst();
 
         if (beacon == null) {
             return null;

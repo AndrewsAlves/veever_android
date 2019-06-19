@@ -47,9 +47,9 @@ public class InterfaceLanguageFragment extends Fragment {
         settingsActivity = (SettingsActivity) getActivity();
 
         if (settingsActivity.getCurrentLanguage().getLanguage().equals(Settings.LOCALE_PORTUGUESE.getLanguage())) {
-            clickPortugese();
+            setUiPortuguese();
         } else {
-            clickEnglish();
+            setUiEnglish();
         }
 
         return v;
@@ -60,17 +60,27 @@ public class InterfaceLanguageFragment extends Fragment {
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
-    @OnClick(R.id.ll_portuguese__btn)
-    public void clickPortugese() {
+    public void setUiEnglish() {
+        btnPortugese.setBackgroundResource(0);
+        btnEnglish.setBackgroundResource(R.drawable.bg_lime_gradient_border);
+    }
+
+    public void setUiPortuguese() {
         btnPortugese.setBackgroundResource(R.drawable.bg_lime_gradient_border);
         btnEnglish.setBackgroundResource(0);
+    }
+
+    @OnClick(R.id.ll_portuguese__btn)
+    public void clickPortugese() {
+        setUiPortuguese();
+        Settings.saveLanguage(getContext(), Settings.PORTUGUESE);
         EventBus.getDefault().post(new ChangeLanguageEvent(new Locale("pt", "POR")));
     }
 
     @OnClick(R.id.ll_english__btn)
     public void clickEnglish() {
-        btnPortugese.setBackgroundResource(0);
-        btnEnglish.setBackgroundResource(R.drawable.bg_lime_gradient_border);
+        setUiEnglish();
+        Settings.saveLanguage(getContext(), Settings.ENGLISH);
         EventBus.getDefault().post(new ChangeLanguageEvent(Locale.US));
     }
 }

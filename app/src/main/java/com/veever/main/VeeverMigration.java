@@ -19,7 +19,7 @@ public class VeeverMigration implements RealmMigration {
 
         if (oldVersion == 0) {
 
-            /*schema.create("Beacon")
+            /*schema.create("BeaconModel")
                     .addField("id", String.class)
                     .addPrimaryKey("id")
                     .addField("uuid", String.class)

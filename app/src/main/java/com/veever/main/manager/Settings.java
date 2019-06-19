@@ -13,6 +13,10 @@ import java.util.Locale;
  */
 public class Settings {
 
+    public static final String IMMEDIATE = "immediate";
+    public static final String FAR = "far";
+    public static final String NEAR = "near";
+
     public static final String PREFS_VEEVER = "com.veever.main";
     public static final String PREFS_LANGUAGE = "DefaultLanguage";
     public static final String PREFS_SPEECHRATE = "SpeechRate";
@@ -28,10 +32,19 @@ public class Settings {
     public static final Locale LOCALE_PORTUGUESE = new Locale("pt", "POR");
 
     public static Spot getSpotBasedOnLanguage(Context context,SpotInfo spotInfo) {
+
         if (getSettings(context, PREFS_LANGUAGE).equals(ENGLISH)) {
-            return spotInfo.english;
+            if (spotInfo.english == null) {
+                return spotInfo.portuguese;
+            } else {
+                return spotInfo.english;
+            }
         } else {
-            return spotInfo.portuguese;
+            if (spotInfo.portuguese == null) {
+                return spotInfo.english;
+            } else {
+                return spotInfo.portuguese;
+            }
         }
     }
 

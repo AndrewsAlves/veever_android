@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -25,6 +24,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 
 import com.kuassivi.component.RipplePulseRelativeLayout;
+import com.veever.main.datamodel.BeaconModel;
 import com.veever.main.datamodel.OrientationInfo;
 import com.veever.main.datamodel.Spot;
 import com.veever.main.manager.DatabaseManager;
@@ -54,6 +54,11 @@ import butterknife.OnClick;
 public class MainActivity extends LocalizationActivity implements BeaconConsumer {
 
     private static final String TAG = "MainActivity";
+
+
+    private static final double IMMEDIATE = 0.2000;
+    private static final double NEAR = 3.000;
+    private static final double FAR = 10.0000;
 
     @BindView(R.id.tv_veever)
     ImageView textViewVeever;
@@ -296,7 +301,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
 
                 Log.d(TAG, "didRangeBeaconsInRegion() called with: beacons = [" + beacons + "], region = [" + region + "]");
 
-                //for (Beacon beacon : beacons) {
+                //for (BeaconModel beacon : beacons) {
                   //  Log.e(TAG, "didRangeBeaconsInRegion: id: " + beacon.getId1() + " distance: " + beacon.getDistance());
                 //}
 
@@ -333,18 +338,26 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
             return;
         }
 
-        Beacon beacon = getClosestBeacon();
-        com.veever.main.datamodel.Beacon beacon1 = DatabaseManager.getInstance().getBeacon(
+        Beacon beacon = getDetectedBeacons();
+
+        if (beacon == null) {
+            Log.e(TAG, "showDialog: no beacon is eligible for showing");
+            return;
+        }
+
+        BeaconModel beaconModel = DatabaseManager.getInstance().getBeacon(
                 beacon.getId1().toString(),
                 beacon.getId2().toInt(),
                 beacon.getId3().toInt());
 
-        if (beacon1 == null) {
+        Log.e(TAG, "showDialog: distance - " + beacon.getDistance());
+
+        if (beaconModel == null) {
             Log.e(TAG, "showDialog: beacon null");
             return;
         }
 
-        Spot spot = Settings.getSpotBasedOnLanguage(this,beacon1.spotInfo);
+        Spot spot = Settings.getSpotBasedOnLanguage(this,beaconModel.spotInfo);
 
         if (spot == null) {
             Log.e(TAG, "showDialog: spot null");
@@ -405,16 +418,36 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
         }, 8000);
     }
 
-    public Beacon getClosestBeacon() {
+
+
+    public Beacon getDetectedBeacons() {
+        List<Beacon> showBeaconList = new ArrayList<>();
+
+        for (Beacon beacon : stableBeaconList) {
+
+            BeaconModel beaconModel = DatabaseManager.getInstance().getBeacon(
+                    beacon.getId1().toString(),
+                    beacon.getId2().toInt(),
+                    beacon.getId3().toInt());
+
+            if (getBeaconRanging(beacon.getDistance()).equals(beaconModel.rangingDistance)) {
+                showBeaconList.add(beacon);
+            }
+        }
+
+        return getClosestBeacon(showBeaconList);
+    }
+
+    public Beacon getClosestBeacon(List<Beacon> beaconList) {
 
         Beacon closetBeacon = null;
 
-        if (stableBeaconList.size() == 1) {
-            return stableBeaconList.get(0);
+        if (beaconList.size() == 1) {
+            return beaconList.get(0);
         }
 
-        for (Beacon beacon : stableBeaconList) {
-            for (Beacon beacon1 : stableBeaconList) {
+        for (Beacon beacon : beaconList) {
+            for (Beacon beacon1 : beaconList) {
                 if (beacon.getDistance() < beacon1.getDistance()) {
                     closetBeacon = beacon;
                 }
@@ -424,7 +457,16 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
         return closetBeacon;
     }
 
-    public void getDetectedBeacons() {
+    public String getBeaconRanging(double distance) {
 
+        if (distance < IMMEDIATE) {
+            return Settings.IMMEDIATE;
+        } else if (distance < NEAR && distance > IMMEDIATE) {
+            return Settings.NEAR;
+        } else if (distance > NEAR) {
+            return Settings.FAR;
+        }
+
+        return null;
     }
 }

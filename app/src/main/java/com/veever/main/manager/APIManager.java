@@ -3,15 +3,9 @@ package com.veever.main.manager;
 import android.content.Context;
 import android.util.Log;
 
-import com.veever.main.BuildConfig;
-import com.veever.main.api.BeaconResponse;
 import com.veever.main.api.BeaconsEndPoint;
 import com.veever.main.api.SpotEndPoint;
-import com.veever.main.api.SpotResponse;
-import com.veever.main.datamodel.Beacon;
-import com.veever.main.datamodel.Spot;
-
-import org.greenrobot.eventbus.EventBus;
+import com.veever.main.datamodel.BeaconModel;
 
 import java.util.List;
 
@@ -56,17 +50,17 @@ public class APIManager {
     }
 
     public void fetchBeacons() {
-        final Call<List<Beacon>> beaconList = beaconsEndPoint.fetchBeacons();
-        beaconList.enqueue(new Callback<List<Beacon>>() {
+        final Call<List<BeaconModel>> beaconList = beaconsEndPoint.fetchBeacons();
+        beaconList.enqueue(new Callback<List<BeaconModel>>() {
             @Override
-            public void onResponse(Call<List<Beacon>> call, Response<List<Beacon>> response) {
+            public void onResponse(Call<List<BeaconModel>> call, Response<List<BeaconModel>> response) {
 
                 if (response.body() == null && !response.isSuccessful()) {
                     Log.e(TAG, "onResponse: failed to fetch beacons");
                     return;
                 }
 
-                for (Beacon beacon : response.body()) {
+                for (BeaconModel beacon : response.body()) {
                     Log.e(TAG, "onResponse: beacon uuid " + beacon.uuid + " " + beacon.major);
                     Log.e(TAG, "onResponse: beacon default language " + beacon.spotInfo.defaultLanguage  );
                 }
@@ -75,7 +69,7 @@ public class APIManager {
             }
 
             @Override
-            public void onFailure(Call<List<Beacon>> call, Throwable t) {
+            public void onFailure(Call<List<BeaconModel>> call, Throwable t) {
 
             }
         });

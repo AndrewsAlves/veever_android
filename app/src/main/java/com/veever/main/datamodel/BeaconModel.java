@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Andrews on 17,May,2019
  */
 
-public class Beacon extends RealmObject {
+public class BeaconModel extends RealmObject {
 
     @PrimaryKey
     @SerializedName("id")

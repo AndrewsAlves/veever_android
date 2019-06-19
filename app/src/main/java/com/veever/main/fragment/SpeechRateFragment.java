@@ -47,8 +47,7 @@ public class SpeechRateFragment extends Fragment {
         speechRate = Float.valueOf(Settings.getSettings(getContext(), Settings.PREFS_SPEECHRATE));
         seekBar.setProgress(Math.round(speechRate * 50f));
         setText();
-
-        TextToSpeechManager.getInstance().speak("Speech rate is " + speechRate);
+        speak();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

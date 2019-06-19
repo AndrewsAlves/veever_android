@@ -2,11 +2,9 @@ package com.veever.main.fragment;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +14,12 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.veever.main.Events.HideKeyboardEvent;
-import com.veever.main.Events.OnDemoContinueEvent;
 import com.veever.main.Events.UpdateDemoBeaconEvent;
 import com.veever.main.GeoDirections;
 import com.veever.main.R;
-import com.veever.main.datamodel.Beacon;
+import com.veever.main.datamodel.BeaconModel;
 import com.veever.main.datamodel.OrientationInfo;
 import com.veever.main.datamodel.Spot;
-import com.veever.main.dialog.DemonstrationDialogFragment;
 import com.veever.main.manager.DatabaseManager;
 import com.veever.main.manager.TextToSpeechManager;
 import com.veever.main.manager.VeeverSensorManager;
@@ -32,7 +27,6 @@ import com.veever.main.manager.VeeverSensorManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,7 +66,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
     @BindView(R.id.tv_subtitle)
     TextView textViewSubtitle;
 
-    Beacon demoBeacon;
+    BeaconModel demoBeacon;
 
     public DemontrationFragment() {
         // Required empty public constructor

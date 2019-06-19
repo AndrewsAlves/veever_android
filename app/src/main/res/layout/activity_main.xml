@@ -11,7 +11,7 @@
     <com.kuassivi.component.RipplePulseRelativeLayout
         android:id="@+id/pulseLayout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="@dimen/main.layout.top"
         app:pulse_layout_RippleStartRadiusPercent="1"
         app:pulse_layout_RippleEndRadiusPercent="80"
         app:pulse_layout_ShowPreview="true"
@@ -42,7 +42,7 @@
         <com.kuassivi.component.RipplePulseRelativeLayout
             android:id="@+id/pulseLayout2"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="@dimen/main.layout.top"
             app:pulse_layout_RippleStartRadiusPercent="1"
             app:pulse_layout_RippleEndRadiusPercent="50"
             app:pulse_layout_ShowPreview="true"
@@ -54,7 +54,7 @@
         <com.kuassivi.component.RipplePulseRelativeLayout
             android:id="@+id/pulseLayout3"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="@dimen/main.layout.top"
             app:pulse_layout_RippleStartRadiusPercent="1"
             app:pulse_layout_RippleEndRadiusPercent="50"
             app:pulse_layout_ShowPreview="true"
@@ -125,6 +125,13 @@
         android:layout_marginBottom="20dp"
         android:layout_above="@id/tv_veever"
         android:layout_below="@id/pulseLayout">
+
+        <!-- this code is just to preview fragment -->
+       <!-- <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.veever.main.BeaconDialogFragment"
+            tools:layout="@layout/fragment_dialog"/> -->
 
     </FrameLayout>
 
