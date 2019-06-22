@@ -31,7 +31,7 @@ public class Orientation extends RealmObject {
     @SerializedName("northWest")
     public OrientationInfo northWestInfo;
 
-    @SerializedName("southWast")
+    @SerializedName("southWest")
     public OrientationInfo southWestInfo;
 
 }

@@ -10,6 +10,8 @@ import android.os.RemoteException;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -237,7 +239,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
     ///// OnClick
     //////////////////
 
-    @OnClick(R.id.tb_activate)
+    @OnClick(R.id.pulseLayout1)
     public void activate() {
         if (isActivated) {
             disableMonitoring();

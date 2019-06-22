@@ -124,7 +124,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/ll_interface"
                 android:layout_width="100dp"
@@ -145,7 +144,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="INTERFACE \nLANGUAGE"
+                    android:text="@string/app.settings.languageinterface.title"
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/lime1"
