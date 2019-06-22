@@ -105,7 +105,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/dialog_beacon"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:maxHeight="420dp"
@@ -210,7 +210,7 @@
             android:alpha="0.7"/>
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="335dp"
+            android:layout_width="@dimen/main.dialog.width"
             android:layout_height="250dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
@@ -227,7 +227,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/veeverwhite"></FrameLayout>
-
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/topview_dialog"
@@ -248,7 +247,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/sf_font_heavy"
-                    android:text="Demonstration Mode"
+                    android:text="@string/app.settings.demonstration.title"
                     android:textAllCaps="true"
                     android:textColor="@color/veeverblack"
                     android:textSize="18sp"
@@ -263,10 +262,10 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Type the beacon demo code below or continue with the default one"
+                android:layout_marginEnd="20dp"
+                android:text="@string/app.settings.demonstration.dialog.description"
                 android:textAlignment="center"
                 android:textColor="@color/veeverblack"
                 android:textSize="16sp"
@@ -305,7 +304,7 @@
                     android:alpha="0.7"
                     android:fontFamily="@font/sf_font_heavy"
                     android:gravity="center"
-                    android:text="Cancel"
+                    android:text="@string/app.settings.demostration.cancel"
                     android:textSize="18sp" />
 
                 <TextView
@@ -315,19 +314,13 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/sf_font_heavy"
                     android:gravity="center"
-                    android:text="Continue"
+                    android:text="@string/app.settings.demostration.continue"
                     android:textSize="18sp" />
 
             </LinearLayout>
 
-
         </android.support.constraint.ConstraintLayout>
 
-
     </android.support.constraint.ConstraintLayout>
-
-
-
-
 
 </android.support.constraint.ConstraintLayout>

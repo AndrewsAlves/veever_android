@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="main.layout.top">250dp</dimen>
+    <dimen name="main.dialog.width">330dp</dimen>
 </resources>
