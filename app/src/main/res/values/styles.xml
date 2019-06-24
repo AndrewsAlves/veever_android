@@ -35,4 +35,14 @@
         <item name="android:fontFamily">@font/sf_regular</item>
     </style>
 
+    <style name="SelectedBackground">
+        <item name="colorControlHighlight">@color/white_40</item>
+    </style>
+
+    <style name="ripple_background">
+        <item name="android:theme">@style/SelectedBackground</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <color name="white_40">#40ffffff</color>
 </resources>

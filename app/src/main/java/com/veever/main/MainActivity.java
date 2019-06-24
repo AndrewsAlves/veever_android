@@ -57,7 +57,6 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
 
     private static final String TAG = "MainActivity";
 
-
     private static final double IMMEDIATE = 0.2000;
     private static final double NEAR = 3.000;
     private static final double FAR = 10.0000;
@@ -200,8 +199,17 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
     }
 
     public void setupUIEnabled() {
+        pulsatorLayout.setStartDelay(1250);
         pulsatorLayout.startPulse();
         pulsatorLayout1.startPulse();
+
+        pulsatorLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pulsatorLayout.setStartDelay(0);
+            }
+        }, 2500);
+
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeever.setImageResource(R.drawable.veever_on);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
@@ -366,7 +374,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
             return;
         }
 
-        String title = "LEWLARA/TBWA";
+        String title = spot.spotName;
         String description = "There is no point of interests mapped in this direction";
         String direction = VeeverSensorManager.getInstance().getDirectionText();
         GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
@@ -377,7 +385,6 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
 
         if (spot.getDirectionInfo(geoDirection) != null) {
             OrientationInfo orientationInfo = spot.getDirectionInfo(geoDirection);
-            title = spot.spotName;
             description = orientationInfo.description;
         }
 
@@ -405,7 +412,6 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
                 getSupportFragmentManager().beginTransaction().
                         remove(getSupportFragmentManager()
                                 .findFragmentById(R.id.frame_dialog_fragment))
-                        .setCustomAnimations(R.anim.fade_out,R.anim.fade_in)
                         .commit();
             }
         },3000);

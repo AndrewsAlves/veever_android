@@ -17,7 +17,8 @@
         app:pulse_layout_ShowPreview="true"
         app:pulse_layout_PulseType="stroke"
         app:pulse_layout_RippleColor="@color/lime1"
-        app:pulse_layout_PulseDuration="2500">
+        app:pulse_layout_PulseDuration="2500"
+        style="@style/ripple_background">
 
         <ImageButton
             android:id="@+id/tb_activate"
@@ -33,35 +34,11 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:pulse_layout_RippleStartRadiusPercent="1"
-            app:pulse_layout_RippleEndRadiusPercent="50"
+            app:pulse_layout_RippleEndRadiusPercent="80"
             app:pulse_layout_ShowPreview="true"
             app:pulse_layout_PulseType="stroke"
             app:pulse_layout_RippleColor="@color/lime1"
-            app:pulse_layout_PulseDuration="1600"/>
-
-        <com.kuassivi.component.RipplePulseRelativeLayout
-            android:id="@+id/pulseLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main.layout.top"
-            app:pulse_layout_RippleStartRadiusPercent="1"
-            app:pulse_layout_RippleEndRadiusPercent="50"
-            app:pulse_layout_ShowPreview="true"
-            app:pulse_layout_PulseType="stroke"
-            app:pulse_layout_RippleColor="@color/lime1"
-            app:pulse_layout_StartDelay="800"
-            app:pulse_layout_PulseDuration="1600"/>
-
-        <com.kuassivi.component.RipplePulseRelativeLayout
-            android:id="@+id/pulseLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main.layout.top"
-            app:pulse_layout_RippleStartRadiusPercent="1"
-            app:pulse_layout_RippleEndRadiusPercent="50"
-            app:pulse_layout_ShowPreview="true"
-            app:pulse_layout_PulseType="stroke"
-            app:pulse_layout_RippleColor="@color/lime1"
-            app:pulse_layout_StartDelay="1200"
-            app:pulse_layout_PulseDuration="1600"/>
+            app:pulse_layout_PulseDuration="2500"/>
 
        <!-- <com.veever.main.AlexaView
             android:id="@+id/alexaview"
@@ -111,9 +88,9 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:src="@drawable/setting_off"
-        android:background="@android:color/transparent"
         android:layout_marginLeft="40dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        style="@style/ripple_background"/>
 
     <FrameLayout
         android:id="@+id/frame_dialog_fragment"

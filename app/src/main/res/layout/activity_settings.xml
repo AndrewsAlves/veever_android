@@ -48,7 +48,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="@id/guild_center"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/ripple_background">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -76,7 +77,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="@id/guild_center"
-                app:layout_constraintTop_toBottomOf="@+id/ll_speech">
+                app:layout_constraintTop_toBottomOf="@+id/ll_speech"
+                style="@style/ripple_background">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -105,7 +107,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="@id/guild_center"
-                app:layout_constraintTop_toBottomOf="@+id/ll_demostration">
+                app:layout_constraintTop_toBottomOf="@+id/ll_demostration"
+                style="@style/ripple_background">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -133,7 +136,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintStart_toEndOf="@id/guild_center"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/ripple_background">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -161,7 +165,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintStart_toEndOf="@id/guild_center"
-                app:layout_constraintTop_toBottomOf="@+id/ll_interface">
+                app:layout_constraintTop_toBottomOf="@+id/ll_interface"
+                style="@style/ripple_background">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -189,7 +194,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintStart_toEndOf="@id/guild_center"
-                app:layout_constraintTop_toBottomOf="@+id/ll_terms">
+                app:layout_constraintTop_toBottomOf="@+id/ll_terms"
+                style="@style/ripple_background">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -210,22 +216,21 @@
 
         </android.support.constraint.ConstraintLayout>
 
-
     </ScrollView>
 
     <ImageButton
         android:id="@+id/ib_quit_settings__btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="30dp"
-        android:background="@android:color/transparent"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/ripple_background"/>
 
     <ImageView
         android:id="@+id/tv_veever"
@@ -249,7 +254,7 @@
         android:text="@string/app.settings.version"
         android:textColor="@color/veeverwhite"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_veever"
+        app:layout_constraintBottom_toBottomOf="@+id/ib_quit_settings__btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -312,8 +317,7 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-
+    
     <FrameLayout
         android:id="@+id/fragment_settings"
         android:layout_width="match_parent"

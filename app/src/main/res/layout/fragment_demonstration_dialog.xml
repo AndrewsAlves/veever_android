@@ -86,7 +86,8 @@
             android:fontFamily="@font/sf_font_heavy"
             android:gravity="center"
             android:text="@string/app.settings.demostration.cancel"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            style="@style/ripple_background"/>
 
         <TextView
             android:id="@+id/tv_continue__btn"
@@ -96,7 +97,8 @@
             android:fontFamily="@font/sf_font_heavy"
             android:gravity="center"
             android:text="@string/app.settings.demostration.continue"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            style="@style/ripple_background"/>
 
     </LinearLayout>
 

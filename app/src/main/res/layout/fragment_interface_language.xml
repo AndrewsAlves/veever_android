@@ -57,6 +57,7 @@
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_portugese_brazil"
             app:layout_constraintEnd_toEndOf="parent"
+            style="@style/ripple_background"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -86,13 +87,15 @@
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            style="@style/ripple_background"
             android:src="@drawable/ic_english_us"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
