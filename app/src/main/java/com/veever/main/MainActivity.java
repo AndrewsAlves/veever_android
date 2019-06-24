@@ -98,6 +98,8 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
 
     private String lastGeoDirection = " ";
 
+    private String lastBeaconId = " ";
+
     private Resources res;
 
     @Override
@@ -157,6 +159,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
     }
 
     public void disableMonitoring() {
+        handleDialog.removeCallbacksAndMessages(null);
         setupUIDisabled();
         beaconManager.unbind(this);
         stopUpdatingBeacons();
@@ -360,8 +363,6 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
                 beacon.getId2().toInt(),
                 beacon.getId3().toInt());
 
-        Log.e(TAG, "showDialog: distance - " + beacon.getDistance());
-
         if (beaconModel == null) {
             Log.e(TAG, "showDialog: beacon null");
             return;
@@ -375,7 +376,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
         }
 
         String title = spot.spotName;
-        String description = "There is no point of interests mapped in this direction";
+        String description = getString(R.string.app_dialog_description_center);
         String direction = VeeverSensorManager.getInstance().getDirectionText();
         GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
 
@@ -391,6 +392,13 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
         loadFragment(title, description, direction);
         lastGeoDirection = direction;
         updateOrientationInfo();
+
+        if (!lastBeaconId.equals(beaconModel.id)) {
+            lastBeaconId = beaconModel.id;
+            String speakDescription = spot.spotDescription + description;
+            TextToSpeechManager.getInstance().speak(spot.spotTitle + speakDescription + direction);
+            return;
+        }
 
         TextToSpeechManager.getInstance().speak(spot.spotTitle + description + direction);
     }
@@ -412,7 +420,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
                 getSupportFragmentManager().beginTransaction().
                         remove(getSupportFragmentManager()
                                 .findFragmentById(R.id.frame_dialog_fragment))
-                        .commit();
+                        .commitAllowingStateLoss();
             }
         },3000);
     }
@@ -426,8 +434,6 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
         }, 8000);
     }
 
-
-
     public Beacon getDetectedBeacons() {
         List<Beacon> showBeaconList = new ArrayList<>();
 
@@ -437,6 +443,10 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
                     beacon.getId1().toString(),
                     beacon.getId2().toInt(),
                     beacon.getId3().toInt());
+
+            if (beaconModel == null) {
+                continue;
+            }
 
             if (getBeaconRanging(beacon.getDistance()).equals(beaconModel.rangingDistance)) {
                 showBeaconList.add(beacon);

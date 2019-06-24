@@ -33,7 +33,13 @@ public class Settings {
 
     public static Spot getSpotBasedOnLanguage(Context context,SpotInfo spotInfo) {
 
-        if (getSettings(context, PREFS_LANGUAGE).equals(ENGLISH)) {
+        if (spotInfo.defaultLanguage.equals(ENGLISH)) {
+            return spotInfo.english;
+        } else {
+            return spotInfo.portuguese;
+        }
+
+      /*  if (getSettings(context, PREFS_LANGUAGE).equals(ENGLISH)) {
             if (spotInfo.english == null) {
                 return spotInfo.portuguese;
             } else {
@@ -45,7 +51,7 @@ public class Settings {
             } else {
                 return spotInfo.portuguese;
             }
-        }
+        } */
     }
 
     public static void saveLanguage(Context context,String language) {
