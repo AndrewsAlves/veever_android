@@ -317,7 +317,7 @@
         </LinearLayout>
 
     </RelativeLayout>
-    
+
     <FrameLayout
         android:id="@+id/fragment_settings"
         android:layout_width="match_parent"

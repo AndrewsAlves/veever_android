@@ -202,16 +202,13 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
     }
 
     public void setupUIEnabled() {
-        pulsatorLayout.setStartDelay(1250);
-        pulsatorLayout.startPulse();
         pulsatorLayout1.startPulse();
-
         pulsatorLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                pulsatorLayout.setStartDelay(0);
+                pulsatorLayout.startPulse();
             }
-        }, 2500);
+        },1250);
 
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeever.setImageResource(R.drawable.veever_on);
