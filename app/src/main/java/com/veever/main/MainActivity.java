@@ -83,21 +83,17 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
 
     boolean isActivated = false;
 
-    public static String lastShownBeacon = " ";
-
     public Handler handleDialog;
     public Handler updateBeaconsHandler;
     public Handler updateOrirentationHander;
 
    // private RegionBootstrap regionBootstrap;
-    private BackgroundPowerSaver backgroundPowerSaver;
     private BeaconManager beaconManager;
 
     public List<Beacon> stableBeaconList;
     public Collection<Beacon> beaconCollection;
 
     private String lastGeoDirection = " ";
-
     private String lastBeaconId = " ";
 
     private Resources res;
@@ -203,7 +199,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
 
     public void setupUIEnabled() {
         pulsatorLayout1.startPulse();
-        pulsatorLayout.postDelayed(new Runnable() {
+        handleDialog.postDelayed(new Runnable() {
             @Override
             public void run() {
                 pulsatorLayout.startPulse();
@@ -229,6 +225,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
         imageButtonActivate.setImageResource(R.drawable.button_eye_off);
         imageButtonSettings.setImageResource(R.drawable.setting_off);
         isActivated = false;
+        removeDialog();
     }
 
     public void enableBluetooth() {
@@ -404,22 +401,30 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
         handleDialog.removeCallbacksAndMessages(null);
         BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(title, description, direction);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fade_in,R.anim.fade_out);
+        fragmentTransaction.setCustomAnimations(0,0);
         fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
-        fragmentTransaction.commit(); // save the changes
-        removeDialog();
-    }
-
-    public void removeDialog() {
+        fragmentTransaction.commitAllowingStateLoss(); // save the changes
         handleDialog.postDelayed(new Runnable() {
             @Override
             public void run() {
+               removeDialog();
+            }
+        },3000);
+    }
+
+    public void removeDialog() {
+        try {
+            if (getSupportFragmentManager()
+                    .findFragmentById(R.id.frame_dialog_fragment) != null) {
                 getSupportFragmentManager().beginTransaction().
                         remove(getSupportFragmentManager()
                                 .findFragmentById(R.id.frame_dialog_fragment))
                         .commitAllowingStateLoss();
             }
-        },3000);
+
+        } catch (NullPointerException ex) {
+
+        }
     }
 
     public void updateOrientationInfo() {
