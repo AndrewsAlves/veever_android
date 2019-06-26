@@ -2,6 +2,7 @@ package com.veever.main;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -19,7 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+import com.franmontiel.localechanger.LocaleChanger;
+import com.franmontiel.localechanger.utils.ActivityRecreationHelper;
 import com.veever.main.Events.ChangeLanguageEvent;
 import com.veever.main.Events.HideKeyboardEvent;
 import com.veever.main.fragment.DemontrationFragment;
@@ -38,7 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SettingsActivity extends LocalizationActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @BindView(R.id.ll_speech)
     LinearLayout llSpeech;
@@ -65,9 +67,23 @@ public class SettingsActivity extends LocalizationActivity {
     }
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        newBase = LocaleChanger.configureBaseContext(newBase);
+        super.attachBaseContext(newBase);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivityRecreationHelper.onResume(this);
+    }
+
+    @Override
     protected void onDestroy() {
-        super.onDestroy();
+        ActivityRecreationHelper.onDestroy(this);
         EventBus.getDefault().unregister(this);
+        super.onDestroy();
+
     }
 
     @Override
@@ -167,7 +183,9 @@ public class SettingsActivity extends LocalizationActivity {
 
     @Subscribe
     public void onMessageEvent(ChangeLanguageEvent event) {
-        setLanguage(event.locale);
+        LocaleChanger.setLocale(event.locale);
+        //setLanguage(event.locale);
         TextToSpeechManager.getInstance().setLanguage(event.locale);
+        ActivityRecreationHelper.recreate(this, true);
     }
 }

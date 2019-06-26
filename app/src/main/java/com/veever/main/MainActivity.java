@@ -2,6 +2,7 @@ package com.veever.main;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.os.RemoteException;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,7 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+import com.franmontiel.localechanger.LocaleChanger;
+import com.franmontiel.localechanger.utils.ActivityRecreationHelper;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -53,7 +56,7 @@ import butterknife.OnClick;
  * Created by Andrews on 17,May,2019
  */
 
-public class MainActivity extends LocalizationActivity implements BeaconConsumer {
+public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     private static final String TAG = "MainActivity";
 
@@ -130,9 +133,21 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
     }
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        newBase = LocaleChanger.configureBaseContext(newBase);
+        super.attachBaseContext(newBase);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         VeeverSensorManager.getInstance().register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivityRecreationHelper.onResume(this);
     }
 
     @Override
@@ -144,6 +159,7 @@ public class MainActivity extends LocalizationActivity implements BeaconConsumer
 
     @Override
     protected void onDestroy() {
+        ActivityRecreationHelper.onDestroy(this);
         VeeverSensorManager.getInstance().unRegister();
         super.onDestroy();
     }

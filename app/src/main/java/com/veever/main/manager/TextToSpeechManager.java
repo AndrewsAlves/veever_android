@@ -41,6 +41,7 @@ public class TextToSpeechManager {
 
                     if (ttsLang == TextToSpeech.LANG_MISSING_DATA
                             || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Toast.makeText(application.getBaseContext(), "Language not supported for speech!", Toast.LENGTH_LONG).show();
                         Log.e("TTS", "The Language is not supported!");
                     } else {
                         Log.i("TTS", "Language Supported.");

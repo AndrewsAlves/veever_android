@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.akexorcist.localizationactivity.core.LocalizationApplicationDelegate;
+import com.franmontiel.localechanger.LocaleChanger;
 import com.veever.main.manager.APIManager;
 import com.veever.main.manager.DatabaseManager;
 import com.veever.main.manager.TextToSpeechManager;
@@ -13,17 +13,27 @@ import com.veever.main.manager.VeeverSensorManager;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Created by Andrews on 17,May,2019
  */
 
 public class VeeverApplication extends Application {
 
-    LocalizationApplicationDelegate localizationDelegate = new LocalizationApplicationDelegate(this);
+    public static final List<Locale> SUPPORTED_LOCALES =
+            Arrays.asList(
+                    new Locale("en", "US"),
+                    new Locale("pt", "BR")
+            );
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LocaleChanger.initialize(getApplicationContext(), SUPPORTED_LOCALES);
 
         DatabaseManager.initialize(this);
         APIManager.initialize(this);
@@ -42,20 +52,8 @@ public class VeeverApplication extends Application {
     }
 
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(localizationDelegate.attachBaseContext(base));
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        localizationDelegate.onConfigurationChanged(this);
+        LocaleChanger.onConfigurationChanged();
     }
-
-    @Override
-    public Context getApplicationContext() {
-        return localizationDelegate.getApplicationContext(super.getApplicationContext());
-    }
-
-    // api key nearby = AIzaSyCrnrHAF6Z87vHhwVAV60muPjeoKaV7Yhw
 }

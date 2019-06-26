@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
-import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+import com.franmontiel.localechanger.LocaleChanger;
 import com.veever.main.Events.ChangeLanguageEvent;
 import com.veever.main.R;
 import com.veever.main.SettingsActivity;
@@ -46,7 +47,7 @@ public class InterfaceLanguageFragment extends Fragment {
         ButterKnife.bind(this,v);
         settingsActivity = (SettingsActivity) getActivity();
 
-        if (settingsActivity.getCurrentLanguage().getLanguage().equals(Settings.LOCALE_PORTUGUESE.getLanguage())) {
+        if (LocaleChanger.getLocale().getLanguage().equals(Settings.LOCALE_PORTUGUESE.getLanguage())) {
             setUiPortuguese();
         } else {
             setUiEnglish();
@@ -74,7 +75,7 @@ public class InterfaceLanguageFragment extends Fragment {
     public void clickPortugese() {
         setUiPortuguese();
         Settings.saveLanguage(getContext(), Settings.PORTUGUESE);
-        EventBus.getDefault().post(new ChangeLanguageEvent(new Locale("pt", "POR")));
+        EventBus.getDefault().post(new ChangeLanguageEvent(Settings.LOCALE_PORTUGUESE));
     }
 
     @OnClick(R.id.ll_english__btn)

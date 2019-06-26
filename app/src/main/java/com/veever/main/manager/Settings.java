@@ -29,7 +29,7 @@ public class Settings {
     public static final String PRIVACY_POLICY = "https://veever.global/privacy";
     public static final String TERMS_OF_USE = "https://veever.global/terms";
 
-    public static final Locale LOCALE_PORTUGUESE = new Locale("pt", "POR");
+    public static final Locale LOCALE_PORTUGUESE = new Locale("pt", "BR");
 
     public static Spot getSpotBasedOnLanguage(Context context,SpotInfo spotInfo) {
 
@@ -90,7 +90,7 @@ public class Settings {
         String language = getSettings(context, PREFS_LANGUAGE);
 
         if (language.equals(PORTUGUESE)) {
-            return new Locale("pt", "POR");
+            return Settings.LOCALE_PORTUGUESE;
         } else {
             return Locale.US;
         }
