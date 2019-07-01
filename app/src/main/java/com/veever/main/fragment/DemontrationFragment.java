@@ -110,7 +110,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         }
 
         String title = spot.spotName;
-        String description = "There is no point of interests mapped in this direction";
+        String description = getString(R.string.app_dialog_description_center);;
         String direction = VeeverSensorManager.getInstance().getDirectionText();
 
         if (orientationInfo != null) {
@@ -120,7 +120,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         String speechText = spot.spotTitle + description + direction;
 
         if (readSpotDetails) {
-            speechText = "Spot Title is " + spot.spotTitle + "Spot Description is " + spot.spotDescription;
+            speechText = spot.spotTitle + spot.spotDescription;
         }
 
         textViewMainTitle.setText(title);
@@ -171,6 +171,10 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         }
 
         demoBeacon = DatabaseManager.getInstance().getBeaconByShortCode(shortCode);
+
+        if (demoBeacon == null) {
+            demoBeacon = DatabaseManager.getInstance().getBeaconByShortCode("VEEVER");
+        }
 
         if (demoBeacon != null) {
             VeeverSensorManager.getInstance().setDemo(true);

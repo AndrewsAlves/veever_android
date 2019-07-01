@@ -76,7 +76,7 @@ public class Settings {
 
         switch (PREF_TYPE) {
             case PREFS_LANGUAGE:
-                defaultValue = ENGLISH;
+                defaultValue = "Default";
                 break;
             case PREFS_SPEECHRATE:
                 defaultValue = "1.0f";
@@ -89,11 +89,14 @@ public class Settings {
     public static Locale getLanguageLocaleFromSettings(Context context) {
         String language = getSettings(context, PREFS_LANGUAGE);
 
+        if (language.equals("Default")) {
+            return Locale.getDefault();
+        }
+
         if (language.equals(PORTUGUESE)) {
             return Settings.LOCALE_PORTUGUESE;
         } else {
             return Locale.US;
         }
     }
-
 }

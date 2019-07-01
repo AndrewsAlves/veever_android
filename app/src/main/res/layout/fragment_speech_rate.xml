@@ -17,7 +17,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/sf_font_heavy"
-        android:text="SPEECH RATE"
+        android:text="@string/app.settings.speechrate.title"
         android:textColor="@color/lime1"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

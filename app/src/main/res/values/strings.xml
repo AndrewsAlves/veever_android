@@ -37,5 +37,15 @@
     <string name="app.settings.speech.speechrate">Speech rate is</string>
     <string name="app.settings.speechrate.percent">percent</string>
     <string name="app.settings.demonstration.dialog.description">Type the beacon demo code below or continue with the default one</string>
+    <string name="app.settings.demonstration.middle.desc">Use the switch below to simulate \nthat a beacon has come \ninto your range</string>
+
+    <string name="direction.north">NORTH</string>
+    <string name="direction.northeast">NORTH EAST</string>
+    <string name="direction.east">EAST</string>
+    <string name="direction.southeast">SOUTH EAST</string>
+    <string name="direction.south">SOUTH</string>
+    <string name="direction.southwest">SOUTH WEST</string>
+    <string name="direction.west">WEST</string>
+    <string name="direction.northwest">NORTH WEST</string>
 
 </resources>

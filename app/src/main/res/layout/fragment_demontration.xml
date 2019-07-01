@@ -26,13 +26,13 @@
 
     <TextView
         android:id="@+id/tv_text_center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/sf_font_heavy"
-        android:text="Use the switch below to \n simulate that a beacon\n has come into \n your range"
+        android:text="@string/app.settings.demonstration.middle.desc"
         android:textAlignment="center"
         android:textColor="@color/veeverwhite"
         android:textSize="18sp"
