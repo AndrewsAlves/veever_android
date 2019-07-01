@@ -109,12 +109,11 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
             return;
         }
 
-        String title = "LEWLARA/TBWA";
+        String title = spot.spotName;
         String description = "There is no point of interests mapped in this direction";
         String direction = VeeverSensorManager.getInstance().getDirectionText();
 
         if (orientationInfo != null) {
-            title = spot.spotName;
             description = orientationInfo.description;
         }
 
