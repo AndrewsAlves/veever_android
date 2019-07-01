@@ -10,6 +10,7 @@ import android.util.Log;
 import com.veever.main.Events.UpdateDemoBeaconEvent;
 import com.veever.main.GeoDirections;
 import com.veever.main.MainActivity;
+import com.veever.main.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -133,25 +134,25 @@ public class VeeverSensorManager implements SensorEventListener {
         return geoDirection;
     }
 
-    public String getDirectionText() {
+    public String getDirectionText(Context context) {
 
             switch (geoDirection) {
                 case NORTH:
-                    return geoDirection.name();
+                    return context.getString(R.string.direction_north);
                 case NORTH_EAST:
-                    return "NORTH EAST";
+                    return context.getString(R.string.direction_northeast);
                 case EAST:
-                    return geoDirection.name();
+                    return context.getString(R.string.direction_east);
                 case SOUTH_EAST:
-                    return "SOUTH EAST";
+                    return context.getString(R.string.direction_southeast);
                 case SOUTH:
-                    return geoDirection.name();
+                    return context.getString(R.string.direction_south);
                 case SOUTH_WEST:
-                    return "SOUTH WEST";
+                    return context.getString(R.string.direction_southwest);
                 case WEST:
-                    return geoDirection.name();
+                    return context.getString(R.string.direction_west);
                 case NORTH_WEST:
-                    return "NORTH WEST";
+                    return context.getString(R.string.direction_northwest);
                 default:
                     return null;
 

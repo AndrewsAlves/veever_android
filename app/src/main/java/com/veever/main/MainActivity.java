@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         String title = spot.spotName;
         String description = getString(R.string.app_dialog_description_center);
-        String direction = VeeverSensorManager.getInstance().getDirectionText();
+        String direction = VeeverSensorManager.getInstance().getDirectionText(getBaseContext());
         GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
 
         if (lastGeoDirection.equals(direction)) {
