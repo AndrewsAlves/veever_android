@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "848921116304",
+    "firebase_url": "https://veever-global.firebaseio.com",
+    "project_id": "veever-global",
+    "storage_bucket": "veever-global.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848921116304:android:5843a759bf736b36",
+        "android_client_info": {
+          "package_name": "me.custodio.Veever"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848921116304-c5id34sira1jidd0gskiopdrjjkue8l6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqZcaGEbZVXLRLX4-Ho7qIurjcKsyEgdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848921116304-c5id34sira1jidd0gskiopdrjjkue8l6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "848921116304-3kgrct0gktkute964n8mpqpkt0mqq798.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "me.custodio.Veever"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

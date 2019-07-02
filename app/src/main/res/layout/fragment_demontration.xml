@@ -7,7 +7,7 @@
     android:background="@color/veeverblack"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".fragment.DemontrationFragment">
+    tools:context="me.custodio.Veever.fragment.DemontrationFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -117,7 +117,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:context=".BeaconDialogFragment"
+        tools:context="me.custodio.Veever.BeaconDialogFragment"
         tools:layout_editor_absoluteX="50dp">
 
         <TextView
@@ -220,7 +220,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".dialog.DemonstrationDialogFragment">
+            tools:context="me.custodio.Veever.dialog.DemonstrationDialogFragment">
 
             <FrameLayout
                 android:layout_width="match_parent"

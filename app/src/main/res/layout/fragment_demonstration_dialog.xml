@@ -6,7 +6,7 @@
     android:layout_height="250dp"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".dialog.DemonstrationDialogFragment"
+    tools:context="me.custodio.Veever.dialog.DemonstrationDialogFragment"
     >
 
     <android.support.constraint.ConstraintLayout

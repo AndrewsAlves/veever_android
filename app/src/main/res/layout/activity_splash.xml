@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/bg_lime_gradient"
     android:layout_height="match_parent"
-    tools:context=".Splash">
+    tools:context="me.custodio.Veever.Splash">
 
     <ImageView
         android:layout_width="wrap_content"
