@@ -20,16 +20,6 @@
         <item name="android:textAppearance">@style/TextAppearance.Regular</item>
     </style>
 
-    <style name="TextAppearance.Heavy" parent="android:TextAppearance">
-        <!-- Custom Attr-->
-        <item name="android:fontFamily">@font/sf_heavy</item>
-    </style>
-
-    <style name="TextAppearance.Thin" parent="android:TextAppearance">
-        <!-- Custom Attr-->
-        <item name="android:fontFamily">@font/sf_light</item>
-    </style>
-
     <style name="TextAppearance.Regular" parent="android:TextAppearance">
         <!-- Custom Attr-->
         <item name="android:fontFamily">@font/sf_regular</item>

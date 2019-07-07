@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
 import me.custodio.Veever.GeoDirections;
-import com.custodio.Veever.R;
+import me.custodio.Veever.R;
 import me.custodio.Veever.datamodel.BeaconModel;
 import me.custodio.Veever.datamodel.OrientationInfo;
 import me.custodio.Veever.datamodel.Spot;

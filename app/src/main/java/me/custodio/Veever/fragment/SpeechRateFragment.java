@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.custodio.Veever.R;
+import me.custodio.Veever.R;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
 

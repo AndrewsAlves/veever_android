@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.custodio.Veever.R;
 
 import butterknife.ButterKnife;
+import me.custodio.Veever.R;
 
 /**
  * A simple {@link Fragment} subclass.

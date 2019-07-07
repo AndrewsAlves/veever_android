@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.custodio.Veever.R;
 
 /**
  * Created by Andrews on 17,May,2019

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import me.custodio.Veever.api.BeaconsEndPoint;
-import me.custodio.Veever.api.SpotEndPoint;
 import me.custodio.Veever.datamodel.BeaconModel;
 
 import java.util.List;
@@ -26,7 +25,6 @@ public class APIManager {
     private static String BASE_URL = "https://api.veever.experio.com.br/";
 
     private BeaconsEndPoint beaconsEndPoint;
-    private SpotEndPoint spotEndPoint;
 
     public static APIManager getInstance() {
         return ourInstance;
@@ -40,7 +38,6 @@ public class APIManager {
                 .build();
 
         beaconsEndPoint = retrofit.create(BeaconsEndPoint.class);
-        spotEndPoint = retrofit.create(SpotEndPoint.class);
 
         fetchBeacons();
     }

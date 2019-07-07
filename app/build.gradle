@@ -7,10 +7,10 @@ buildscript {
     }
 }
 
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply plugin: 'io.fabric'
-apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: 'com.google.gms.google-services'
 
 repositories {
@@ -24,8 +24,8 @@ android {
         applicationId "me.custodio.Veever"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [
@@ -33,12 +33,11 @@ android {
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
-
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -66,7 +65,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.kuassivi.android.view:ripple-pulse-layout:0.1.9'
-    implementation 'com.airbnb.android:lottie:2.3.1'
 
     implementation 'com.github.franmontiel:LocaleChanger:0.9.2'
 

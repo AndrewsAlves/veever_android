@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.custodio.Veever.R;
 import com.franmontiel.localechanger.LocaleChanger;
 import com.franmontiel.localechanger.utils.ActivityRecreationHelper;
 import me.custodio.Veever.Events.ChangeLanguageEvent;
@@ -27,6 +26,7 @@ import me.custodio.Veever.manager.TextToSpeechManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -35,19 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SettingsActivity extends AppCompatActivity {
-
-    @BindView(R.id.ll_speech)
-    LinearLayout llSpeech;
-    @BindView(R.id.ll_demostration)
-    LinearLayout llDemostration;
-    @BindView(R.id.ll_email)
-    LinearLayout llEmail;
-    @BindView(R.id.ll_interface)
-    LinearLayout llInterface;
-    @BindView(R.id.ll_terms)
-    LinearLayout llTerms;
-    @BindView(R.id.ll_web)
-    LinearLayout llWeb;
 
     @BindView(R.id.rl_terms)
     RelativeLayout rlTerms;
@@ -175,7 +162,7 @@ public class SettingsActivity extends AppCompatActivity {
         fragmentTransaction.commit(); // save the changes
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ChangeLanguageEvent event) {
         LocaleChanger.setLocale(event.locale);
         //setLanguage(event.locale);

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.custodio.Veever.R;
+import me.custodio.Veever.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

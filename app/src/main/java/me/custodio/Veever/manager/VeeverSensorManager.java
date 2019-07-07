@@ -10,7 +10,7 @@ import android.util.Log;
 import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
 import me.custodio.Veever.GeoDirections;
 import me.custodio.Veever.MainActivity;
-import com.custodio.Veever.R;
+import me.custodio.Veever.R;
 
 import org.greenrobot.eventbus.EventBus;
 
