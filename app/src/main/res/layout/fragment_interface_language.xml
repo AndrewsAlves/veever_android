@@ -51,10 +51,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/settings.flag.width"
+            android:layout_height="@dimen/settings.flag.height"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_portugese_brazil"
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/ripple_background"
@@ -87,12 +88,11 @@
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        >
+        app:layout_constraintTop_toTopOf="@+id/guideline" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/settings.flag.width"
+            android:layout_height="@dimen/settings.flag.height"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             style="@style/ripple_background"

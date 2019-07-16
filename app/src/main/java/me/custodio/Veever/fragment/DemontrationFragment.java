@@ -110,7 +110,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         }
 
         String title = spot.spotName;
-        String description = getString(R.string.app_dialog_description_center);;
+        String description = getString(R.string.app_dialog_description_center);
         String direction = VeeverSensorManager.getInstance().getDirectionText(getContext());
 
         if (orientationInfo != null) {
