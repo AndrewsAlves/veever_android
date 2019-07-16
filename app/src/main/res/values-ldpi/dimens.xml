@@ -3,7 +3,9 @@
     <dimen name="main.layout.top">120dp</dimen>
     <dimen name="main.dialog.width">250dp</dimen>
 
-
     <dimen name="settings.flag.width">110dp</dimen>
     <dimen name="settings.flag.height">60dp</dimen>
+
+    <dimen name="settings.beaconswith.marginbottom">60dp</dimen>
+
 </resources>

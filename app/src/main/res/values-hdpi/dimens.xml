@@ -6,4 +6,6 @@
     <dimen name="settings.flag.width">110dp</dimen>
     <dimen name="settings.flag.height">60dp</dimen>
 
+    <dimen name="settings.beaconswith.marginbottom">60dp</dimen>
+
 </resources>

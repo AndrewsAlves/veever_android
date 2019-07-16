@@ -5,13 +5,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
@@ -41,7 +41,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
     private static final String TAG = "Demonstration fragment";
     @BindView(R.id.switch_demo)
-    Switch switchDemo;
+    SwitchCompat switchDemo;
 
     @BindView(R.id.tv_text_center)
     TextView textViewCenter;
