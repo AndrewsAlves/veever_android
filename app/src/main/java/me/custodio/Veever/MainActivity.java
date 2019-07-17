@@ -209,6 +209,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
+
+
         stableBeaconList.clear();
         stableBeaconList.addAll(beaconCollection);
     }
@@ -364,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         Beacon beacon = getDetectedBeacons();
 
         if (beacon == null) {
+            removeDialog();
             Log.e(TAG, "showDialog: no beacon is eligible for showing");
             return;
         }
@@ -423,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         handleDialog.postDelayed(new Runnable() {
             @Override
             public void run() {
-               removeDialog();
+               //removeDialog();
             }
         },3000);
     }
