@@ -103,8 +103,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
     public void updateBeaconDialog(boolean readSpotDetails) {
         GeoDirections geoDirections = VeeverSensorManager.getInstance().getGeoDirection();
         Spot spot = demoBeacon.spotInfo.getDefaultLanguage();
-        OrientationInfo orientationInfo = demoBeacon.spotInfo.getDefaultLanguage().getDirectionInfo(geoDirections);
-
+        
         if (spot == null) {
             return;
         }
@@ -112,6 +111,8 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         String title = spot.spotName;
         String description = getString(R.string.app_dialog_description_center);
         String direction = VeeverSensorManager.getInstance().getDirectionText(getContext());
+
+        OrientationInfo orientationInfo = spot.getDirectionInfo(geoDirections);
 
         if (orientationInfo != null) {
             description = orientationInfo.description;
