@@ -423,12 +423,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         fragmentTransaction.setCustomAnimations(0,0);
         fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
         fragmentTransaction.commitAllowingStateLoss(); // save the changes
-        handleDialog.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-               //removeDialog();
-            }
-        },3000);
     }
 
     public void removeDialog() {
