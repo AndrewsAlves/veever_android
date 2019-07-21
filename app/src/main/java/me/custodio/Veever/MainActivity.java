@@ -51,6 +51,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
+import static me.custodio.Veever.datamodel.LanguageType.ENGLISH;
+import static me.custodio.Veever.datamodel.LanguageType.PORTUGUESE;
+
 /**
  * Created by Andrews on 17,May,2019
  */
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         stableBeaconList = new ArrayList<>();
 
+
         TextToSpeechManager.getInstance().speak(res.getString(R.string.app_main_speak_veeverinitialised));
 
         //textToSpeak.speak("Tap on the upper area of the screen to activate ");
@@ -142,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     protected void onStart() {
         super.onStart();
         VeeverSensorManager.getInstance().register(this);
+        TextToSpeechManager.getInstance().setLanguage(Settings.DEFAULT_LOCALE);
     }
 
     @Override
@@ -279,6 +284,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     public void startBeaconMonitoring() {
 
+        TextToSpeechManager.getInstance().setLanguage(Settings.DEFAULT_LOCALE);
+
         MultiplePermissionsListener snackbarListener =
                 SnackbarOnAnyDeniedMultiplePermissionsListener.Builder
                         .with(findViewById(android.R.id.content), R.string.app_permission_location)
@@ -405,6 +412,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         loadFragment(title, description, direction);
         lastGeoDirection = direction;
         updateOrientationInfo();
+
+        switch (beaconModel.spotInfo.getLangugewType()) {
+            case ENGLISH:
+                TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
+            case PORTUGUESE:
+                TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
+        }
 
         if (!lastBeaconId.equals(beaconModel.id)) {
             lastBeaconId = beaconModel.id;

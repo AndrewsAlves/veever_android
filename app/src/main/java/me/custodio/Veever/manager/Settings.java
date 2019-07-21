@@ -30,6 +30,10 @@ public class Settings {
     public static final String TERMS_OF_USE = "https://veever.global/terms";
 
     public static final Locale LOCALE_PORTUGUESE = new Locale("pt", "BR");
+    public static final Locale LOCALE_ENGLISH = Locale.ENGLISH;
+
+    public static Locale DEFAULT_LOCALE = Locale.ENGLISH;
+
 
     public static Spot getSpotBasedOnLanguage(Context context,SpotInfo spotInfo) {
 
@@ -90,13 +94,16 @@ public class Settings {
         String language = getSettings(context, PREFS_LANGUAGE);
 
         if (language.equals("Default")) {
-            return Locale.getDefault();
+            DEFAULT_LOCALE = Locale.getDefault();
+            return DEFAULT_LOCALE;
         }
 
         if (language.equals(PORTUGUESE)) {
-            return Settings.LOCALE_PORTUGUESE;
+            DEFAULT_LOCALE = Settings.LOCALE_PORTUGUESE;
         } else {
-            return Locale.US;
+            DEFAULT_LOCALE =  Locale.US;
         }
+
+        return DEFAULT_LOCALE;
     }
 }

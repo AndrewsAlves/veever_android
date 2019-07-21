@@ -3,6 +3,7 @@ package me.custodio.Veever.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
@@ -18,9 +19,11 @@ import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
 import me.custodio.Veever.GeoDirections;
 import me.custodio.Veever.R;
 import me.custodio.Veever.datamodel.BeaconModel;
+import me.custodio.Veever.datamodel.LanguageType;
 import me.custodio.Veever.datamodel.OrientationInfo;
 import me.custodio.Veever.datamodel.Spot;
 import me.custodio.Veever.manager.DatabaseManager;
+import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
 import me.custodio.Veever.manager.VeeverSensorManager;
 
@@ -127,6 +130,13 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         textViewMainTitle.setText(title);
         textViewSubtitle.setText(description);
         textViewDirection.setText(direction);
+
+        switch (demoBeacon.spotInfo.getLangugewType()) {
+            case ENGLISH:
+                TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
+            case PORTUGUESE:
+                TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
+        }
 
         TextToSpeechManager.getInstance().speak(speechText);
     }

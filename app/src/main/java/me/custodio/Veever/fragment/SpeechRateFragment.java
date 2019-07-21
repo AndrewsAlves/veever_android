@@ -40,6 +40,8 @@ public class SpeechRateFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_speech_rate, container, false);
         ButterKnife.bind(this,v);
 
+        TextToSpeechManager.getInstance().setLanguage(Settings.DEFAULT_LOCALE);
+
         speechRate = Float.valueOf(Settings.getSettings(getContext(), Settings.PREFS_SPEECHRATE));
         seekBar.setProgress(Math.round(speechRate * 50f));
         setText();
@@ -53,9 +55,7 @@ public class SpeechRateFragment extends Fragment {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
