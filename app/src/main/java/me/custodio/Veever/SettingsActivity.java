@@ -164,6 +164,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ChangeLanguageEvent event) {
+        Settings.DEFAULT_LOCALE = event.locale;
         LocaleChanger.setLocale(event.locale);
         TextToSpeechManager.getInstance().setLanguage(event.locale);
         ActivityRecreationHelper.recreate(this, true);
