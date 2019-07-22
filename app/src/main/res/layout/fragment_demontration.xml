@@ -127,8 +127,8 @@
             android:layout_above="@id/bottomView"
             android:layout_below="@id/topview"
             android:layout_centerInParent="true"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="@dimen/main.dialog.height"
+            android:layout_marginBottom="65dp"
             android:background="@color/veeverwhite"
             android:fontFamily="@font/sf_font_regular"
             android:gravity="center"
@@ -144,7 +144,7 @@
         <RelativeLayout
             android:id="@+id/topview"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="@dimen/main.dialog.height"
             android:layout_alignParentTop="true"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/bg_lime_gradient_top">

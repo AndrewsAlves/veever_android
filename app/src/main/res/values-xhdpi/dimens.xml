@@ -8,4 +8,6 @@
 
     <dimen name="settings.beaconswith.marginbottom">100dp</dimen>
 
+    <dimen name="main.dialog.height">120dp</dimen>
+
 </resources>
