@@ -12,5 +12,6 @@ public enum GeoDirections {
     NORTH_EAST,
     SOUTH_EAST,
     SOUTH_WEST,
-    NORTH_WEST
+    NORTH_WEST,
+    NO_DIRECTION
 }

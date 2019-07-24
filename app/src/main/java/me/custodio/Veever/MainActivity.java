@@ -404,8 +404,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
-        if (spot.getDirectionInfo(geoDirection) != null) {
-            OrientationInfo orientationInfo = spot.getDirectionInfo(geoDirection);
+        OrientationInfo orientationInfo = spot.getDirectionInfo(geoDirection);
+
+        if (orientationInfo != null) {
             description = orientationInfo.description;
         }
 

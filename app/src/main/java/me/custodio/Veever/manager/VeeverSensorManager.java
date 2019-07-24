@@ -36,8 +36,8 @@ public class VeeverSensorManager implements SensorEventListener {
     private float[] mOrientation = new float[3];
     private float mCurrentDegree = 0f;
 
-    private GeoDirections geoDirection;
-    private GeoDirections lastGeoDirection;
+    private GeoDirections geoDirection = GeoDirections.NO_DIRECTION;
+    private GeoDirections lastGeoDirection = GeoDirections.NO_DIRECTION;
 
     public MainActivity mainActivity;
 
@@ -131,10 +131,19 @@ public class VeeverSensorManager implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
     public GeoDirections getGeoDirection() {
+
+        if (geoDirection == null) {
+            return GeoDirections.NO_DIRECTION;
+        }
+
         return geoDirection;
     }
 
     public String getDirectionText(Context context) {
+
+        if (geoDirection == null) {
+            return "No Direction";
+        }
 
             switch (geoDirection) {
                 case NORTH:
@@ -154,7 +163,7 @@ public class VeeverSensorManager implements SensorEventListener {
                 case NORTH_WEST:
                     return context.getString(R.string.direction_northwest);
                 default:
-                    return null;
+                    return "No Direction";
 
             }
     }
