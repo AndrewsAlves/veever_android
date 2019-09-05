@@ -164,7 +164,6 @@ public class VeeverSensorManager implements SensorEventListener {
                     return context.getString(R.string.direction_northwest);
                 default:
                     return "No Direction";
-
             }
     }
 

@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             public void run() {
                 updateBeaconsList();
             }
-        }, 3000);
+        }, 2000);
     }
 
     public void stopUpdatingBeacons() {
@@ -214,10 +214,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
-
-
         stableBeaconList.clear();
         stableBeaconList.addAll(beaconCollection);
+
+        showDialog();
     }
 
     public void setupUIEnabled() {
@@ -461,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             public void run() {
                 lastGeoDirection = " ";
             }
-        }, 8000);
+        }, 5000);
     }
 
     public Beacon getDetectedBeacons() {
