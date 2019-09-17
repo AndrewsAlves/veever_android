@@ -75,10 +75,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @BindView(R.id.ib_settings)
     ImageButton imageButtonSettings;
 
-    @BindView(R.id.pulseLayout)
-    RipplePulseRelativeLayout pulsatorLayout;
-    @BindView(R.id.pulseLayout1)
-    RipplePulseRelativeLayout pulsatorLayout1;
+//    @BindView(R.id.pulseLayout)
+//    RipplePulseRelativeLayout pulsatorLayout;
+//    @BindView(R.id.pulseLayout1)
+//    RipplePulseRelativeLayout pulsatorLayout1;
 
     @BindView(R.id.tv_user_direction)
     TextView textViewUserDirection;
@@ -221,13 +221,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void setupUIEnabled() {
-        pulsatorLayout1.startPulse();
-        handleDialog.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pulsatorLayout.startPulse();
-            }
-        },1250);
+//        pulsatorLayout1.startPulse();
+//        handleDialog.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                pulsatorLayout.startPulse();
+//            }
+//        },1250);
 
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeever.setImageResource(R.drawable.rir_veever_on);
@@ -239,8 +239,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void setupUIDisabled() {
-        pulsatorLayout.stopPulse();
-        pulsatorLayout1.stopPulse();
+//        pulsatorLayout.stopPulse();
+//        pulsatorLayout1.stopPulse();
         textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeever.setImageResource(R.drawable.rir_veever_off);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
@@ -267,14 +267,14 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     ///// OnClick
     //////////////////
 
-    @OnClick(R.id.pulseLayout1)
-    public void activate() {
-        if (isActivated) {
-            disableMonitoring();
-            return;
-        }
-        startBeaconMonitoring();
-    }
+//    @OnClick(R.id.pulseLayout1)
+//    public void activate() {
+//        if (isActivated) {
+//            disableMonitoring();
+//            return;
+//        }
+//        startBeaconMonitoring();
+//    }
 
     @OnClick(R.id.ib_settings)
     public void clickSettings() {

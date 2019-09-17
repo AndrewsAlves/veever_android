@@ -29,16 +29,24 @@
             android:scaleType="fitXY"
             android:src="@drawable/rir_button_eye_off" />
 
-        <com.kuassivi.component.RipplePulseRelativeLayout
-            android:id="@+id/pulseLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:pulse_layout_RippleStartRadiusPercent="1"
-            app:pulse_layout_RippleEndRadiusPercent="80"
-            app:pulse_layout_ShowPreview="true"
-            app:pulse_layout_PulseType="stroke"
-            app:pulse_layout_RippleColor="@color/lime1"
-            app:pulse_layout_PulseDuration="2500"/>
+        <!--<com.airbnb.lottie.LottieAnimationView-->
+            <!--android:id="@+id/animation_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="250dp"-->
+            <!--app:lottie_fileName="veever-animation.json"-->
+            <!--app:lottie_loop="true"-->
+            <!--app:lottie_autoPlay="true" />-->
+
+        <!--<com.kuassivi.component.RipplePulseRelativeLayout-->
+            <!--android:id="@+id/pulseLayout1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="250dp"-->
+            <!--app:pulse_layout_RippleStartRadiusPercent="1"-->
+            <!--app:pulse_layout_RippleEndRadiusPercent="80"-->
+            <!--app:pulse_layout_ShowPreview="true"-->
+            <!--app:pulse_layout_PulseType="stroke"-->
+            <!--app:pulse_layout_RippleColor="@color/lime1"-->
+            <!--app:pulse_layout_PulseDuration="2500"/>-->
 
        <!-- <com.veever.main.AlexaView
             android:id="@+id/alexaview"
@@ -79,7 +87,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/veever_off"
+        android:src="@drawable/rir_veever_off"
         app:srcCompat="@drawable/rir_veever_off" />
 
     <ImageButton

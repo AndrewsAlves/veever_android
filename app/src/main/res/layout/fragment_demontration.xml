@@ -64,7 +64,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/veever_on"
+        android:src="@drawable/rir_veever_on"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/rir_veever_on" />

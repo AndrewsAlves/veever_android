@@ -58,6 +58,7 @@ dependencies {
         transitive = true;
     }
     implementation 'com.onesignal:OneSignal:[3.9.1, 3.99.99]'
+    implementation 'com.airbnb.android:lottie:2.7.0'
 
     // utils
     implementation 'com.jakewharton:butterknife:8.8.1'
