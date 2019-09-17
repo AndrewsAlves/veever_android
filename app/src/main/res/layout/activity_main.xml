@@ -25,9 +25,9 @@
             android:layout_width="50dp"
             android:layout_height="55dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/button_eye_off"
+            android:background="?selectableItemBackgroundBorderless"
             android:scaleType="fitXY"
-            android:background="?selectableItemBackgroundBorderless"/>
+            android:src="@drawable/rir_button_eye_off" />
 
         <com.kuassivi.component.RipplePulseRelativeLayout
             android:id="@+id/pulseLayout1"
@@ -75,11 +75,12 @@
         android:id="@+id/tv_veever"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:src="@drawable/veever_off"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"/>
+        android:src="@drawable/veever_off"
+        app:srcCompat="@drawable/rir_veever_off" />
 
     <ImageButton
         android:visibility="visible"

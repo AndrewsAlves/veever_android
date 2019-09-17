@@ -242,7 +242,8 @@
         android:layout_marginBottom="20dp"
         android:src="@drawable/veever_on"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/rir_veever_on" />
 
     <TextView
         android:id="@+id/tv_version"
