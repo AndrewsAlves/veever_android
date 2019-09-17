@@ -230,10 +230,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         },1250);
 
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
-        textViewVeever.setImageResource(R.drawable.veever_on);
+        textViewVeever.setImageResource(R.drawable.rir_veever_on);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeeverStatus.setText(res.getString(R.string.app_main_activated));
-        imageButtonActivate.setImageResource(R.drawable.button_eye_on);
+        imageButtonActivate.setImageResource(R.drawable.rir_button_eye_on);
         imageButtonSettings.setImageResource(R.drawable.setting_on);
         isActivated = true;
     }
@@ -242,10 +242,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         pulsatorLayout.stopPulse();
         pulsatorLayout1.stopPulse();
         textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
-        textViewVeever.setImageResource(R.drawable.veever_off);
+        textViewVeever.setImageResource(R.drawable.rir_veever_off);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeeverStatus.setText(res.getString(R.string.app_main_initialised));
-        imageButtonActivate.setImageResource(R.drawable.button_eye_off);
+        imageButtonActivate.setImageResource(R.drawable.rir_button_eye_off);
         imageButtonSettings.setImageResource(R.drawable.setting_off);
         isActivated = false;
         removeDialog();
