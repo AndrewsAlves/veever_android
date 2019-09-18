@@ -3,10 +3,10 @@ package me.custodio.Veever.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.SwitchCompat;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,6 @@ import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
 import me.custodio.Veever.GeoDirections;
 import me.custodio.Veever.R;
 import me.custodio.Veever.datamodel.BeaconModel;
-import me.custodio.Veever.datamodel.LanguageType;
 import me.custodio.Veever.datamodel.OrientationInfo;
 import me.custodio.Veever.datamodel.Spot;
 import me.custodio.Veever.manager.DatabaseManager;

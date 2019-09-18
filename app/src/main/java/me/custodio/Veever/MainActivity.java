@@ -8,9 +8,9 @@ import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.RemoteException;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,7 +27,6 @@ import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 
-import com.kuassivi.component.RipplePulseRelativeLayout;
 import me.custodio.Veever.datamodel.BeaconModel;
 import me.custodio.Veever.datamodel.OrientationInfo;
 import me.custodio.Veever.datamodel.Spot;
@@ -50,9 +49,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
-
-import static me.custodio.Veever.datamodel.LanguageType.ENGLISH;
-import static me.custodio.Veever.datamodel.LanguageType.PORTUGUESE;
 
 /**
  * Created by Andrews on 17,May,2019

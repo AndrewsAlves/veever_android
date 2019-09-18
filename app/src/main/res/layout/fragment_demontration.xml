@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -91,7 +91,7 @@
             android:textColor="@color/lime1"
             android:textSize="24sp" />
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_demo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
 
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dialog_beacon"
         android:visibility="gone"
         android:layout_width="match_parent"
@@ -191,11 +191,11 @@
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--- DIALOG -->
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:visibility="gone"
         android:id="@+id/cl_demo_dialog"
         android:layout_width="match_parent"
@@ -211,7 +211,7 @@
             android:background="#000000"
             android:alpha="0.7"/>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/main.dialog.width"
             android:layout_height="250dp"
             android:layout_marginStart="20dp"
@@ -230,7 +230,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/veeverwhite"></FrameLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/topview_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -258,7 +258,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/textView2"
@@ -321,8 +321,8 @@
 
             </LinearLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
