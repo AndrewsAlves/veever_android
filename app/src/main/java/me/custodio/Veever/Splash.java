@@ -5,6 +5,9 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import me.custodio.Veever.manager.FirestoreManager;
+import me.custodio.Veever.manager.SharedPrefsManager;
+
 
 /**
  * Created by Andrews on 17,May,2019
@@ -22,10 +25,22 @@ public class Splash extends AppCompatActivity {
         openMain.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Splash.this, MainActivity.class);
-                startActivity(intent);
+                openDesiredActivity();
             }
         }, 2000);
 
+    }
+
+    public void openDesiredActivity() {
+
+        Intent intent = new Intent(Splash.this, LoginActivity.class);
+
+        String userId = SharedPrefsManager.getUserId(this);
+        if (userId != null) {
+            FirestoreManager.getInstance().userId = userId;
+            intent =  new Intent(Splash.this, MainActivity.class);
+        }
+
+        startActivity(intent);
     }
 }

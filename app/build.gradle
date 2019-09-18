@@ -43,6 +43,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -60,14 +65,17 @@ dependencies {
         transitive = true;
     }
 
+    // facebook
+    implementation 'com.facebook.android:facebook-login:[5,6)'
+
     // google / firebase
     implementation 'com.google.firebase:firebase-database:16.0.4'
     implementation 'com.google.firebase:firebase-auth:19.0.0'
     implementation 'com.google.firebase:firebase-firestore:21.0.0'
 
     // utils
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.karumi:dexter:5.0.0' // runtime permission
     implementation 'com.kuassivi.android.view:ripple-pulse-layout:0.1.9' // ripple animation

@@ -7,95 +7,128 @@
     android:background="@color/veeverblack"
     tools:context="me.custodio.Veever.LoginActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_login_main"
+        android:contentDescription="@string/con_login_img"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sf_font_heavy"
+        android:text="@string/login_description"
+        android:textAlignment="center"
+        android:textColor="@color/veeverwhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="395dp"
-        android:layout_height="453dp"
-        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="270dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/rir_full_white_logo" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
+        <RelativeLayout
+            android:id="@+id/ll_btn_login_facebook"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_facebook_blue"
+            android:gravity="center"
+            android:foreground="?selectableItemBackground"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:letterSpacing="0.03"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            tools:text="Bem-vindo(a) ao Veever edição especial Rock in Rio. Selecione a opção a seguir para realizar o login social e ter uma experiência mais completa no festival ou avance para utilizar o aplicativo de forma anônima. " />
+            <LinearLayout
+                android:id="@+id/ll_faceboook_btn_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_facebook"
+                    android:contentDescription="@string/con_facebook_button"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/sf_font_heavy"
+                    android:text="Entrar com o Facebook"
+                    android:textColor="@color/veeverwhite"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+           <me.custodio.Veever.views.IndeterminantProgressBar
+               android:visibility="gone"
+               android:id="@+id/progressBar_facebook"
+               android:layout_width="25dp"
+               android:layout_height="25dp"
+               android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="124dp"
-            android:orientation="vertical">
+            android:id="@+id/ll_btn_login_guest"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_guest_grey"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:foreground="?selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
+                android:id="@+id/ll_guest_btn_content"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#4F70E7"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <ImageView
-                    android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_facebook" />
+                    android:src="@drawable/ic_guest"
+                    android:contentDescription="@string/con_facebook_button"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#ffffff"
-                    android:letterSpacing="0.03"
-                    tools:text="Entrar com o Facebook"
-                    />
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/sf_font_heavy"
+                    android:text="Entrar como anônimo"
+                    android:textColor="@color/veeverwhite"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#767676"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_guest" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#ffffff"
-                    android:letterSpacing="0.03"
-                    tools:text="Entrar como anônimo"
-                    />
-            </LinearLayout>
+            <me.custodio.Veever.views.IndeterminantProgressBar
+                android:visibility="gone"
+                android:id="@+id/progressBar_guest"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"/>
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

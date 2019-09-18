@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Veever</string>
+    <string name="facebook_app_id">1065680876961838</string>
+    <string name="fb_login_protocol_scheme">fb1065680876961838</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -47,5 +49,14 @@
     <string name="direction.southwest">SOUTH WEST</string>
     <string name="direction.west">WEST</string>
     <string name="direction.northwest">NORTH WEST</string>
+
+    <string name="login_description">Bem-vindo(a) ao Veever edição especial Rock in Rio. \n\n Selecione a opção a seguir para realizar o login social e ter uma experiência mais completa no festival ou avance para utilizar o aplicativo de forma anônima. </string>
+
+
+    ///// CONTENT DESCRIPTION FOR ACCESIBILITY
+
+    <string name="con_login_img">Login to Veever</string>
+    <string name="con_facebook_button">Login with facebook</string>
+    <string name="con_guest_button">Login as guest</string>
 
 </resources>
