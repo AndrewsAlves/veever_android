@@ -1,7 +1,7 @@
 package me.custodio.Veever.datamodel;
 
 import com.google.gson.annotations.SerializedName;
-import me.custodio.Veever.GeoDirections;
+import me.custodio.Veever.enums.GeoDirections;
 
 import io.realm.RealmObject;
 

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/veeverblack"
     android:keepScreenOn="true"
-    tools:context="me.custodio.Veever.MainActivity">
+    tools:context="me.custodio.Veever.activity.MainActivity">
 
     <com.kuassivi.component.RipplePulseRelativeLayout
         android:id="@+id/pulseLayout"

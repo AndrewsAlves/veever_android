@@ -1,4 +1,4 @@
-package me.custodio.Veever;
+package me.custodio.Veever.fragment.dialog;
 
 
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.custodio.Veever.R;
 
 /**
  * Created by Andrews on 17,May,2019

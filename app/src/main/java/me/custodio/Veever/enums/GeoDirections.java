@@ -1,4 +1,4 @@
-package me.custodio.Veever;
+package me.custodio.Veever.enums;
 
 /**
  * Created by Andrews on 17,May,2019

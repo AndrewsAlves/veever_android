@@ -5,6 +5,8 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import me.custodio.Veever.activity.LoginActivity;
+import me.custodio.Veever.activity.MainActivity;
 import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.SharedPrefsManager;
 

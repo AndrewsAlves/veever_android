@@ -32,6 +32,7 @@
     <string name="app.settings.speechrate.percent">"por cento "</string>
     <string name="app.settings.speech.speechrate">"A taxa de fala é "</string>
     <string name="app.settings.demonstration.dialog.description">"Digite o código de demonstração do beacon abaixo ou continue com o padrão "</string>
+    <string name="app.settings.button.assistance">Ativar requisição de auxílio</string>
 
     <string name="direction.north">NORTE</string>
     <string name="direction.east">LESTE</string>

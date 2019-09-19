@@ -1,4 +1,4 @@
-package me.custodio.Veever;
+package me.custodio.Veever.activity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -27,10 +27,14 @@ import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 
+import me.custodio.Veever.fragment.dialog.BeaconDialogFragment;
+import me.custodio.Veever.enums.GeoDirections;
+import me.custodio.Veever.R;
 import me.custodio.Veever.datamodel.BeaconModel;
 import me.custodio.Veever.datamodel.OrientationInfo;
 import me.custodio.Veever.datamodel.Spot;
 import me.custodio.Veever.manager.DatabaseManager;
+import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
 import me.custodio.Veever.manager.VeeverSensorManager;
@@ -104,7 +108,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
+        fetchFromFirestore();
 
         res = getResources();
 
@@ -130,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         //backgroundPowerSaver = new BackgroundPowerSaver(this);
 
         // update randing beacons for every 3 seconds
+    }
+
+    public void fetchFromFirestore() {
+        FirestoreManager.getInstance().fetchConfigs();
     }
 
     @Override
@@ -410,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         lastGeoDirection = direction;
         updateOrientationInfo();
 
-        switch (beaconModel.spotInfo.getLangugewType()) {
+        switch (beaconModel.spotInfo.getLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
             case PORTUGUESE:

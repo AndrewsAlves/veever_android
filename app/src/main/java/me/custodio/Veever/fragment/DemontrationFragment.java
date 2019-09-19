@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
-import me.custodio.Veever.GeoDirections;
+import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
 import me.custodio.Veever.datamodel.BeaconModel;
 import me.custodio.Veever.datamodel.OrientationInfo;
@@ -130,7 +130,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         textViewSubtitle.setText(description);
         textViewDirection.setText(direction);
 
-        switch (demoBeacon.spotInfo.getLangugewType()) {
+        switch (demoBeacon.spotInfo.getLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
             case PORTUGUESE:

@@ -1,4 +1,4 @@
-package me.custodio.Veever;
+package me.custodio.Veever.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -11,15 +11,19 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.franmontiel.localechanger.LocaleChanger;
 import com.franmontiel.localechanger.utils.ActivityRecreationHelper;
 import me.custodio.Veever.Events.ChangeLanguageEvent;
+import me.custodio.Veever.R;
 import me.custodio.Veever.fragment.DemontrationFragment;
 import me.custodio.Veever.fragment.InterfaceLanguageFragment;
+import me.custodio.Veever.fragment.RequestAssistantFragment;
 import me.custodio.Veever.fragment.SpeechRateFragment;
+import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
 
@@ -38,12 +42,25 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.rl_terms)
     RelativeLayout rlTerms;
 
+    @BindView(R.id.ll_assistant)
+    LinearLayout btnAssistant;
+
+    @BindView(R.id.ll_email)
+    LinearLayout btnEmail;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+
+        if (FirestoreManager.getInstance().configs != null) {
+            if (FirestoreManager.getInstance().configs.askHelp) {
+                btnAssistant.setVisibility(View.VISIBLE);
+                btnEmail.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -63,7 +80,6 @@ public class SettingsActivity extends AppCompatActivity {
         ActivityRecreationHelper.onDestroy(this);
         EventBus.getDefault().unregister(this);
         super.onDestroy();
-
     }
 
     @Override
@@ -86,37 +102,6 @@ public class SettingsActivity extends AppCompatActivity {
     @OnClick(R.id.ll_demostration)
     public void clickDemonstration() {
         openFragment(new DemontrationFragment());
-    }
-
-    @OnClick(R.id.ll_email)
-    public void clickEmail() {
-
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setDataAndType(Uri.parse("contato@veever.com.br"), "text/html");
-        final PackageManager pm = this.getPackageManager();
-        final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
-        String className = null;
-        for (final ResolveInfo info : matches) {
-            if (info.activityInfo.packageName.equals("com.google.android.gm")) {
-                className = info.activityInfo.name;
-
-                if(className != null && !className.isEmpty()){
-                    break;
-                }
-            }
-        }
-
-        if (className == null) {
-            return;
-        }
-
-        emailIntent.setClassName("com.google.android.gm", className);
-
-        try{
-            startActivity(emailIntent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this,"Gmail not fount!",Toast.LENGTH_LONG).show();
-        }
     }
 
     @OnClick(R.id.ll_interface)
@@ -152,6 +137,42 @@ public class SettingsActivity extends AppCompatActivity {
     @OnClick(R.id.ib_quit_settings__btn)
     public void exit() {
         onBackPressed();
+    }
+
+    @OnClick({R.id.ll_assistant})
+    public void clickAssistant() {
+        openFragment(new RequestAssistantFragment());
+    }
+
+    @OnClick(R.id.ll_email)
+    public void clickEmail() {
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setDataAndType(Uri.parse("contato@veever.com.br"), "text/html");
+        final PackageManager pm = this.getPackageManager();
+        final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
+        String className = null;
+        for (final ResolveInfo info : matches) {
+            if (info.activityInfo.packageName.equals("com.google.android.gm")) {
+                className = info.activityInfo.name;
+
+                if(className != null && !className.isEmpty()){
+                    break;
+                }
+            }
+        }
+
+        if (className == null) {
+            return;
+        }
+
+        emailIntent.setClassName("com.google.android.gm", className);
+
+        try{
+            startActivity(emailIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this,"Gmail not fount!",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void openFragment(Fragment fragment) {

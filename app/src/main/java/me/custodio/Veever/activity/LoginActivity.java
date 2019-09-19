@@ -1,4 +1,4 @@
-package me.custodio.Veever;
+package me.custodio.Veever.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,10 +11,7 @@ import android.widget.LinearLayout;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookRequestError;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -23,7 +20,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -33,9 +29,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.custodio.Veever.Events.UserSignUpFailureEvent;
 import me.custodio.Veever.Events.UserSignUpSuccesEvent;
+import me.custodio.Veever.R;
 import me.custodio.Veever.datamodel.User;
 import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.SharedPrefsManager;
+import me.custodio.Veever.manager.Utils;
 import me.custodio.Veever.views.IndeterminantProgressBar;
 
 public class LoginActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
@@ -72,7 +70,6 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
         fbGhostBotton.setReadPermissions(Arrays.asList(EMAIL));
 
         LoginManager.getInstance().registerCallback(callbackManager, this);
-
     }
 
     @Override
@@ -121,11 +118,12 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
                         String firstName = object.getString("first_name");
                         String lastName = object.getString("last_name");
 
-                        User user = new User(object.getString("id"));
+                        User user = new User();
                         user.setEmail(email);
                         user.setFirstName(firstName);
                         user.setLastName(lastName);
                         user.setUserId(id);
+                        user.setCreatedBy(id);
 
                         SharedPrefsManager.saveUserId(this, id);
                         FirestoreManager.getInstance().createNewUser(user);
@@ -146,24 +144,29 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
     @OnClick(R.id.ll_btn_login_guest)
     public void clickGuest() {
 
+        if (!Utils.isNetworkConnected(this)) {
+            return;
+        }
+
         progressBarGuest.setVisibility(View.VISIBLE);
         parentGuestContent.setVisibility(View.GONE);
 
-        String newUserId = UUID.randomUUID().toString();
+        String newUserId = UUID.randomUUID().toString().toUpperCase();
         SharedPrefsManager.saveUserId(this, newUserId);
 
         User user = new User(newUserId);
         user.setCreatedBy(newUserId);
-
-        if(BuildConfig.DEBUG) {
-            user.setFirstName("Andy Developer");
-        }
 
         FirestoreManager.getInstance().createNewUser(user);
     }
 
     @OnClick(R.id.ll_btn_login_facebook)
     public void clickFacebook() {
+
+        if (!Utils.isNetworkConnected(this)) {
+            return;
+        }
+
         fbGhostBotton.performClick();
     }
 

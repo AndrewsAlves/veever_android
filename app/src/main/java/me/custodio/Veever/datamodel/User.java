@@ -7,10 +7,12 @@ import java.util.Date;
 /**
  * Created by Andrews on 18,September,2019
  */
+
 public class User {
 
     @ServerTimestamp
     Date createAt;
+
     String createdBy;
 
     String email;
@@ -20,6 +22,9 @@ public class User {
     String userId;
 
     boolean wantsHelp;
+
+    public User() {
+    }
 
     public User(String userId) {
         this.userId = userId;

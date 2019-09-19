@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/veeverblack"
-    tools:context="me.custodio.Veever.SettingsActivity">
+    tools:context="me.custodio.Veever.activity.SettingsActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -99,6 +99,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="visible"
                 android:id="@+id/ll_email"
                 android:layout_width="100dp"
                 android:layout_height="125dp"
@@ -126,6 +127,37 @@
                     android:textSize="12sp" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_assistant"
+                android:layout_width="100dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@id/guild_center"
+                app:layout_constraintTop_toBottomOf="@+id/ll_demostration"
+                style="@style/ripple_background">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_assistant" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app.settings.assistant"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lime1"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/ll_interface"

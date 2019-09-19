@@ -8,8 +8,8 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
-import me.custodio.Veever.GeoDirections;
-import me.custodio.Veever.MainActivity;
+import me.custodio.Veever.enums.GeoDirections;
+import me.custodio.Veever.activity.MainActivity;
 import me.custodio.Veever.R;
 
 import org.greenrobot.eventbus.EventBus;

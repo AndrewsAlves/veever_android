@@ -2,6 +2,7 @@ package me.custodio.Veever.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 
 import me.custodio.Veever.datamodel.Spot;
 import me.custodio.Veever.datamodel.SpotInfo;
@@ -34,8 +35,7 @@ public class Settings {
 
     public static Locale DEFAULT_LOCALE = Locale.ENGLISH;
 
-
-    public static Spot getSpotBasedOnLanguage(Context context,SpotInfo spotInfo) {
+    public static Spot getSpotBasedOnLanguage(Context context, SpotInfo spotInfo) {
 
         if (spotInfo.defaultLanguage.equals(ENGLISH)) {
             return spotInfo.english;
@@ -106,4 +106,6 @@ public class Settings {
 
         return DEFAULT_LOCALE;
     }
+
+
 }

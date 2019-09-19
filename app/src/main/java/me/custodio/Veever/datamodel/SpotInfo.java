@@ -27,7 +27,7 @@ public class SpotInfo extends RealmObject {
         }
     }
 
-    public LanguageType getLangugewType() {
+    public LanguageType getLanguageType() {
         if (defaultLanguage.equals("ptBR")) {
             return LanguageType.PORTUGUESE;
         } else {

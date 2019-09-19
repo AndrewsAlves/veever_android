@@ -30,6 +30,8 @@
     <string name="app.settings.speechrate.title">SPEECH  RATE</string>
     <string name="app.settings.demonstration.title">DEMOSTRATION  MODE</string>
     <string name="app.settings.contact">CONTACT  VIA E-MAIL</string>
+    <string name="app.settings.assistant">REQUEST \nAssistant</string>
+    <string name="app.settings.assistant.title">REQUEST ASSISTANT</string>
     <string name="app.settings.terms">TERMS OF USE</string>
     <string name="app.settings.website">WEBSITE</string>
     <string name="app.settings.version">VERSION 1.0</string>
@@ -40,6 +42,7 @@
     <string name="app.settings.speechrate.percent">percent</string>
     <string name="app.settings.demonstration.dialog.description">Type the beacon demo code below or continue with the default one</string>
     <string name="app.settings.demonstration.middle.desc">Use the switch below to simulate \nthat a beacon has come \ninto your range</string>
+    <string name="app.settings.assistant.middle.desc">When requesting assistance, one of our employees will be alerted about your position and will meet you, so we ask you to wait in place and lift your device up.\n\nThat way we can find you more easily.\n\nWarning: Due the size of the event area we may take a few minutes. As we approach you, our contributor will say the word :</string>
 
     <string name="direction.north">NORTH</string>
     <string name="direction.northeast">NORTH EAST</string>
@@ -51,6 +54,7 @@
     <string name="direction.northwest">NORTH WEST</string>
 
     <string name="login_description">Bem-vindo(a) ao Veever edição especial Rock in Rio. \n\n Selecione a opção a seguir para realizar o login social e ter uma experiência mais completa no festival ou avance para utilizar o aplicativo de forma anônima. </string>
+    <string name="app.settings.button.assistance">Activate Assistance Request</string>
 
 
     ///// CONTENT DESCRIPTION FOR ACCESIBILITY
@@ -58,5 +62,8 @@
     <string name="con_login_img">Login to Veever</string>
     <string name="con_facebook_button">Login with facebook</string>
     <string name="con_guest_button">Login as guest</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

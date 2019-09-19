@@ -118,7 +118,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:context="me.custodio.Veever.BeaconDialogFragment"
+        tools:context="me.custodio.Veever.fragment.dialog.BeaconDialogFragment"
         tools:layout_editor_absoluteX="50dp">
 
         <TextView
