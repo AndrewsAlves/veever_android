@@ -1,6 +1,6 @@
 package me.custodio.Veever.api;
 
-import me.custodio.Veever.datamodel.BeaconModel;
+import me.custodio.Veever.model.BeaconModel;
 
 import java.util.List;
 

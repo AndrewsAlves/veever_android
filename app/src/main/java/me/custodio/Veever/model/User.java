@@ -1,5 +1,6 @@
-package me.custodio.Veever.datamodel;
+package me.custodio.Veever.model;
 
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -17,9 +18,10 @@ public class User {
 
     String email;
     String firstName;
-    String geoLocation;
+    GeoPoint geoLocation;
     String lastName;
     String userId;
+    String safeWord;
 
     boolean wantsHelp;
 
@@ -46,10 +48,6 @@ public class User {
         return firstName;
     }
 
-    public String getGeoLocation() {
-        return geoLocation;
-    }
-
     public String getLastName() {
         return lastName;
     }
@@ -74,8 +72,16 @@ public class User {
         this.firstName = firstName;
     }
 
-    public void setGeoLocation(String geoLocation) {
+    public void setGeoLocation(GeoPoint geoLocation) {
         this.geoLocation = geoLocation;
+    }
+
+    public String getSafeWord() {
+        return safeWord;
+    }
+
+    public void setSafeWord(String safeWord) {
+        this.safeWord = safeWord;
     }
 
     public void setLastName(String lastName) {
@@ -88,5 +94,9 @@ public class User {
 
     public void setWantsHelp(boolean wantsHelp) {
         this.wantsHelp = wantsHelp;
+    }
+
+    public GeoPoint getGeoLocation() {
+        return geoLocation;
     }
 }

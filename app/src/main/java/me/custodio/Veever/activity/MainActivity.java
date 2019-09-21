@@ -30,9 +30,9 @@ import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsLi
 import me.custodio.Veever.fragment.dialog.BeaconDialogFragment;
 import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
-import me.custodio.Veever.datamodel.BeaconModel;
-import me.custodio.Veever.datamodel.OrientationInfo;
-import me.custodio.Veever.datamodel.Spot;
+import me.custodio.Veever.model.BeaconModel;
+import me.custodio.Veever.model.OrientationInfo;
+import me.custodio.Veever.model.Spot;
 import me.custodio.Veever.manager.DatabaseManager;
 import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.Settings;
@@ -53,6 +53,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
+import me.custodio.Veever.views.ColorLottieView;
 
 /**
  * Created by Andrews on 17,May,2019
@@ -75,10 +76,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @BindView(R.id.ib_settings)
     ImageButton imageButtonSettings;
 
-//    @BindView(R.id.pulseLayout)
-//    RipplePulseRelativeLayout pulsatorLayout;
-//    @BindView(R.id.pulseLayout1)
-//    RipplePulseRelativeLayout pulsatorLayout1;
+    @BindView(R.id.animation_view)
+    ColorLottieView lottieView;
 
     @BindView(R.id.tv_user_direction)
     TextView textViewUserDirection;
@@ -113,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         fetchFromFirestore();
 
         res = getResources();
+
+        lottieView.setSpeed(0.5f);
+        lottieView.updateColor(res.getColor(R.color.veeverwhite));
 
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.setEnableScheduledScanJobs(false);
@@ -227,14 +229,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void setupUIEnabled() {
-//        pulsatorLayout1.startPulse();
-//        handleDialog.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                pulsatorLayout.startPulse();
-//            }
-//        },1250);
-
+        lottieView.setSpeed(1.0f);
+        lottieView.updateColor(res.getColor(R.color.lime1));
         textViewUserDirection.setTextColor(getResources().getColor(R.color.lime2));
         textViewVeever.setImageResource(R.drawable.rir_veever_on);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.lime2));
@@ -245,8 +241,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void setupUIDisabled() {
-//        pulsatorLayout.stopPulse();
-//        pulsatorLayout1.stopPulse();
+        lottieView.setSpeed(0.5f);
+        lottieView.updateColor(res.getColor(R.color.veeverwhite));
         textViewUserDirection.setTextColor(getResources().getColor(R.color.veeverwhite));
         textViewVeever.setImageResource(R.drawable.rir_veever_off);
         textViewVeeverStatus.setTextColor(getResources().getColor(R.color.veeverwhite));
@@ -273,14 +269,14 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     ///// OnClick
     //////////////////
 
-//    @OnClick(R.id.pulseLayout1)
-//    public void activate() {
-//        if (isActivated) {
-//            disableMonitoring();
-//            return;
-//        }
-//        startBeaconMonitoring();
-//    }
+    @OnClick(R.id.animation_view)
+    public void activate() {
+       if (isActivated) {
+           disableMonitoring();
+           return;
+        }
+        startBeaconMonitoring();
+    }
 
     @OnClick(R.id.ib_settings)
     public void clickSettings() {
@@ -315,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         };
 
         Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
+                .withPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.BLUETOOTH_ADMIN)
                 .withListener(new CompositeMultiplePermissionsListener(multiplePermissionsListener, snackbarListener))
                 .check();

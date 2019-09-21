@@ -52,7 +52,7 @@ public class RequestAssistantFragment extends Fragment {
     @OnClick(R.id.btn_request_assistance)
     public void requestAssitance() {
         Intent intent  = new Intent(getActivity(), RequestAssistantActiivty.class);
-        intent.putExtra("random_word", random);
+        intent.putExtra("safe_word", random);
         startActivity(intent);
     }
 

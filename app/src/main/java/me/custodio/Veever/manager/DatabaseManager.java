@@ -3,8 +3,8 @@ package me.custodio.Veever.manager;
 import android.content.Context;
 
 import me.custodio.Veever.VeeverMigration;
-import me.custodio.Veever.datamodel.BeaconModel;
-import me.custodio.Veever.datamodel.Spot;
+import me.custodio.Veever.model.BeaconModel;
+import me.custodio.Veever.model.Spot;
 
 import java.util.List;
 

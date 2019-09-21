@@ -1,4 +1,4 @@
-package me.custodio.Veever.datamodel;
+package me.custodio.Veever.model;
 
 import java.util.List;
 import java.util.Map;

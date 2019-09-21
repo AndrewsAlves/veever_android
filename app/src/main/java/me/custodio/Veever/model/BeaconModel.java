@@ -1,4 +1,4 @@
-package me.custodio.Veever.datamodel;
+package me.custodio.Veever.model;
 
 import com.google.gson.annotations.SerializedName;
 

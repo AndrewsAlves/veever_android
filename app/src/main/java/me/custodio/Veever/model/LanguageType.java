@@ -1,4 +1,4 @@
-package me.custodio.Veever.datamodel;
+package me.custodio.Veever.model;
 
 /**
  * Created by Admin on 21,July,2019

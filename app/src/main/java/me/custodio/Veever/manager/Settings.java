@@ -2,10 +2,9 @@ package me.custodio.Veever.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 
-import me.custodio.Veever.datamodel.Spot;
-import me.custodio.Veever.datamodel.SpotInfo;
+import me.custodio.Veever.model.Spot;
+import me.custodio.Veever.model.SpotInfo;
 
 import java.util.Locale;
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import me.custodio.Veever.api.BeaconsEndPoint;
-import me.custodio.Veever.datamodel.BeaconModel;
+import me.custodio.Veever.model.BeaconModel;
 
 import java.util.List;
 

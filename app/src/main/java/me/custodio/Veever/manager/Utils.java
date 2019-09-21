@@ -7,6 +7,7 @@ import android.widget.Toast;
 /**
  * Created by Andrews on 19,September,2019
  */
+
 public class Utils {
 
     public static boolean isNetworkConnected(Context context) {

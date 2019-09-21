@@ -1,6 +1,7 @@
 package me.custodio.Veever.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,12 +11,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+
 import org.greenrobot.eventbus.EventBus;
 
+import me.custodio.Veever.Events.AskHelpSuccessEvent;
+import me.custodio.Veever.Events.FetchUserFailureEvent;
+import me.custodio.Veever.Events.FetchUserSuccessEvent;
 import me.custodio.Veever.Events.UserSignUpFailureEvent;
 import me.custodio.Veever.Events.UserSignUpSuccesEvent;
-import me.custodio.Veever.datamodel.Configs;
-import me.custodio.Veever.datamodel.User;
+import me.custodio.Veever.model.Configs;
+import me.custodio.Veever.model.User;
 
 /**
  * Created by Andrews on 18,September,2019
@@ -34,7 +40,9 @@ public class FirestoreManager {
 
     private static FirestoreManager ourInstance;
 
+    public User user;
     public String userId;
+    public String documentID;
     public Configs configs;
 
     FirebaseFirestore firestore;
@@ -52,13 +60,20 @@ public class FirestoreManager {
         ourInstance = new FirestoreManager(context);
     }
 
-    public void createNewUser(User user) {
-        firestore.collection(DB_USER).document()
-                .set(user)
+    public void createNewUser(Context context,User userModel) {
+
+        documentID = firestore.collection(DB_USER).document().getId();
+
+        firestore.collection(DB_USER).document(documentID)
+                .set(userModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        user = userModel;
+
+                        SharedPrefsManager.saveUserId(context, userModel.getUserId(), documentID);
                         EventBus.getDefault().post(new UserSignUpSuccesEvent());
+
                         Log.d(TAG, "DocumentSnapshot : Account successfully written!");
                     }
                 })
@@ -67,6 +82,24 @@ public class FirestoreManager {
                     public void onFailure(@NonNull Exception e) {
                         EventBus.getDefault().post(new UserSignUpFailureEvent());
                         Log.w(TAG, "Error Creating document", e);
+                    }
+                });
+    }
+
+    public void fetchUser() {
+        firestore.collection(DB_USER).document(documentID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        user = documentSnapshot.toObject(User.class);
+                        EventBus.getDefault().post(new FetchUserSuccessEvent());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                        EventBus.getDefault().post(new FetchUserFailureEvent());
                     }
                 });
     }
@@ -88,5 +121,33 @@ public class FirestoreManager {
                         e.printStackTrace();
                     }
         });
+    }
+
+    public void askHelpAndUpdateLocation(String safeWord, GeoPoint geoPoint, boolean askHelp) {
+
+        if (user == null ) {
+            return;
+        }
+
+        user.setWantsHelp(askHelp);
+        user.setGeoLocation(geoPoint);
+        user.setSafeWord(safeWord);
+
+        firestore.collection(DB_USER).document(documentID)
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        if (askHelp) {
+                            EventBus.getDefault().post(new AskHelpSuccessEvent());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure() called with: e = [" + e + "]");
+                    }
+                });
     }
 }

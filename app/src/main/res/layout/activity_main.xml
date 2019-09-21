@@ -8,16 +8,10 @@
     android:keepScreenOn="true"
     tools:context="me.custodio.Veever.activity.MainActivity">
 
-    <com.kuassivi.component.RipplePulseRelativeLayout
-        android:id="@+id/pulseLayout"
+    <RelativeLayout
+        android:id="@+id/rv_topview"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main.layout.top"
-        app:pulse_layout_RippleStartRadiusPercent="1"
-        app:pulse_layout_RippleEndRadiusPercent="80"
-        app:pulse_layout_ShowPreview="true"
-        app:pulse_layout_PulseType="stroke"
-        app:pulse_layout_RippleColor="@color/lime1"
-        app:pulse_layout_PulseDuration="2500"
         style="@style/ripple_background">
 
         <ImageButton
@@ -29,13 +23,13 @@
             android:scaleType="fitXY"
             android:src="@drawable/rir_button_eye_off" />
 
-        <!--<com.airbnb.lottie.LottieAnimationView-->
-            <!--android:id="@+id/animation_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="250dp"-->
-            <!--app:lottie_fileName="veever_animation.json"-->
-            <!--app:lottie_loop="true"-->
-            <!--app:lottie_autoPlay="true" />-->
+        <me.custodio.Veever.views.ColorLottieView
+            android:id="@+id/animation_view"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:lottie_fileName="veever_animation.json"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
 
         <!--<com.kuassivi.component.RipplePulseRelativeLayout-->
             <!--android:id="@+id/pulseLayout1"-->
@@ -53,19 +47,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" /> -->
 
-        <TextView
-            android:id="@+id/tv_veever_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app.main.initialised"
-            android:textColor="@color/veeverwhite"
-            android:textSize="20sp"
-            android:textAllCaps="true"
-            android:fontFamily="@font/sf_font_heavy"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
 
-    </com.kuassivi.component.RipplePulseRelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_below="@id/rv_topview"
+        android:id="@+id/tv_veever_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app.main.initialised"
+        android:textColor="@color/veeverwhite"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:textAllCaps="true"
+        android:fontFamily="@font/sf_font_heavy"
+        android:layout_centerHorizontal="true"/>
 
     <!-- main screen content -->
     <TextView
@@ -110,7 +107,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginBottom="20dp"
         android:layout_above="@id/tv_veever"
-        android:layout_below="@id/pulseLayout">
+        android:layout_below="@id/rv_topview">
 
         <!-- this code is just to preview fragment -->
        <!-- <fragment

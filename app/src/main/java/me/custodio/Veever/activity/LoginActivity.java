@@ -30,9 +30,8 @@ import butterknife.OnClick;
 import me.custodio.Veever.Events.UserSignUpFailureEvent;
 import me.custodio.Veever.Events.UserSignUpSuccesEvent;
 import me.custodio.Veever.R;
-import me.custodio.Veever.datamodel.User;
+import me.custodio.Veever.model.User;
 import me.custodio.Veever.manager.FirestoreManager;
-import me.custodio.Veever.manager.SharedPrefsManager;
 import me.custodio.Veever.manager.Utils;
 import me.custodio.Veever.views.IndeterminantProgressBar;
 
@@ -125,8 +124,7 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
                         user.setUserId(id);
                         user.setCreatedBy(id);
 
-                        SharedPrefsManager.saveUserId(this, id);
-                        FirestoreManager.getInstance().createNewUser(user);
+                        FirestoreManager.getInstance().createNewUser(this, user);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -152,12 +150,11 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
         parentGuestContent.setVisibility(View.GONE);
 
         String newUserId = UUID.randomUUID().toString().toUpperCase();
-        SharedPrefsManager.saveUserId(this, newUserId);
 
         User user = new User(newUserId);
         user.setCreatedBy(newUserId);
 
-        FirestoreManager.getInstance().createNewUser(user);
+        FirestoreManager.getInstance().createNewUser(this, user);
     }
 
     @OnClick(R.id.ll_btn_login_facebook)
