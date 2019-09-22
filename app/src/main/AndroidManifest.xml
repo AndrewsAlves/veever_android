@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/rir_ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.RequestAssistantActiivty"></activity>
+        <activity android:name=".activity.FirestoreTestingActivity"></activity>
+        <activity android:name=".activity.RequestAssistantActiivty" />
         <activity android:name=".activity.LoginActivity" />
         <activity
             android:name=".Splash"
@@ -30,7 +31,6 @@
             android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -55,11 +55,11 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
     </application>
-
-    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
 </manifest>

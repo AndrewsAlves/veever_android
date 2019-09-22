@@ -38,6 +38,9 @@ public class BeaconModel {
 
     String uuid;
 
+    public BeaconModel() {
+    }
+
     public String getBrand() {
         return brand;
     }

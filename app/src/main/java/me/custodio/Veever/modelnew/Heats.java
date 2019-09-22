@@ -21,6 +21,9 @@ public class Heats {
 
     GeoPoint userLocation;
 
+    public Heats() {
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -60,4 +63,5 @@ public class Heats {
     public void setUserLocation(GeoPoint userLocation) {
         this.userLocation = userLocation;
     }
+
 }

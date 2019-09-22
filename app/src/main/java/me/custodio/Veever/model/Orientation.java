@@ -10,28 +10,20 @@ import io.realm.RealmObject;
 
 public class Orientation extends RealmObject {
 
-    @SerializedName("north")
-    public OrientationInfo northInfo;
+    public OrientationInfo east;
 
-    @SerializedName("east")
-    public OrientationInfo eastInfo;
+    public OrientationInfo north;
 
-    @SerializedName("south")
-    public OrientationInfo southInfo;
+    public OrientationInfo northEast;
 
-    @SerializedName("west")
-    public OrientationInfo westInfo;
+    public OrientationInfo northWest;
 
-    @SerializedName("northEast")
-    public OrientationInfo northEastInfo;
+    public OrientationInfo south;
 
-    @SerializedName("southEast")
-    public OrientationInfo southEastInfo;
+    public OrientationInfo southEast;
 
-    @SerializedName("northWest")
-    public OrientationInfo northWestInfo;
+    public OrientationInfo southWest;
 
-    @SerializedName("southWest")
-    public OrientationInfo southWestInfo;
+    public OrientationInfo west;
 
 }

@@ -1,5 +1,6 @@
 package me.custodio.Veever.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -15,6 +17,11 @@ import com.facebook.GraphRequest;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,6 +45,8 @@ import me.custodio.Veever.views.IndeterminantProgressBar;
 public class LoginActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
 
     private static final String TAG = "LoginActivity";
+    private static final String email = "contato@veever.com.br";
+    private static final String password = "77s=yWXKuac8vYqF";
 
     private static final String EMAIL = "email";
 
@@ -56,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
     @BindView(R.id.facebook_login_button)
     LoginButton fbGhostBotton;
 
+    FirebaseAuth auth;
+
     private CallbackManager callbackManager;
 
     @Override
@@ -64,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        auth = FirebaseAuth.getInstance();
 
         callbackManager = CallbackManager.Factory.create();
         fbGhostBotton.setReadPermissions(Arrays.asList(EMAIL));
@@ -124,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
                         user.setUserId(id);
                         user.setCreatedBy(id);
 
-                        FirestoreManager.getInstance().createNewUser(this, user);
+                        authAndSignUpUser(user);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -137,6 +149,23 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
         request.executeAsync();
         request.executeAsync();
 
+    }
+
+    public void authAndSignUpUser(User user) {
+
+        if (!Utils.isNetworkConnected(this)){
+            return;
+        }
+
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success
+                        FirestoreManager.getInstance().createNewUser(LoginActivity.this, user);
+                    } else {
+                        Toast.makeText(LoginActivity.this,"signin error occured", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @OnClick(R.id.ll_btn_login_guest)
@@ -154,7 +183,7 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
         User user = new User(newUserId);
         user.setCreatedBy(newUserId);
 
-        FirestoreManager.getInstance().createNewUser(this, user);
+        authAndSignUpUser(user);
     }
 
     @OnClick(R.id.ll_btn_login_facebook)
@@ -169,7 +198,7 @@ public class LoginActivity extends AppCompatActivity implements FacebookCallback
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UserSignUpSuccesEvent event) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

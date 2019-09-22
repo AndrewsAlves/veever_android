@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -25,11 +28,14 @@ import me.custodio.Veever.manager.Utils;
 
 public class Splash extends AppCompatActivity {
 
+    FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         EventBus.getDefault().register(this);
+        auth = FirebaseAuth.getInstance();
 
         Handler openMain = new Handler();
 
@@ -49,17 +55,15 @@ public class Splash extends AppCompatActivity {
 
     public void openDesiredActivity() {
 
-        String userId = SharedPrefsManager.getUserId(this);
-
-        if (userId != null) {
-            FirestoreManager.getInstance().userId = userId;
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser == null) {
+            Intent intent = new Intent(Splash.this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            FirestoreManager.getInstance().userId = SharedPrefsManager.getUserId(this);
             FirestoreManager.getInstance().documentID = SharedPrefsManager.getUserDocumentId(this);
             FirestoreManager.getInstance().fetchUser();
-            return;
         }
-
-        Intent intent = new Intent(Splash.this, LoginActivity.class);
-        startActivity(intent);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

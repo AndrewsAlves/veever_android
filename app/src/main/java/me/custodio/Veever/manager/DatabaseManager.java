@@ -2,7 +2,6 @@ package me.custodio.Veever.manager;
 
 import android.content.Context;
 
-import me.custodio.Veever.VeeverMigration;
 import me.custodio.Veever.model.BeaconModel;
 import me.custodio.Veever.model.Spot;
 
@@ -34,7 +33,6 @@ public class DatabaseManager {
                 .name("veever")
                 .schemaVersion(1)
                 .deleteRealmIfMigrationNeeded()
-                .migration(new VeeverMigration())
                 .build();
 
         Realm.setDefaultConfiguration(realmConfiguration);

@@ -1,15 +1,15 @@
-package me.custodio.Veever.model;
-
-import com.google.gson.annotations.SerializedName;
-import me.custodio.Veever.enums.GeoDirections;
+package me.custodio.Veever.modelnew;
 
 import io.realm.RealmObject;
+import me.custodio.Veever.enums.GeoDirections;
+import me.custodio.Veever.model.Orientation;
+import me.custodio.Veever.model.OrientationInfo;
 
 /**
  * Created by Andrews on 17,May,2019
  */
 
-public class Spot extends RealmObject {
+public class SpotInfo extends RealmObject {
 
     public String name;
 
@@ -22,6 +22,9 @@ public class Spot extends RealmObject {
     public String zoneNotification;
 
     public String zoneLocation;
+
+    public SpotInfo() {
+    }
 
     public Orientation getOrientation() {
         return orientation;

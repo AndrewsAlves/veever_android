@@ -6,22 +6,35 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.custodio.Veever.Events.AskHelpSuccessEvent;
+import me.custodio.Veever.Events.FetchBeaconSuccessEvent;
 import me.custodio.Veever.Events.FetchUserFailureEvent;
 import me.custodio.Veever.Events.FetchUserSuccessEvent;
 import me.custodio.Veever.Events.UserSignUpFailureEvent;
 import me.custodio.Veever.Events.UserSignUpSuccesEvent;
 import me.custodio.Veever.model.Configs;
+import me.custodio.Veever.modelnew.Spot;
 import me.custodio.Veever.model.User;
+import me.custodio.Veever.modelnew.BeaconModel;
+import me.custodio.Veever.modelnew.Heats;
+import me.custodio.Veever.modelnew.SpotInfo;
 
 /**
  * Created by Andrews on 18,September,2019
@@ -45,6 +58,10 @@ public class FirestoreManager {
     public String documentID;
     public Configs configs;
 
+    public List<BeaconModel> beaconModelList;
+    public List<Heats> heatsList;
+    public List<Spot> spotList;
+
     FirebaseFirestore firestore;
 
     public static FirestoreManager getInstance() {
@@ -58,6 +75,41 @@ public class FirestoreManager {
 
     public static void intialize(Context context) {
         ourInstance = new FirestoreManager(context);
+    }
+
+    public BeaconModel getBeaconModel(String uuid, int major, int minor) {
+        for (BeaconModel beaconModel : beaconModelList) {
+            if (beaconModel.getUuid().equals(uuid)
+                    && beaconModel.getMajor() == major
+                    && beaconModel.getMinor() == minor ) {
+                return beaconModel;
+            }
+        }
+
+        return null;
+    }
+
+    public Spot getSpotByShortId(String shordId) {
+        for (Spot spot : spotList) {
+            if (spot.getShortCode().equals(shordId)) {
+                return spot;
+            }
+        }
+
+        return null;
+    }
+
+    public Spot getSpot(BeaconModel beaconModel) {
+
+        Spot spot = null;
+
+        Task<DocumentSnapshot> task = firestore.collection(DB_SPOTS).document(beaconModel.getSpot().getId()).get(Source.CACHE);
+
+        if (task.isSuccessful()) {
+            spot = task.getResult().toObject(Spot.class);
+        }
+
+        return spot;
     }
 
     public void createNewUser(Context context,User userModel) {
@@ -100,6 +152,73 @@ public class FirestoreManager {
                     public void onFailure(@NonNull Exception e) {
                         e.printStackTrace();
                         EventBus.getDefault().post(new FetchUserFailureEvent());
+                    }
+                });
+    }
+
+    public void fetchBeacons() {
+
+        beaconModelList = new ArrayList<>();
+        spotList = new ArrayList<>();
+
+        firestore.collection(DB_BEACONS)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            beaconModelList.add(documentSnapshot.toObject(BeaconModel.class));
+                            Log.e(TAG, "onSuccess: beacon" + beaconModelList.toString());
+                        }
+
+                        EventBus.getDefault().post(new FetchBeaconSuccessEvent());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+      /*  firestore.collection(DB_HEATS)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            heatsList.add(documentSnapshot.toObject(Heats.class));
+                            Log.e(TAG, "onSuccess: heats" + heatsList.toString());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                }); |*/
+
+        firestore.collection(DB_SPOTS)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (int i = 0; i < queryDocumentSnapshots.size() ; i++) {
+                            spotList.add(queryDocumentSnapshots.getDocuments().get(i).toObject(Spot.class));
+                            Log.e(TAG, "onSuccess: beacon" + spotList.toString());
+
+                            Log.e(TAG, "onSuccess: " + spotList.get(i).getDefaultLanguage());
+                            Log.e(TAG, "onSuccess: spot info name" + spotList.get(i).getPtBR().get("name"));
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                     }
                 });
     }

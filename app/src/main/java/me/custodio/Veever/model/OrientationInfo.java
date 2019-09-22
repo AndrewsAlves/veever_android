@@ -10,10 +10,7 @@ import io.realm.RealmObject;
 
 public class OrientationInfo  extends RealmObject {
 
-    @SerializedName("orientationTitle")
     public String title;
-
-    @SerializedName("orientationDescription")
-    public String description;
+    public String voiceTitle;
 
 }

@@ -62,7 +62,6 @@ public class APIManager {
                     Log.e(TAG, "onResponse: beacon default language " + beacon.spotInfo.defaultLanguage  );
                 }
 
-                DatabaseManager.getInstance().saveBeacons(response.body());
             }
 
             @Override

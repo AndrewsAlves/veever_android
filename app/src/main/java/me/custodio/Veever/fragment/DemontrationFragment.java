@@ -18,10 +18,10 @@ import android.widget.TextView;
 import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
 import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
+import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.model.BeaconModel;
 import me.custodio.Veever.model.OrientationInfo;
-import me.custodio.Veever.model.Spot;
-import me.custodio.Veever.manager.DatabaseManager;
+import me.custodio.Veever.modelnew.Spot;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
 import me.custodio.Veever.manager.VeeverSensorManager;
@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.custodio.Veever.modelnew.SpotInfo;
 
 import static android.view.View.GONE;
 
@@ -68,7 +69,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
     @BindView(R.id.tv_subtitle)
     TextView textViewSubtitle;
 
-    BeaconModel demoBeacon;
+    Spot spot;
 
     public DemontrationFragment() {
         // Required empty public constructor
@@ -104,33 +105,38 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
     public void updateBeaconDialog(boolean readSpotDetails) {
         GeoDirections geoDirections = VeeverSensorManager.getInstance().getGeoDirection();
-        Spot spot = demoBeacon.spotInfo.getDefaultLanguage();
-        
-        if (spot == null) {
+        SpotInfo spotInfo;
+        if (spot.getDefaultLanguage().equals(Settings.ENGLISH)){
+            spotInfo = (SpotInfo)spot.getEnUS();
+        } else {
+            spotInfo = (SpotInfo)spot.getPtBR();
+        }
+
+        if (spotInfo == null) {
             return;
         }
 
-        String title = spot.spotName;
+        String title = spotInfo.name;
         String description = getString(R.string.app_dialog_description_center);
         String direction = VeeverSensorManager.getInstance().getDirectionText(getContext());
 
-        OrientationInfo orientationInfo = spot.getDirectionInfo(geoDirections);
+        OrientationInfo orientationInfo = spotInfo.getDirectionInfo(geoDirections);
 
         if (orientationInfo != null) {
-            description = orientationInfo.description;
+            description = orientationInfo.voiceTitle;
         }
 
-        String speechText = spot.spotTitle + description + direction;
+        String speechText = spotInfo.voiceName + description + direction;
 
         if (readSpotDetails) {
-            speechText = spot.spotTitle + spot.spotDescription;
+            speechText = spotInfo.voiceName + spotInfo.voiceDescription;
         }
 
         textViewMainTitle.setText(title);
         textViewSubtitle.setText(description);
         textViewDirection.setText(direction);
 
-        switch (demoBeacon.spotInfo.getLanguageType()) {
+        switch (spot.getLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
             case PORTUGUESE:
@@ -180,13 +186,13 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
             shortCode = EditTextShortCode.getText().toString().toUpperCase();
         }
 
-        demoBeacon = DatabaseManager.getInstance().getBeaconByShortCode(shortCode);
+        spot = FirestoreManager.getInstance().getSpotByShortId(shortCode);
 
-        if (demoBeacon == null) {
-            demoBeacon = DatabaseManager.getInstance().getBeaconByShortCode("VEEVER");
+        if (spot == null) {
+            spot = FirestoreManager.getInstance().getSpotByShortId("VEEVER");
         }
 
-        if (demoBeacon != null) {
+        if (spot != null) {
             VeeverSensorManager.getInstance().setDemo(true);
             updateBeaconDialog(true);
         }

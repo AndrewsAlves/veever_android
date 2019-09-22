@@ -27,13 +27,13 @@ import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 
+import me.custodio.Veever.Events.FetchBeaconSuccessEvent;
 import me.custodio.Veever.fragment.dialog.BeaconDialogFragment;
 import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
-import me.custodio.Veever.model.BeaconModel;
+import me.custodio.Veever.modelnew.BeaconModel;
 import me.custodio.Veever.model.OrientationInfo;
-import me.custodio.Veever.model.Spot;
-import me.custodio.Veever.manager.DatabaseManager;
+import me.custodio.Veever.modelnew.Spot;
 import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
@@ -44,6 +44,9 @@ import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,6 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
+import me.custodio.Veever.modelnew.SpotInfo;
 import me.custodio.Veever.views.ColorLottieView;
 
 /**
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
 
         ButterKnife.bind(this);
         fetchFromFirestore();
@@ -123,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         updateOrirentationHander = new Handler();
 
         stableBeaconList = new ArrayList<>();
-
 
         TextToSpeechManager.getInstance().speak(res.getString(R.string.app_main_speak_veeverinitialised));
 
@@ -142,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     public void fetchFromFirestore() {
         FirestoreManager.getInstance().fetchConfigs();
+        FirestoreManager.getInstance().fetchBeacons();
     }
 
     @Override
@@ -174,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     protected void onDestroy() {
         ActivityRecreationHelper.onDestroy(this);
         VeeverSensorManager.getInstance().unRegister();
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -317,6 +323,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 .check();
     }
 
+    //////////////////////////////
+    /////// EVENTS
+    //////////////////////////////
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(FetchBeaconSuccessEvent event) {
+        Log.d(TAG, "onMessageEvent() called with: event = [" + event + "]");
+    }
+
     //////////////////
     /// BEACON OVERRIDE
     //////////////////
@@ -374,13 +389,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         Beacon beacon = getDetectedBeacons();
 
+        GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
+
         if (beacon == null) {
             removeDialog();
             Log.e(TAG, "showDialog: no beacon is eligible for showing");
             return;
         }
 
-        BeaconModel beaconModel = DatabaseManager.getInstance().getBeacon(
+        BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(
                 beacon.getId1().toString(),
                 beacon.getId2().toInt(),
                 beacon.getId3().toInt());
@@ -390,47 +407,49 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             return;
         }
 
-        Spot spot = Settings.getSpotBasedOnLanguage(this,beaconModel.spotInfo);
+        Spot spot = FirestoreManager.getInstance().getSpot(beaconModel);
+        SpotInfo spotInfo = spot.getSpotInfo();
 
         if (spot == null) {
             Log.e(TAG, "showDialog: spot null");
             return;
         }
 
-        String title = spot.spotName;
-        String description = getString(R.string.app_dialog_description_center);
-        String direction = VeeverSensorManager.getInstance().getDirectionText(getBaseContext());
-        GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
+        String dialogTitle = spotInfo.name;
+        String dialogDescription = getString(R.string.app_dialog_description_center);
+        String dialogDirection = VeeverSensorManager.getInstance().getDirectionText(getBaseContext());
 
-        if (lastGeoDirection.equals(direction)) {
+        if (lastGeoDirection.equals(dialogDirection)) {
             return;
         }
 
-        OrientationInfo orientationInfo = spot.getDirectionInfo(geoDirection);
+        OrientationInfo orientationInfo = spot.getSpotInfo().getDirectionInfo(geoDirection);
 
         if (orientationInfo != null) {
-            description = orientationInfo.description;
+            dialogDescription = orientationInfo.title;
         }
 
-        loadFragment(title, description, direction);
-        lastGeoDirection = direction;
+        loadFragment(dialogTitle, dialogDescription, dialogDirection);
+        lastGeoDirection = dialogDirection;
         updateOrientationInfo();
 
-        switch (beaconModel.spotInfo.getLanguageType()) {
+        //SPEAK
+
+        switch (spot.getLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
             case PORTUGUESE:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
         }
 
-        if (!lastBeaconId.equals(beaconModel.id)) {
-            lastBeaconId = beaconModel.id;
-            String speakDescription = spot.spotDescription + description;
-            TextToSpeechManager.getInstance().speak(spot.spotTitle + speakDescription + direction);
+        if (!lastBeaconId.equals(beaconModel.getUuid())) {
+            lastBeaconId = beaconModel.getUuid();
+            String speakDescription = spotInfo.name + dialogDescription;
+            TextToSpeechManager.getInstance().speak(spot + speakDescription + dialogDirection);
             return;
         }
 
-        TextToSpeechManager.getInstance().speak(spot.spotTitle + description + direction);
+        TextToSpeechManager.getInstance().speak(spotInfo.name + spotInfo.voiceDescription + orientationInfo.voiceTitle + dialogDirection);
     }
 
     private void loadFragment(String title, String description, String direction) {
@@ -471,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         for (Beacon beacon : stableBeaconList) {
 
-            BeaconModel beaconModel = DatabaseManager.getInstance().getBeacon(
+            BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(
                     beacon.getId1().toString(),
                     beacon.getId2().toInt(),
                     beacon.getId3().toInt());
@@ -480,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 continue;
             }
 
-            if (getBeaconRanging(beacon.getDistance()).equals(beaconModel.rangingDistance)) {
+            if (getBeaconRanging(beacon.getDistance()).equals(beaconModel.getRangingDistance())) {
                 showBeaconList.add(beacon);
             }
         }
