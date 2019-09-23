@@ -9,10 +9,14 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -38,6 +42,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.security.Provider;
 import java.util.List;
 
 import butterknife.BindView;
@@ -72,8 +77,10 @@ public class RequestAssistantActiivty extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
+        TextToSpeechManager.getInstance().speak(" Our Assistant will reach you in a moment Please stay where you are!");
+
         lottieAnimationView.updateColor(getResources().getColor(R.color.veeverblack));
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
 
         if (getIntent() != null) {
             safeWord = getIntent().getExtras().getString("safe_word");
@@ -81,7 +88,6 @@ public class RequestAssistantActiivty extends AppCompatActivity {
         }
 
         checkGPSAndGetLocation();
-
     }
 
     public void checkGPSAndGetLocation() {
@@ -147,6 +153,13 @@ public class RequestAssistantActiivty extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    2000,
+                    10, locationListenerGPS);
+        } catch (SecurityException ev) {
+            ev.printStackTrace();
+        }
     }
 
     @Override
@@ -157,9 +170,10 @@ public class RequestAssistantActiivty extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == LOCATION_SETTINGS_REQUEST) {
-            if (requestCode == RESULT_OK) {
-                getUserLocation();
+        if (requestCode == LOCATION_SETTINGS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                // Call find location in 3 seconds when GPS is turned on
+                new Handler().postDelayed(() -> getUserLocation(), 6000);
                 Log.e(TAG, "onActivityResult: GPS enabled true");
             }
         }
@@ -172,43 +186,32 @@ public class RequestAssistantActiivty extends AppCompatActivity {
     }
 
     public void getUserLocation() {
+        Location lastKnownLocation = getLocation();
+        if (lastKnownLocation != null) {
+            GeoPoint geoPoint = new GeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+            Toast.makeText(RequestAssistantActiivty.this, " Fetched User location",Toast.LENGTH_SHORT).show();
+            FirestoreManager.getInstance().askHelpAndUpdateLocation(safeWord, geoPoint, true);
+        } else {
+            Log.e(TAG, "onPermissionsChecked: location null");
+        }
+    }
 
-        PermissionListener snackbarListener = SnackbarOnDeniedPermissionListener.Builder
-                        .with(findViewById(android.R.id.content), R.string.app_permission_location)
-                        .withOpenSettingsButton(R.string.app_permission_settings)
-                        .build();
+    public Location getLocation() {
 
-        PermissionListener singlePermissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted(PermissionGrantedResponse response) {
+        Location location = null;
 
-                Location lastKnownLocation = getLastKnownLocation();
-                if (lastKnownLocation != null) {
-                    GeoPoint geoPoint = new GeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+        try {
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        } catch (SecurityException ec) {
+            ec.printStackTrace();
+        }
 
-                    FirestoreManager.getInstance().askHelpAndUpdateLocation(safeWord, geoPoint, true);
-
-                } else {
-                    Log.e(TAG, "onPermissionsChecked: location null");
-                }
-            }
-
-            @Override
-            public void onPermissionDenied(PermissionDeniedResponse response) { }
-
-            @Override
-            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) { }
-        };
-
-        Dexter.withActivity(this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new CompositePermissionListener(singlePermissionListener, snackbarListener))
-                .check();
+        return location;
     }
 
     private Location getLastKnownLocation() {
         locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = locationManager.getProviders(false);
+        List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;
         for (String provider : providers) {
             Location l = null;
@@ -226,14 +229,43 @@ public class RequestAssistantActiivty extends AppCompatActivity {
             if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
                 // Found best last known location: %s", l);
                 bestLocation = l;
-
             }
         }
+
         return bestLocation;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(AskHelpSuccessEvent event) {
-        TextToSpeechManager.getInstance().speak("Random word is " + safeWord + " Our Assistant will reach you in a moment Please stay where you are!");
+        Log.d(TAG, "onMessageEvent() called with: event = [" + event + "]");
     }
+
+    LocationListener locationListenerGPS =new LocationListener() {
+        @Override
+        public void onLocationChanged(android.location.Location location) {
+            if (location == null) {
+                Log.e(TAG, "onLocationChanged: location null");
+                return;
+            }
+            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+            FirestoreManager.getInstance().askHelpAndUpdateLocation(safeWord, geoPoint, true);
+            Toast.makeText(RequestAssistantActiivty.this, " Updated User location",Toast.LENGTH_SHORT).show();
+            //Log.e(TAG, "onLocationChanged: updated user location latitude: " + location.getLatitude());
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 }
