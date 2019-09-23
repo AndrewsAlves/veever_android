@@ -30,7 +30,7 @@
     <string name="app.settings.speechrate.title">SPEECH  RATE</string>
     <string name="app.settings.demonstration.title">DEMOSTRATION  MODE</string>
     <string name="app.settings.contact">CONTACT  VIA E-MAIL</string>
-    <string name="app.settings.assistant">REQUEST \nAssistant</string>
+    <string name="app.settings.assistant">REQUEST \nASSISTANCE</string>
     <string name="app.settings.assistant.title">REQUEST ASSISTANT</string>
     <string name="app.settings.terms">TERMS OF USE</string>
     <string name="app.settings.website">WEBSITE</string>
@@ -53,15 +53,17 @@
     <string name="direction.west">WEST</string>
     <string name="direction.northwest">NORTH WEST</string>
 
-    <string name="login_description">Bem-vindo(a) ao Veever edição especial Rock in Rio. \n\n Selecione a opção a seguir para realizar o login social e ter uma experiência mais completa no festival ou avance para utilizar o aplicativo de forma anônima. </string>
+    <string name="login_description">Welcome to Veever \nRock in Rio special edition.\n \n Select the following option to perform social login and have a more complete experience in the festival or continue to use the application anonymously.</string>
     <string name="app.settings.button.assistance">Activate Assistance Request</string>
 
 
     ///// CONTENT DESCRIPTION FOR ACCESIBILITY
 
     <string name="con_login_img">Login to Veever</string>
-    <string name="con_facebook_button">Login with facebook</string>
-    <string name="con_guest_button">Login as guest</string>
+    <string name="con_facebook_button">Continue with facebook</string>
+    <string name="con_guest_button">Continue as guest</string>
+
+    <string name="cencel_request">Cancel Request</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

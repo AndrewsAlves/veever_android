@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
+import android.location.Location;
 import android.os.Handler;
 import android.os.RemoteException;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.franmontiel.localechanger.LocaleChanger;
 import com.franmontiel.localechanger.utils.ActivityRecreationHelper;
+import com.google.firebase.firestore.GeoPoint;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
    // private RegionBootstrap regionBootstrap;
     private BeaconManager beaconManager;
+    private Location userLocation;
 
     public List<Beacon> stableBeaconList;
     public Collection<Beacon> beaconCollection;
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     public void fetchFromFirestore() {
         FirestoreManager.getInstance().fetchConfigs();
-        FirestoreManager.getInstance().fetchBeacons();
+        FirestoreManager.getInstance().fetchBeaconsAndSpots();
     }
 
     @Override
@@ -410,10 +413,16 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         }
 
         Spot spot = FirestoreManager.getInstance().getSpot(beaconModel);
-        SpotInfo spotInfo = spot.getSpotInfo();
 
         if (spot == null) {
             Log.e(TAG, "showDialog: spot null");
+            return;
+        }
+
+        SpotInfo spotInfo = spot.getSpotInfo();
+
+        if (spotInfo == null) {
+            Log.e(TAG, "showDialog: spot info null");
             return;
         }
 
@@ -431,13 +440,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             dialogDescription = orientationInfo.title;
         }
 
+        FirestoreManager.getInstance().writeHeats(beaconModel, spot, getUserGeoLocation());
+
         loadFragment(dialogTitle, dialogDescription, dialogDirection);
         lastGeoDirection = dialogDirection;
         updateOrientationInfo();
 
         //SPEAK
 
-        switch (spot.getLanguageType()) {
+        switch (spot.getDefaultLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
             case PORTUGUESE:
@@ -539,5 +550,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         }
 
         return null;
+    }
+
+    public GeoPoint getUserGeoLocation() {
+        return new GeoPoint(userLocation.getLatitude(), userLocation.getLongitude());
     }
 }

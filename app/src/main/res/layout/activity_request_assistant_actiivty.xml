@@ -32,15 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-   <!-- <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/img_oval"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" /> -->
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -57,7 +48,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:fontFamily="@font/sf_font_heavy"
-        android:text="Cancel Request"
+        android:text="@string/cencel_request"
         android:textColor="@color/veeverblack"
         android:textSize="16sp"
         android:layout_marginBottom="50dp"

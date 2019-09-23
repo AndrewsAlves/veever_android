@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/sf_font_heavy"
-                    android:text="Entrar com o Facebook"
+                    android:text="@string/con_facebook_button"
                     android:textColor="@color/veeverwhite"
                     android:textSize="14sp" />
 
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/sf_font_heavy"
-                    android:text="Entrar como anônimo"
+                    android:text="@string/con_guest_button"
                     android:textColor="@color/veeverwhite"
                     android:textSize="14sp" />
 

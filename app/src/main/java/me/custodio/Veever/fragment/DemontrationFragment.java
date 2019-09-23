@@ -135,7 +135,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         textViewSubtitle.setText(description);
         textViewDirection.setText(direction);
 
-        switch (spot.getLanguageType()) {
+        switch (spot.getDefaultLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
             case PORTUGUESE:

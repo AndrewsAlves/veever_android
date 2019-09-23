@@ -129,23 +129,15 @@ public class Spot {
         this.ptBR = ptBR;
     }
 
-   /*public SpotInfo getSpotInfo() {
-        if (defaultLanguage.equals(Settings.PORTUGUESE)) {
-            return (SpotInfo)ptBR.get("prBR");
-        } else {
-            return (SpotInfo)ptBR.get("enUS");
-        }
-    }*/
-
     public SpotInfo getSpotInfo() {
         if (defaultLanguage.equals(Settings.PORTUGUESE)) {
-            return (SpotInfo)ptBR;
+            return ptBR;
         } else {
-            return (SpotInfo)enUS;
+            return enUS;
         }
     }
 
-    public LanguageType getLanguageType() {
+    public LanguageType getDefaultLanguageType() {
         if (defaultLanguage.equals("ptBR")) {
             return LanguageType.PORTUGUESE;
         } else {

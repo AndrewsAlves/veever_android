@@ -105,6 +105,10 @@ public class FirestoreManager {
 
     public Spot getSpot(BeaconModel beaconModel) {
 
+        if (beaconModel.getSpot() == null) {
+            return null;
+        }
+
         Spot spot = null;
 
         Task<DocumentSnapshot> task = firestore.collection(DB_SPOTS).document(beaconModel.getSpot().getId()).get(Source.CACHE);
@@ -116,31 +120,9 @@ public class FirestoreManager {
         return spot;
     }
 
-    public void createNewUser(Context context,User userModel) {
-
-        documentID = firestore.collection(DB_USER).document().getId();
-
-        firestore.collection(DB_USER).document(documentID)
-                .set(userModel)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        user = userModel;
-
-                        SharedPrefsManager.saveUserId(context, userModel.getUserId(), documentID);
-                        EventBus.getDefault().post(new UserSignUpSuccesEvent());
-
-                        Log.d(TAG, "DocumentSnapshot : Account successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        EventBus.getDefault().post(new UserSignUpFailureEvent());
-                        Log.w(TAG, "Error Creating document", e);
-                    }
-                });
-    }
+    ////////////////////////////////
+    /////////// READS
+    ///////////////////////////////
 
     public void fetchUser() {
         firestore.collection(DB_USER).document(documentID).get()
@@ -160,7 +142,7 @@ public class FirestoreManager {
                 });
     }
 
-    public void fetchBeacons() {
+    public void fetchBeaconsAndSpots() {
 
         beaconModelList = new ArrayList<>();
         spotList = new ArrayList<>();
@@ -228,6 +210,64 @@ public class FirestoreManager {
         });
     }
 
+    //////////////////////////////
+    /////// WRITES
+    //////////////////////////////
+
+    public void createNewUser(Context context,User userModel) {
+
+        documentID = firestore.collection(DB_USER).document().getId();
+
+        firestore.collection(DB_USER).document(documentID)
+                .set(userModel)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        user = userModel;
+
+                        SharedPrefsManager.saveUserId(context, userModel.getUserId(), documentID);
+                        EventBus.getDefault().post(new UserSignUpSuccesEvent());
+
+                        Log.d(TAG, "DocumentSnapshot : Account successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        EventBus.getDefault().post(new UserSignUpFailureEvent());
+                        Log.w(TAG, "Error Creating document", e);
+                    }
+                });
+    }
+
+    public void writeHeats(BeaconModel beaconModel, Spot spot, GeoPoint point){
+
+        Heats heats = new Heats();
+        heats.setCreatedBy(user.getUserId());
+        heats.setGeoLocation(spot.getGeoLocation());
+        heats.setSpot(beaconModel.getSpot().getId());
+        heats.setUserLocation(point);
+
+        firestore.collection(DB_HEATS).document()
+                .set(heats)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess() Write heats [" + aVoid + "]");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure() Write heats: e = [" + e + "]");
+                    }
+                });
+    }
+
+    //////////////////////////////
+    ///////// REQUEST ASSSITANCE
+    //////////////////////////////
+
     public void askHelpAndUpdateLocation(String safeWord, GeoPoint geoPoint, boolean askHelp) {
 
         if (user == null ) {
@@ -255,4 +295,5 @@ public class FirestoreManager {
                     }
                 });
     }
+
 }
