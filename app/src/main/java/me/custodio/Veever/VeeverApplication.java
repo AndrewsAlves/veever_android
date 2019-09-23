@@ -6,8 +6,6 @@ import android.content.res.Configuration;
 import com.franmontiel.localechanger.LocaleChanger;
 import com.onesignal.OneSignal;
 
-import me.custodio.Veever.manager.APIManager;
-import me.custodio.Veever.manager.DatabaseManager;
 import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.TextToSpeechManager;
 import me.custodio.Veever.manager.VeeverSensorManager;

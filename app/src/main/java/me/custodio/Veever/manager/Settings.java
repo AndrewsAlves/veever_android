@@ -3,9 +3,6 @@ package me.custodio.Veever.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import me.custodio.Veever.model.Spot;
-import me.custodio.Veever.model.SpotInfo;
-
 import java.util.Locale;
 
 /**
@@ -33,29 +30,6 @@ public class Settings {
     public static final Locale LOCALE_ENGLISH = Locale.ENGLISH;
 
     public static Locale DEFAULT_LOCALE = Locale.ENGLISH;
-
-    public static Spot getSpotBasedOnLanguage(Context context, SpotInfo spotInfo) {
-
-        if (spotInfo.defaultLanguage.equals(ENGLISH)) {
-            return spotInfo.english;
-        } else {
-            return spotInfo.portuguese;
-        }
-
-      /*  if (getSettings(context, PREFS_LANGUAGE).equals(ENGLISH)) {
-            if (spotInfo.english == null) {
-                return spotInfo.portuguese;
-            } else {
-                return spotInfo.english;
-            }
-        } else {
-            if (spotInfo.portuguese == null) {
-                return spotInfo.english;
-            } else {
-                return spotInfo.portuguese;
-            }
-        } */
-    }
 
     public static void saveLanguage(Context context,String language) {
         SharedPreferences sp = context.getSharedPreferences(PREFS_VEEVER , Context.MODE_PRIVATE);

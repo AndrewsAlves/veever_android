@@ -31,9 +31,9 @@ import me.custodio.Veever.Events.FetchBeaconSuccessEvent;
 import me.custodio.Veever.fragment.dialog.BeaconDialogFragment;
 import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
-import me.custodio.Veever.modelnew.BeaconModel;
+import me.custodio.Veever.model.BeaconModel;
 import me.custodio.Veever.model.OrientationInfo;
-import me.custodio.Veever.modelnew.Spot;
+import me.custodio.Veever.model.Spot;
 import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
@@ -56,7 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
-import me.custodio.Veever.modelnew.SpotInfo;
+import me.custodio.Veever.model.SpotInfo;
 import me.custodio.Veever.views.ColorLottieView;
 
 /**
@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     private static final double IMMEDIATE = 0.2000;
     private static final double NEAR = 3.000;
     private static final double FAR = 10.0000;
+
+    private static String BASE_URL = "https://api.veever.experio.com.br/";
 
     @BindView(R.id.tv_veever)
     ImageView textViewVeever;

@@ -1,17 +1,14 @@
 package me.custodio.Veever.manager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -30,11 +27,10 @@ import me.custodio.Veever.Events.FetchUserSuccessEvent;
 import me.custodio.Veever.Events.UserSignUpFailureEvent;
 import me.custodio.Veever.Events.UserSignUpSuccesEvent;
 import me.custodio.Veever.model.Configs;
-import me.custodio.Veever.modelnew.Spot;
+import me.custodio.Veever.model.Spot;
 import me.custodio.Veever.model.User;
-import me.custodio.Veever.modelnew.BeaconModel;
-import me.custodio.Veever.modelnew.Heats;
-import me.custodio.Veever.modelnew.SpotInfo;
+import me.custodio.Veever.model.BeaconModel;
+import me.custodio.Veever.model.Heats;
 
 /**
  * Created by Andrews on 18,September,2019
@@ -97,6 +93,14 @@ public class FirestoreManager {
         }
 
         return null;
+    }
+
+    public List<BeaconModel> getBeaconModelList() {
+        return beaconModelList;
+    }
+
+    public List<Spot> getSpotList() {
+        return spotList;
     }
 
     public Spot getSpot(BeaconModel beaconModel) {
@@ -180,24 +184,6 @@ public class FirestoreManager {
 
                     }
                 });
-
-      /*  firestore.collection(DB_HEATS)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            heatsList.add(documentSnapshot.toObject(Heats.class));
-                            Log.e(TAG, "onSuccess: heats" + heatsList.toString());
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                }); |*/
 
         firestore.collection(DB_SPOTS)
                 .get()

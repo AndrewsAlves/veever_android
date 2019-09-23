@@ -1,4 +1,4 @@
-package me.custodio.Veever.modelnew;
+package me.custodio.Veever.model;
 
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ServerTimestamp;

@@ -1,53 +1,147 @@
 package me.custodio.Veever.model;
 
-import com.google.gson.annotations.SerializedName;
-import me.custodio.Veever.enums.GeoDirections;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.ServerTimestamp;
 
-import io.realm.RealmObject;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import me.custodio.Veever.manager.Settings;
 
 /**
- * Created by Andrews on 17,May,2019
+ * Created by Andrews on 21,September,2019
  */
+public class Spot {
 
-public class Spot extends RealmObject {
+    @ServerTimestamp
+    Date createdAt;
 
-    public String name;
+    String createdBy;
 
-    public Orientation orientation;
+    String defaultLanguage;
 
-    public String voiceDescription;
+    boolean deleted;
 
-    public String voiceName;
+    Map<String, Object> enUS;
 
-    public String zoneNotification;
+    GeoPoint geoLocation;
 
-    public String zoneLocation;
+    List<String> pictures;
 
-    public Orientation getOrientation() {
-        return orientation;
+    Map<String, Object> ptBR;
+
+    String shortCode;
+
+    @ServerTimestamp
+    Date updatedAt;
+
+    String updatedBy;
+
+    public Spot() {
     }
 
-    public OrientationInfo getDirectionInfo(GeoDirections geoDirections) {
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-        switch (geoDirections) {
-            case NORTH:
-                return orientation.north;
-            case NORTH_EAST:
-                return orientation.northEast;
-            case EAST:
-                return orientation.east;
-            case SOUTH_EAST:
-                return orientation.southEast;
-            case SOUTH:
-                return orientation.south;
-            case SOUTH_WEST:
-                return orientation.southWest;
-            case WEST:
-                return orientation.west;
-            case NORTH_WEST:
-                return orientation.northWest;
-           default:
-               return null;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    public void setDefaultLanguage(String defaultLanguage) {
+        this.defaultLanguage = defaultLanguage;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public GeoPoint getGeoLocation() {
+        return geoLocation;
+    }
+
+    public void setGeoLocation(GeoPoint geoLocation) {
+        this.geoLocation = geoLocation;
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
+    }
+
+    public String getShortCode() {
+        return shortCode;
+    }
+
+    public void setShortCode(String shortCode) {
+        this.shortCode = shortCode;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Map<String, Object> getEnUS() {
+        return enUS;
+    }
+
+    public void setEnUS(Map<String, Object> enUS) {
+        this.enUS = enUS;
+    }
+
+    public Map<String, Object> getPtBR() {
+        return ptBR;
+    }
+
+    public void setPtBR(Map<String, Object> ptBR) {
+        this.ptBR = ptBR;
+    }
+
+    public SpotInfo getSpotInfo() {
+        if (defaultLanguage.equals(Settings.PORTUGUESE)) {
+            return (SpotInfo)ptBR.get("prBR");
+        } else {
+            return (SpotInfo)ptBR.get("enUS");
+        }
+    }
+
+    public LanguageType getLanguageType() {
+        if (defaultLanguage.equals("ptBR")) {
+            return LanguageType.PORTUGUESE;
+        } else {
+            return LanguageType.ENGLISH;
         }
     }
 }

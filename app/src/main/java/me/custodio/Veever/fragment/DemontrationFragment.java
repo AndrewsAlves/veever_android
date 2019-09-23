@@ -19,9 +19,8 @@ import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
 import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
 import me.custodio.Veever.manager.FirestoreManager;
-import me.custodio.Veever.model.BeaconModel;
 import me.custodio.Veever.model.OrientationInfo;
-import me.custodio.Veever.modelnew.Spot;
+import me.custodio.Veever.model.Spot;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
 import me.custodio.Veever.manager.VeeverSensorManager;
@@ -33,7 +32,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.custodio.Veever.modelnew.SpotInfo;
+import me.custodio.Veever.model.SpotInfo;
 
 import static android.view.View.GONE;
 
