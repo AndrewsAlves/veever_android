@@ -35,9 +35,7 @@ public class VeeverApplication extends Application {
 
         LocaleChanger.initialize(getApplicationContext(), SUPPORTED_LOCALES);
 
-        //DatabaseManager.initialize(this);
         FirestoreManager.intialize(this);
-        APIManager.initialize(this);
         VeeverSensorManager.initialise(this);
         TextToSpeechManager.initialise(this);
 

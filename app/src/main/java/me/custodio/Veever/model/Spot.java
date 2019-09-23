@@ -23,13 +23,13 @@ public class Spot {
 
     boolean deleted;
 
-    Map<String, Object> enUS;
+    SpotInfo enUS;
 
     GeoPoint geoLocation;
 
     List<String> pictures;
 
-    Map<String, Object> ptBR;
+    SpotInfo ptBR;
 
     String shortCode;
 
@@ -113,27 +113,35 @@ public class Spot {
         this.updatedBy = updatedBy;
     }
 
-    public Map<String, Object> getEnUS() {
+    public SpotInfo getEnUS() {
         return enUS;
     }
 
-    public void setEnUS(Map<String, Object> enUS) {
+    public void setEnUS(SpotInfo enUS) {
         this.enUS = enUS;
     }
 
-    public Map<String, Object> getPtBR() {
+    public SpotInfo getPtBR() {
         return ptBR;
     }
 
-    public void setPtBR(Map<String, Object> ptBR) {
+    public void setPtBR(SpotInfo ptBR) {
         this.ptBR = ptBR;
     }
 
-    public SpotInfo getSpotInfo() {
+   /*public SpotInfo getSpotInfo() {
         if (defaultLanguage.equals(Settings.PORTUGUESE)) {
             return (SpotInfo)ptBR.get("prBR");
         } else {
             return (SpotInfo)ptBR.get("enUS");
+        }
+    }*/
+
+    public SpotInfo getSpotInfo() {
+        if (defaultLanguage.equals(Settings.PORTUGUESE)) {
+            return (SpotInfo)ptBR;
+        } else {
+            return (SpotInfo)enUS;
         }
     }
 

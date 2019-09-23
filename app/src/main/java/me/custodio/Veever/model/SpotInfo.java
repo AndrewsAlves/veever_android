@@ -1,15 +1,12 @@
 package me.custodio.Veever.model;
 
-import io.realm.RealmObject;
 import me.custodio.Veever.enums.GeoDirections;
-import me.custodio.Veever.model.Orientation;
-import me.custodio.Veever.model.OrientationInfo;
 
 /**
  * Created by Andrews on 17,May,2019
  */
 
-public class SpotInfo extends RealmObject {
+public class SpotInfo {
 
     public String name;
 

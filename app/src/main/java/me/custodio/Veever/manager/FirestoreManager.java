@@ -196,7 +196,7 @@ public class FirestoreManager {
                             Log.e(TAG, "onSuccess: beacon" + spotList.toString());
 
                             Log.e(TAG, "onSuccess: " + spotList.get(i).getDefaultLanguage());
-                            Log.e(TAG, "onSuccess: spot info name" + spotList.get(i).getPtBR().get("name"));
+                            Log.e(TAG, "onSuccess: spot info name" + spotList.get(i).getPtBR().name);
 
                         }
                     }
