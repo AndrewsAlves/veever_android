@@ -70,7 +70,7 @@ public class RequestAssistantActiivty extends AppCompatActivity {
 
         TextToSpeechManager.getInstance().speak(" Our Assistant will reach you in a moment Please stay where you are!");
     }
-    
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -84,7 +84,7 @@ public class RequestAssistantActiivty extends AppCompatActivity {
         super.onResume();
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    10000,
+                    5000,
                     0, locationListenerGPS);
         } catch (SecurityException ev) {
             ev.printStackTrace();

@@ -17,7 +17,7 @@ public class Utils {
         hasNetwork = cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
 
         if (!hasNetwork) {
-            makeToast(context, "No internet connection");
+            makeToast(context, "Please connect to the internet");
         }
 
         return hasNetwork;

@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Handler;
 import android.os.RemoteException;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +20,7 @@ import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.franmontiel.localechanger.LocaleChanger;
@@ -33,6 +38,7 @@ import me.custodio.Veever.Events.FetchBeaconSuccessEvent;
 import me.custodio.Veever.fragment.dialog.BeaconDialogFragment;
 import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
+import me.custodio.Veever.manager.GPSManager;
 import me.custodio.Veever.model.BeaconModel;
 import me.custodio.Veever.model.OrientationInfo;
 import me.custodio.Veever.model.Spot;
@@ -101,13 +107,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
    // private RegionBootstrap regionBootstrap;
     private BeaconManager beaconManager;
-    private Location userLocation;
+    private LocationManager locationManager;
+
 
     public List<Beacon> stableBeaconList;
     public Collection<Beacon> beaconCollection;
 
     private String lastGeoDirection = " ";
     private String lastBeaconId = " ";
+    private Location lastUserLocation;
 
     private Resources res;
 
@@ -126,8 +134,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         lottieView.setSpeed(0.5f);
         lottieView.updateColor(res.getColor(R.color.veeverwhite));
 
+        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.setEnableScheduledScanJobs(false);
+
 
         handleDialog = new Handler();
         updateOrirentationHander = new Handler();
@@ -170,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @Override
     protected void onResume() {
         super.onResume();
+        enableUserLocationUpdate();
         ActivityRecreationHelper.onResume(this);
     }
 
@@ -177,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     protected void onStop() {
         super.onStop();
         disableMonitoring();
+        disableLocationUpdate();
         TextToSpeechManager.getInstance().stopSpeech();
     }
 
@@ -186,6 +198,16 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         VeeverSensorManager.getInstance().unRegister();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPSManager.GPS_REQUEST) {
+            if (resultCode == RESULT_OK){
+
+            }
+        }
     }
 
     public void enableMonitoring() {
@@ -553,6 +575,46 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public GeoPoint getUserGeoLocation() {
-        return new GeoPoint(userLocation.getLatitude(), userLocation.getLongitude());
+
+        if (lastUserLocation == null) {
+            return new GeoPoint(0.0,0.0);
+        }
+
+        return new GeoPoint(lastUserLocation.getLatitude(), lastUserLocation.getLongitude());
     }
+
+    public void enableUserLocationUpdate() {
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    10000,
+                    10, locationListenerGPS);
+        } catch (SecurityException ev) {
+            ev.printStackTrace();
+        }
+    }
+
+    public void disableLocationUpdate() {
+        locationManager.removeUpdates(locationListenerGPS);
+    }
+
+    LocationListener locationListenerGPS = new LocationListener() {
+        @Override
+        public void onLocationChanged(android.location.Location location) {
+            if (location == null) {
+                Log.e(TAG, "onLocationChanged: location null");
+                return;
+            }
+
+            lastUserLocation = location;
+            //Log.e(TAG, "onLocationChanged: updated user location latitude: " + location.getLatitude());
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
+        @Override
+        public void onProviderEnabled(String provider) { }
+        @Override
+        public void onProviderDisabled(String provider) { }
+
+    };
 }
