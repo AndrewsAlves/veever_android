@@ -109,20 +109,20 @@ public class PopupManager {
         String popUpDescription = mainActivity.getString(R.string.app_dialog_description_center);
         String popUpDirection = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
 
+        String voiceTitle = " ";
+
         OrientationInfo orientationInfo = spot.getSpotInfo().getDirectionInfo(geoDirection);
 
         if (orientationInfo != null) {
             popUpDescription = orientationInfo.title;
+            voiceTitle = orientationInfo.voiceTitle;
         }
 
         FirestoreManager.getInstance().writeHeats(beaconModel, spot, mainActivity.getUserGeoLocation());
-
         updatePopupFragment(popupTitle, popUpDescription, popUpDirection);
-        lastbeaconModel = beaconModel;
 
         //SPEAK
 
-        /*
         switch (spot.getDefaultLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
@@ -130,15 +130,16 @@ public class PopupManager {
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
         }
 
-        if (!lastBeaconId.equals(beaconModel.getUuid())) {
-            lastBeaconId = beaconModel.getUuid();
-            String speakDescription = spotInfo.name + popUpDescription;
-            TextToSpeechManager.getInstance().speak(spot + speakDescription + popUpDirection);
-            return;
+        String speakSentence = voiceTitle + popUpDirection;
+
+        if (lastbeaconModel == null) {
+            speakSentence = spotInfo.name + spotInfo.voiceDescription + popUpDescription;
+        } else if (!lastbeaconModel.getUuid().equals(beaconModel.getUuid())) {
+            speakSentence = spotInfo.name + spotInfo.voiceDescription + popUpDescription;
         }
 
-        TextToSpeechManager.getInstance().speak(spotInfo.name + spotInfo.voiceDescription + orientationInfo.voiceTitle + popUpDirection); */
-
+        lastbeaconModel = beaconModel;
+        TextToSpeechManager.getInstance().speak(speakSentence);
     }
 
     public Beacon getDetectedBeacons() {
