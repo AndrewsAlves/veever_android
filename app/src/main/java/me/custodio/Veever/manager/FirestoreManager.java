@@ -111,7 +111,6 @@ public class FirestoreManager {
 
         for (Spot spot : spotList) {
             if (spot.documentId.equals(beaconModel.getSpot().getId())) {
-                Log.e(TAG, "getSpot: array fetch not null :)");
                 return spot;
             }
         }
