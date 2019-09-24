@@ -13,7 +13,7 @@ import android.os.Handler;
 import android.os.RemoteException;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentTransaction;
+
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
@@ -35,13 +35,10 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 
 import me.custodio.Veever.Events.FetchBeaconSuccessEvent;
-import me.custodio.Veever.fragment.dialog.BeaconDialogFragment;
 import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
 import me.custodio.Veever.manager.GPSManager;
-import me.custodio.Veever.model.BeaconModel;
-import me.custodio.Veever.model.OrientationInfo;
-import me.custodio.Veever.model.Spot;
+import me.custodio.Veever.manager.PopupManager;
 import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.Settings;
 import me.custodio.Veever.manager.TextToSpeechManager;
@@ -64,7 +61,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
-import me.custodio.Veever.model.SpotInfo;
 import me.custodio.Veever.views.ColorLottieView;
 
 /**
@@ -75,9 +71,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     private static final String TAG = "MainActivity";
 
-    private static final double IMMEDIATE = 0.2000;
-    private static final double NEAR = 3.000;
-    private static final double FAR = 10.0000;
+
 
     private static String BASE_URL = "https://api.veever.experio.com.br/";
 
@@ -101,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     boolean isActivated = false;
 
-    public Handler handleDialog;
+    public PopupManager popupManager;
+
     public Handler updateBeaconsHandler;
     public Handler updateOrirentationHander;
 
@@ -109,13 +104,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     private BeaconManager beaconManager;
     private LocationManager locationManager;
 
-
     public List<Beacon> stableBeaconList;
     public Collection<Beacon> beaconCollection;
 
-    private String lastGeoDirection = " ";
-    private String lastBeaconId = " ";
     private Location lastUserLocation;
+
+    private boolean isGPSon;
+    private boolean shownDialog;
 
     private Resources res;
 
@@ -138,9 +133,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.setEnableScheduledScanJobs(false);
 
-
-        handleDialog = new Handler();
         updateOrirentationHander = new Handler();
+        popupManager = new PopupManager(this);
 
         stableBeaconList = new ArrayList<>();
 
@@ -205,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPSManager.GPS_REQUEST) {
             if (resultCode == RESULT_OK){
-
+                isGPSon = true;
             }
         }
     }
@@ -217,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void disableMonitoring() {
-        handleDialog.removeCallbacksAndMessages(null);
         setupUIDisabled();
         beaconManager.unbind(this);
         stopUpdatingBeacons();
@@ -258,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         stableBeaconList.clear();
         stableBeaconList.addAll(beaconCollection);
 
-        showDialog();
+        popupManager.updatePopup(stableBeaconList, false);
     }
 
     public void setupUIEnabled() {
@@ -271,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         imageButtonActivate.setImageResource(R.drawable.rir_button_eye_on);
         imageButtonSettings.setImageResource(R.drawable.setting_on);
         isActivated = true;
+        popupManager.enablePopup();
     }
 
     public void setupUIDisabled() {
@@ -283,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         imageButtonActivate.setImageResource(R.drawable.rir_button_eye_off);
         imageButtonSettings.setImageResource(R.drawable.setting_off);
         isActivated = false;
-        removeDialog();
+        popupManager.disable();
     }
 
     public void enableBluetooth() {
@@ -336,6 +330,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 if (report.areAllPermissionsGranted()) {
                     enableBluetooth();
                     enableMonitoring();
+                    enableGPS();
+
+                    //BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel("554AE4E9-546B-44CC-B9BB-A43BE1EA9F81", 44714, 36182);
+
                 }
             }
 
@@ -402,178 +400,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         TextToSpeechManager.getInstance().speak(res.getString(R.string.app_main_speak_deactivated));
     }
 
-    public void showDialog() {
-
-        if (!isActivated) {
-            return;
-        }
-
-        Log.d(TAG, "showDialog() called");
-
-        if (stableBeaconList.size() == 0) {
-            return;
-        }
-
-        Beacon beacon = getDetectedBeacons();
-
-        GeoDirections geoDirection = VeeverSensorManager.getInstance().getGeoDirection();
-
-        if (beacon == null) {
-            removeDialog();
-            Log.e(TAG, "showDialog: no beacon is eligible for showing");
-            return;
-        }
-
-        BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(
-                beacon.getId1().toString(),
-                beacon.getId2().toInt(),
-                beacon.getId3().toInt());
-
-        if (beaconModel == null) {
-            Log.e(TAG, "showDialog: beacon null");
-            return;
-        }
-
-        Spot spot = FirestoreManager.getInstance().getSpot(beaconModel);
-
-        if (spot == null) {
-            Log.e(TAG, "showDialog: spot null");
-            return;
-        }
-
-        SpotInfo spotInfo = spot.getSpotInfo();
-
-        if (spotInfo == null) {
-            Log.e(TAG, "showDialog: spot info null");
-            return;
-        }
-
-        String dialogTitle = spotInfo.name;
-        String dialogDescription = getString(R.string.app_dialog_description_center);
-        String dialogDirection = VeeverSensorManager.getInstance().getDirectionText(getBaseContext());
-
-        if (lastGeoDirection.equals(dialogDirection)) {
-            return;
-        }
-
-        OrientationInfo orientationInfo = spot.getSpotInfo().getDirectionInfo(geoDirection);
-
-        if (orientationInfo != null) {
-            dialogDescription = orientationInfo.title;
-        }
-
-        FirestoreManager.getInstance().writeHeats(beaconModel, spot, getUserGeoLocation());
-
-        loadFragment(dialogTitle, dialogDescription, dialogDirection);
-        lastGeoDirection = dialogDirection;
-        updateOrientationInfo();
-
-        //SPEAK
-
-        switch (spot.getDefaultLanguageType()) {
-            case ENGLISH:
-                TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
-            case PORTUGUESE:
-                TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
-        }
-
-        if (!lastBeaconId.equals(beaconModel.getUuid())) {
-            lastBeaconId = beaconModel.getUuid();
-            String speakDescription = spotInfo.name + dialogDescription;
-            TextToSpeechManager.getInstance().speak(spot + speakDescription + dialogDirection);
-            return;
-        }
-
-        TextToSpeechManager.getInstance().speak(spotInfo.name + spotInfo.voiceDescription + orientationInfo.voiceTitle + dialogDirection);
-    }
-
-    private void loadFragment(String title, String description, String direction) {
-        handleDialog.removeCallbacksAndMessages(null);
-        BeaconDialogFragment newFragment = BeaconDialogFragment.newInstance(title, description, direction);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(0,0);
-        fragmentTransaction.replace(R.id.frame_dialog_fragment, newFragment);
-        fragmentTransaction.commitAllowingStateLoss(); // save the changes
-    }
-
-    public void removeDialog() {
-        try {
-            if (getSupportFragmentManager()
-                    .findFragmentById(R.id.frame_dialog_fragment) != null) {
-                getSupportFragmentManager().beginTransaction().
-                        remove(getSupportFragmentManager()
-                                .findFragmentById(R.id.frame_dialog_fragment))
-                        .commitAllowingStateLoss();
-            }
-
-        } catch (NullPointerException ex) {
-
-        }
-    }
-
-    public void updateOrientationInfo() {
-        updateOrirentationHander.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                lastGeoDirection = " ";
-            }
-        }, 5000);
-    }
-
-    public Beacon getDetectedBeacons() {
-        List<Beacon> showBeaconList = new ArrayList<>();
-
-        for (Beacon beacon : stableBeaconList) {
-
-            BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(
-                    beacon.getId1().toString(),
-                    beacon.getId2().toInt(),
-                    beacon.getId3().toInt());
-
-            if (beaconModel == null) {
-                continue;
-            }
-
-            if (getBeaconRanging(beacon.getDistance()).equals(beaconModel.getRangingDistance())) {
-                showBeaconList.add(beacon);
-            }
-        }
-
-        return getClosestBeacon(showBeaconList);
-    }
-
-    public Beacon getClosestBeacon(List<Beacon> beaconList) {
-
-        Beacon closetBeacon = null;
-
-        if (beaconList.size() == 1) {
-            return beaconList.get(0);
-        }
-
-        for (Beacon beacon : beaconList) {
-            for (Beacon beacon1 : beaconList) {
-                if (beacon.getDistance() < beacon1.getDistance()) {
-                    closetBeacon = beacon;
-                }
-            }
-        }
-
-        return closetBeacon;
-    }
-
-    public String getBeaconRanging(double distance) {
-
-        if (distance < IMMEDIATE) {
-            return Settings.IMMEDIATE;
-        } else if (distance < NEAR && distance > IMMEDIATE) {
-            return Settings.NEAR;
-        } else if (distance > NEAR) {
-            return Settings.FAR;
-        }
-
-        return null;
-    }
-
     public GeoPoint getUserGeoLocation() {
 
         if (lastUserLocation == null) {
@@ -597,6 +423,18 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         locationManager.removeUpdates(locationListenerGPS);
     }
 
+    public void enableGPS() {
+        if (!isGPSon) {
+            GPSManager gpsManager = new GPSManager(this);
+            gpsManager.turnGPSOn(new GPSManager.OnGpsListener() {
+                @Override
+                public void gpsStatus(boolean isGPSEnable) {
+                    isGPSon = isGPSEnable;
+                }
+            });
+        }
+    }
+
     LocationListener locationListenerGPS = new LocationListener() {
         @Override
         public void onLocationChanged(android.location.Location location) {
@@ -606,6 +444,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             }
 
             lastUserLocation = location;
+            Toast.makeText(MainActivity.this, "updated user location", Toast.LENGTH_SHORT).show();
             //Log.e(TAG, "onLocationChanged: updated user location latitude: " + location.getLatitude());
         }
 
@@ -617,4 +456,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         public void onProviderDisabled(String provider) { }
 
     };
+
+    public interface OnOrientationChangeListener {
+
+         void onOrientationChange(GeoDirections direction);
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,6 +63,7 @@ public class Splash extends AppCompatActivity {
         } else {
             FirestoreManager.getInstance().userId = SharedPrefsManager.getUserId(this);
             FirestoreManager.getInstance().documentID = SharedPrefsManager.getUserDocumentId(this);
+            Log.e("document id", "openDesiredActivity: " + FirestoreManager.getInstance().documentID);
             FirestoreManager.getInstance().fetchUser();
         }
     }

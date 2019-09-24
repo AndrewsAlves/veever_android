@@ -75,7 +75,7 @@ public class FirestoreManager {
 
     public BeaconModel getBeaconModel(String uuid, int major, int minor) {
         for (BeaconModel beaconModel : beaconModelList) {
-            if (beaconModel.getUuid().equals(uuid)
+            if (beaconModel.getUuid().equals(uuid.toUpperCase())
                     && beaconModel.getMajor() == major
                     && beaconModel.getMinor() == minor ) {
                 return beaconModel;
@@ -109,15 +109,14 @@ public class FirestoreManager {
             return null;
         }
 
-        Spot spot = null;
-
-        Task<DocumentSnapshot> task = firestore.collection(DB_SPOTS).document(beaconModel.getSpot().getId()).get(Source.CACHE);
-
-        if (task.isSuccessful()) {
-            spot = task.getResult().toObject(Spot.class);
+        for (Spot spot : spotList) {
+            if (spot.documentId.equals(beaconModel.getSpot().getId())) {
+                Log.e(TAG, "getSpot: array fetch not null :)");
+                return spot;
+            }
         }
 
-        return spot;
+        return null;
     }
 
     ////////////////////////////////
@@ -175,8 +174,8 @@ public class FirestoreManager {
 
                         for (int i = 0; i < queryDocumentSnapshots.size() ; i++) {
                             spotList.add(queryDocumentSnapshots.getDocuments().get(i).toObject(Spot.class));
+                            spotList.get(i).documentId = queryDocumentSnapshots.getDocuments().get(i).getId();
                             Log.e(TAG, "onSuccess: beacon" + spotList.toString());
-
                             Log.e(TAG, "onSuccess: " + spotList.get(i).getDefaultLanguage());
                             Log.e(TAG, "onSuccess: spot info name" + spotList.get(i).getPtBR().name);
 

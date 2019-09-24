@@ -38,6 +38,8 @@ public class Spot {
 
     String updatedBy;
 
+    public String documentId;
+
     public Spot() {
     }
 

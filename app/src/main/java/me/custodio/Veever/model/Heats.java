@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 import java.util.Date;
 
 /**
- * Created by Admin on 21,September,2019
+ * Created by Andrews on 21,September,2019
  */
 public class Heats {
 
@@ -20,6 +20,8 @@ public class Heats {
     String spot;
 
     GeoPoint userLocation;
+
+    //boolean andyTest = true;
 
     public Heats() {
     }
@@ -64,4 +66,7 @@ public class Heats {
         this.userLocation = userLocation;
     }
 
+    //public boolean isAndyTest() {
+    //    return andyTest;
+    //}
 }

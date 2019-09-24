@@ -9,7 +9,7 @@
     android:minWidth="280dp"
     android:clickable="true"
     android:focusable="true"
-    tools:context="me.custodio.Veever.fragment.dialog.BeaconDialogFragment">
+    tools:context="me.custodio.Veever.fragment.dialog.PopUpFragment">
 
     <RelativeLayout
         android:id="@+id/topview"

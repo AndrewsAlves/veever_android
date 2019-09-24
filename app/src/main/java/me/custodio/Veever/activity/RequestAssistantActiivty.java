@@ -48,8 +48,6 @@ public class RequestAssistantActiivty extends AppCompatActivity {
 
     String safeWord;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

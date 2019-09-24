@@ -19,7 +19,7 @@ import me.custodio.Veever.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BeaconDialogFragment extends Fragment {
+public class PopUpFragment extends Fragment {
 
     private static final String TAG = "BeaconDialog";
 
@@ -32,12 +32,16 @@ public class BeaconDialogFragment extends Fragment {
     @BindView(R.id.tv_subtitle)
     TextView textViewSubtitle;
 
-    public BeaconDialogFragment() {
+    public String title;
+    public String description;
+    public String direction;
+
+    public PopUpFragment() {
         // Required empty public constructor
     }
 
-    public static BeaconDialogFragment newInstance(String title, String subtitle, String direction) {
-        BeaconDialogFragment dialogType = new BeaconDialogFragment();
+    public static PopUpFragment newInstance(String title, String subtitle, String direction) {
+        PopUpFragment dialogType = new PopUpFragment();
 
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -55,17 +59,20 @@ public class BeaconDialogFragment extends Fragment {
         ButterKnife.bind(this,v);
 
         if (getArguments() != null) {
-            String title = getArguments().getString("title");
-            String subtitle = getArguments().getString("subtitle");
-            String direction = getArguments().getString("direction");
+             title = getArguments().getString("title");
+             description = getArguments().getString("subtitle");
+             direction = getArguments().getString("direction");
 
-            textViewDirection.setText(direction);
-            textViewMainTitle.setText(title);
-            textViewSubtitle.setText(subtitle);
-
+             updateView();
         }
 
         return v;
+    }
+
+    public void updateView() {
+        textViewDirection.setText(direction);
+        textViewMainTitle.setText(title);
+        textViewSubtitle.setText(description);
     }
 
 }

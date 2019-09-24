@@ -25,6 +25,8 @@ public class User {
 
     boolean wantsHelp;
 
+    //boolean isTesting = true;
+
     public User() {
     }
 
@@ -99,4 +101,8 @@ public class User {
     public GeoPoint getGeoLocation() {
         return geoLocation;
     }
+
+   // public boolean isTesting() {
+   //     return isTesting;
+   // }
 }
