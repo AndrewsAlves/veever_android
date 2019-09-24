@@ -6,8 +6,7 @@ import android.content.res.Configuration;
 import com.franmontiel.localechanger.LocaleChanger;
 import com.onesignal.OneSignal;
 
-import me.custodio.Veever.manager.APIManager;
-import me.custodio.Veever.manager.DatabaseManager;
+import me.custodio.Veever.manager.FirestoreManager;
 import me.custodio.Veever.manager.TextToSpeechManager;
 import me.custodio.Veever.manager.VeeverSensorManager;
 
@@ -36,8 +35,7 @@ public class VeeverApplication extends Application {
 
         LocaleChanger.initialize(getApplicationContext(), SUPPORTED_LOCALES);
 
-        DatabaseManager.initialize(this);
-        APIManager.initialize(this);
+        FirestoreManager.intialize(this);
         VeeverSensorManager.initialise(this);
         TextToSpeechManager.initialise(this);
 

@@ -8,8 +8,8 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import me.custodio.Veever.Events.UpdateDemoBeaconEvent;
-import me.custodio.Veever.GeoDirections;
-import me.custodio.Veever.MainActivity;
+import me.custodio.Veever.enums.GeoDirections;
+import me.custodio.Veever.activity.MainActivity;
 import me.custodio.Veever.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -104,22 +104,22 @@ public class VeeverSensorManager implements SensorEventListener {
             geoDirection = GeoDirections.NORTH;
         } else if(mCurrentDegree >= 22.5 && mCurrentDegree <= 67.5){
             geoDirection = GeoDirections.NORTH_EAST;
-        }else if(mCurrentDegree >= 67.5 && mCurrentDegree <= 112.5){
+        } else if(mCurrentDegree >= 67.5 && mCurrentDegree <= 112.5){
             geoDirection = GeoDirections.EAST;
-        }else if(mCurrentDegree >= 112.5 && mCurrentDegree <= 157.5){
+        } else if(mCurrentDegree >= 112.5 && mCurrentDegree <= 157.5){
             geoDirection = GeoDirections.SOUTH_EAST;
-        }else if(mCurrentDegree >= 157.5 && mCurrentDegree <= 202.5){
+        } else if(mCurrentDegree >= 157.5 && mCurrentDegree <= 202.5){
             geoDirection = GeoDirections.SOUTH;
-        }else if(mCurrentDegree >= 202.5 && mCurrentDegree <= 247.5){
+        } else if(mCurrentDegree >= 202.5 && mCurrentDegree <= 247.5){
             geoDirection = GeoDirections.SOUTH_WEST;
-        }else if(mCurrentDegree >= 247.5 && mCurrentDegree <= 292.5){
+        } else if(mCurrentDegree >= 247.5 && mCurrentDegree <= 292.5){
             geoDirection = GeoDirections.WEST;
-        }else if(mCurrentDegree >= 292.5 && mCurrentDegree <= 337.5){
+        } else if(mCurrentDegree >= 292.5 && mCurrentDegree <= 337.5){
             geoDirection = GeoDirections.NORTH_WEST;
         }
 
         if (geoDirection != lastGeoDirection) {
-            mainActivity.showDialog();
+            mainActivity.popupManager.updatePopup(mainActivity.stableBeaconList, true);
             if (inDemo) {
                 EventBus.getDefault().post(new UpdateDemoBeaconEvent());
             }

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Veever</string>
+    <string name="facebook_app_id">1065680876961838</string>
+    <string name="fb_login_protocol_scheme">fb1065680876961838</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -28,6 +30,8 @@
     <string name="app.settings.speechrate.title">SPEECH  RATE</string>
     <string name="app.settings.demonstration.title">DEMOSTRATION  MODE</string>
     <string name="app.settings.contact">CONTACT  VIA E-MAIL</string>
+    <string name="app.settings.assistant">REQUEST \nASSISTANCE</string>
+    <string name="app.settings.assistant.title">REQUEST ASSISTANT</string>
     <string name="app.settings.terms">TERMS OF USE</string>
     <string name="app.settings.website">WEBSITE</string>
     <string name="app.settings.version">VERSION 1.0</string>
@@ -38,6 +42,7 @@
     <string name="app.settings.speechrate.percent">percent</string>
     <string name="app.settings.demonstration.dialog.description">Type the beacon demo code below or continue with the default one</string>
     <string name="app.settings.demonstration.middle.desc">Use the switch below to simulate \nthat a beacon has come \ninto your range</string>
+    <string name="app.settings.assistant.middle.desc">When requesting assistance, one of our employees will be alerted about your position and will meet you, so we ask you to wait in place and lift your device up.\n\nThat way we can find you more easily.\n\nWarning: Due the size of the event area we may take a few minutes. As we approach you, our contributor will say the word :</string>
 
     <string name="direction.north">NORTH</string>
     <string name="direction.northeast">NORTH EAST</string>
@@ -47,5 +52,20 @@
     <string name="direction.southwest">SOUTH WEST</string>
     <string name="direction.west">WEST</string>
     <string name="direction.northwest">NORTH WEST</string>
+
+    <string name="login_description">Welcome to Veever \nRock in Rio special edition.\n \n Select the following option to perform social login and have a more complete experience in the festival or continue to use the application anonymously.</string>
+    <string name="app.settings.button.assistance">Activate Assistance Request</string>
+
+
+    ///// CONTENT DESCRIPTION FOR ACCESIBILITY
+
+    <string name="con_login_img">Login to Veever</string>
+    <string name="con_facebook_button">Continue with facebook</string>
+    <string name="con_guest_button">Continue as guest</string>
+
+    <string name="cencel_request">Cancel Request</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

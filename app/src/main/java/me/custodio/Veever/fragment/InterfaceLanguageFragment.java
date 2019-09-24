@@ -2,7 +2,7 @@ package me.custodio.Veever.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import com.franmontiel.localechanger.LocaleChanger;
 import me.custodio.Veever.Events.ChangeLanguageEvent;
 import me.custodio.Veever.R;
-import me.custodio.Veever.SettingsActivity;
+import me.custodio.Veever.activity.SettingsActivity;
 import me.custodio.Veever.manager.Settings;
 
 import org.greenrobot.eventbus.EventBus;
