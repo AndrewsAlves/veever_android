@@ -263,7 +263,7 @@ public class FirestoreManager {
     }
 
     //////////////////////////////
-    ///////// REQUEST ASSSITANCE
+    ///////// REQUEST ASSISTANCE
     //////////////////////////////
 
     public void askHelpAndUpdateLocation(String safeWord, GeoPoint geoPoint, boolean askHelp) {

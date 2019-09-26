@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.RemoteException;
 
@@ -35,7 +36,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 
 import me.custodio.Veever.Events.FetchBeaconSuccessEvent;
-import me.custodio.Veever.enums.GeoDirections;
 import me.custodio.Veever.R;
 import me.custodio.Veever.manager.GPSManager;
 import me.custodio.Veever.manager.PopupManager;
@@ -70,8 +70,7 @@ import me.custodio.Veever.views.ColorLottieView;
 public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     private static final String TAG = "MainActivity";
-
-
+    private static final int REQUEST_ENABLE_BLUETOOTH = 2;
 
     private static String BASE_URL = "https://api.veever.experio.com.br/";
 
@@ -120,14 +119,11 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
-
         ButterKnife.bind(this);
-        fetchFromFirestore();
 
         res = getResources();
-
-        lottieView.setSpeed(0.5f);
-        lottieView.updateColor(res.getColor(R.color.veeverwhite));
+        fetchFromFirestore();
+        setUpLottie();
 
         locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         beaconManager = BeaconManager.getInstanceForApplication(this);
@@ -158,6 +154,20 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         FirestoreManager.getInstance().fetchBeaconsAndSpots();
     }
 
+    public void setUpLottie() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            Log.e(TAG, "onCreate: Device under low performance");
+            lottieView.setAnimation("veever_animation_lowspec.json");
+        } else {
+            Log.e(TAG, "onCreate: Device under high performance");
+            lottieView.setAnimation("veever_animation.json");
+        }
+
+        lottieView.setSpeed(0.5f);
+        lottieView.updateColor(res.getColor(R.color.veeverwhite));
+        lottieView.playAnimation();
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         newBase = LocaleChanger.configureBaseContext(newBase);
@@ -174,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     @Override
     protected void onResume() {
         super.onResume();
-        enableUserLocationUpdate();
+        //enableUserLocationUpdate();
         ActivityRecreationHelper.onResume(this);
     }
 
@@ -182,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     protected void onStop() {
         super.onStop();
         disableMonitoring();
-        disableLocationUpdate();
+        //disableLocationUpdate();
         TextToSpeechManager.getInstance().stopSpeech();
     }
 
@@ -198,8 +208,12 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPSManager.GPS_REQUEST) {
-            if (resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 isGPSon = true;
+            }
+        } else if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
+            if (resultCode == RESULT_OK) {
+                //enableGPS();
             }
         }
     }
@@ -280,14 +294,16 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         popupManager.disable();
     }
 
-    public void enableBluetooth() {
+    public void enableBluetoothAndGps() {
         final BluetoothAdapter bAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bAdapter == null) {
             Log.e(TAG, "onPermissionsChecked: bluetooth service not available");
         } else {
             if (!bAdapter.isEnabled()) {
-                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1);
+                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BLUETOOTH);
                 Log.e(TAG, "onPermissionsChecked: bluetooth turned ON");
+            } else {
+                //enableGPS();
             }
         }
     }
@@ -328,9 +344,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 Log.e(TAG, "onPermissionsChecked() called with: report = [" + report + "]");
 
                 if (report.areAllPermissionsGranted()) {
-                    enableBluetooth();
                     enableMonitoring();
-                    enableGPS();
+                    enableBluetoothAndGps();
 
                     //BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel("554AE4E9-546B-44CC-B9BB-A43BE1EA9F81", 44714, 36182);
 
@@ -424,15 +439,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void enableGPS() {
-        if (!isGPSon) {
-            GPSManager gpsManager = new GPSManager(this);
-            gpsManager.turnGPSOn(new GPSManager.OnGpsListener() {
-                @Override
-                public void gpsStatus(boolean isGPSEnable) {
-                    isGPSon = isGPSEnable;
-                }
-            });
-        }
+        GPSManager gpsManager = new GPSManager(this);
+        gpsManager.turnGPSOn(new GPSManager.OnGpsListener() {
+            @Override
+            public void gpsStatus(boolean isGPSEnable) {
+                isGPSon = isGPSEnable;
+            }
+        });
     }
 
     LocationListener locationListenerGPS = new LocationListener() {

@@ -3,6 +3,7 @@ package me.custodio.Veever.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.franmontiel.localechanger.LocaleChanger;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,7 +68,7 @@ public class RequestAssistantActiivty extends AppCompatActivity {
 
         checkGPSAndGetLocation();
 
-        TextToSpeechManager.getInstance().speak(" Our Assistant will reach you in a moment Please stay where you are!");
+        TextToSpeechManager.getInstance().speak(getString(R.string.voice_requestassistance));
     }
 
     @Override
@@ -75,6 +77,12 @@ public class RequestAssistantActiivty extends AppCompatActivity {
         locationManager.removeUpdates(locationListenerGPS);
         EventBus.getDefault().unregister(this);
         FirestoreManager.getInstance().askHelpAndUpdateLocation(null, null, false);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        newBase = LocaleChanger.configureBaseContext(newBase);
+        super.attachBaseContext(newBase);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.altbeacon.beacon.Beacon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import me.custodio.Veever.R;
 import me.custodio.Veever.activity.MainActivity;
@@ -118,7 +119,7 @@ public class PopupManager {
             voiceTitle = orientationInfo.voiceTitle;
         }
 
-        FirestoreManager.getInstance().writeHeats(beaconModel, spot, mainActivity.getUserGeoLocation());
+        FirestoreManager.getInstance().writeHeats(beaconModel, spot, spot.getGeoLocation());
         updatePopupFragment(popupTitle, popUpDescription, popUpDirection);
 
         //SPEAK
@@ -157,10 +158,20 @@ public class PopupManager {
                 continue;
             }
 
-            if (getBeaconRanging(beacon.getDistance()).equals(beaconModel.getRangingDistance())) {
-                Log.e(TAG, "getDetectedBeacons: added beacon as per distance");
+            if (beaconModel.getRangingDistance().equals(Settings.FAR)) {
+                showBeaconList.add(beacon);
+            } else if (beaconModel.getRangingDistance().equals(Settings.NEAR)
+                    && !getBeaconRanging(beacon.getDistance()).equals(Settings.FAR)) {
+                showBeaconList.add(beacon);
+            } else if (beaconModel.getRangingDistance().equals(Settings.IMMEDIATE)
+                    && getBeaconRanging(beacon.getDistance()).equals(Settings.IMMEDIATE)) {
                 showBeaconList.add(beacon);
             }
+
+            /*if (getBeaconRanging(beacon.getDistance()).equals(beaconModel.getRangingDistance())) {
+                Log.e(TAG, "getDetectedBeacons: added beacon as per distance");
+                showBeaconList.add(beacon);
+            }*/
         }
 
         return getClosestBeacon(showBeaconList);

@@ -27,9 +27,7 @@
             android:id="@+id/animation_view"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            app:lottie_fileName="veever_animation.json"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"/>
+            app:lottie_loop="true"/>
 
         <!--<com.kuassivi.component.RipplePulseRelativeLayout-->
             <!--android:id="@+id/pulseLayout1"-->
@@ -46,8 +44,6 @@
             android:id="@+id/alexaview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" /> -->
-
-
 
     </RelativeLayout>
 
@@ -69,12 +65,14 @@
         android:id="@+id/tv_user_direction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/veeverwhite"
-        android:layout_centerInParent="true"
-        android:text="@string/app.main.description.center"
+        android:layout_centerHorizontal="true"
         android:maxLines="3"
-        android:textAlignment="center" />
+        android:text="@string/app.main.description.center"
+        android:textAlignment="center"
+        android:textColor="@color/veeverwhite"
+        android:layout_below="@id/tv_veever_status"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"/>
 
     <ImageView
         android:id="@+id/tv_veever"

@@ -46,11 +46,14 @@
     <string name="app.settings.demonstration.middle.desc">"Use o interruptor abaixo para simular \nque um farol chegou \nno seu alcance "</string>
     <string name="login_description">"Bem-vindo(a) ao Veever edição especial Rock in Rio. "</string>
 
-
     <string name="con_facebook_button">Entrar com o Facebook</string>
     <string name="con_guest_button">Entrar como anônimo</string>
 
     <string name="cencel_request">cancelar pedido</string>
+    <string name="app.settings.assistant.middle.desc">Ao requisitar auxílio, um de nossos colaboradores será alertado sobre sua posição e irá ao seu encontro, portanto, pedimos para que aguarde no local e erga seu dispositivo para cima. \n\nDessa forma poderemos encontrá-lo com mais facilidade. \n\nAviso: Devido ao tamanho da área do evento essa movimentação poderá levar alguns minutos. Ao se aproximar de você, nosso colaborador dirá a palavra: “RANDOM”.</string>
+    <string name="app.settings.assistant.title">REQUISIÇÃO DE AUXÍLIO</string>
+
+    <string name="voice.requestassistance">Nosso assistente entrará em contato com você em um momento. Fique onde está!</string>
 
 
 </resources>

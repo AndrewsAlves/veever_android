@@ -64,6 +64,7 @@
     <string name="con_guest_button">Continue as guest</string>
 
     <string name="cencel_request">Cancel Request</string>
+    <string name="voice.requestassistance"> Our Assistant will reach you in a moment Please stay where you are!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
