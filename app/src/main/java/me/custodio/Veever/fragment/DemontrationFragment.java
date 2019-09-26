@@ -175,7 +175,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
         hideKeyboard(); // hide keyboard so view wont get squised
 
-        String shortCode = "VEEVER";
+        String shortCode = "TESTBE";
 
         if (!EditTextShortCode.getText().toString().isEmpty()) {
             shortCode = EditTextShortCode.getText().toString().toUpperCase();
