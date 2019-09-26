@@ -83,9 +83,19 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         switchDemo.setOnCheckedChangeListener(this);
         switchDemo.setChecked(false);
 
-        EventBus.getDefault().register(this);
-
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

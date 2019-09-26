@@ -232,8 +232,8 @@ public class PopupManager {
             popUpFragment.description = description;
             popUpFragment.direction = direction;
             popUpFragment.speakTop = speakTop;
-            popUpFragment.speakTop = speakMiddle;
-            popUpFragment.speakTop = speakBottom;
+            popUpFragment.speakMiddle = speakMiddle;
+            popUpFragment.speakBottom = speakBottom;
             popUpFragment.updateView();
             return;
         }
