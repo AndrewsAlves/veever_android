@@ -196,7 +196,7 @@
     <!--- DIALOG -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/cl_demo_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
