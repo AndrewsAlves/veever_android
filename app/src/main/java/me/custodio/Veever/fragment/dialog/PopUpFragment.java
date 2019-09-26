@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.custodio.Veever.R;
+import me.custodio.Veever.manager.TextToSpeechManager;
 
 /**
  * Created by Andrews on 17,May,2019
@@ -36,6 +38,10 @@ public class PopUpFragment extends Fragment {
     public String description;
     public String direction;
 
+    public String speakTop;
+    public String speakMiddle;
+    public String speakBottom;
+
     public PopUpFragment() {
         // Required empty public constructor
     }
@@ -55,7 +61,7 @@ public class PopUpFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_dialog, container, false);
+        View v = inflater.inflate(R.layout.fragment_popup, container, false);
         ButterKnife.bind(this,v);
 
         if (getArguments() != null) {
@@ -74,5 +80,22 @@ public class PopUpFragment extends Fragment {
         textViewMainTitle.setText(title);
         textViewSubtitle.setText(description);
     }
+
+    @OnClick(R.id.topview)
+    public void clickTopGreen() {
+        TextToSpeechManager.getInstance().speak(speakTop);
+    }
+
+    @OnClick(R.id.tv_subtitle)
+    public void clickMiddleWhite() {
+        TextToSpeechManager.getInstance().speak(speakMiddle);
+    }
+
+    @OnClick(R.id.bottomView)
+    public void clickBottomGreen() {
+        TextToSpeechManager.getInstance().speak(speakBottom);
+    }
+
+
 
 }

@@ -90,10 +90,9 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
     @Override
     public void onDestroyView() {
-
+        TextToSpeechManager.getInstance().stopSpeech();
         VeeverSensorManager.getInstance().setDemo(false);
         EventBus.getDefault().unregister(this);
-
         super.onDestroyView();
     }
 
@@ -104,12 +103,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
     public void updateBeaconDialog(boolean readSpotDetails) {
         GeoDirections geoDirections = VeeverSensorManager.getInstance().getGeoDirection();
-        SpotInfo spotInfo;
-        if (spot.getDefaultLanguage().equals(Settings.ENGLISH)){
-            spotInfo = (SpotInfo)spot.getEnUS();
-        } else {
-            spotInfo = (SpotInfo)spot.getPtBR();
-        }
+        SpotInfo spotInfo = spot.getSpotInfo();
 
         if (spotInfo == null) {
             return;
@@ -122,13 +116,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         OrientationInfo orientationInfo = spotInfo.getDirectionInfo(geoDirections);
 
         if (orientationInfo != null) {
-            description = orientationInfo.voiceTitle;
-        }
-
-        String speechText = spotInfo.voiceName + description + direction;
-
-        if (readSpotDetails) {
-            speechText = spotInfo.voiceName + spotInfo.voiceDescription;
+            description = orientationInfo.title;
         }
 
         textViewMainTitle.setText(title);
@@ -140,6 +128,14 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
             case PORTUGUESE:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
+        }
+
+        String speechText = spotInfo.getDirectionInfo(geoDirections).voiceTitle;
+
+        if (readSpotDetails) {
+            speechText = spotInfo.voiceName + spotInfo.voiceDescription;
+            TextToSpeechManager.getInstance().speak(speechText, true);
+            return;
         }
 
         TextToSpeechManager.getInstance().speak(speechText);
@@ -195,6 +191,32 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
             VeeverSensorManager.getInstance().setDemo(true);
             updateBeaconDialog(true);
         }
+    }
+
+    @OnClick(R.id.topview)
+    public void clickTopGreen() {
+        if (spot == null) {
+            return;
+        }
+
+        String speechText = spot.getSpotInfo().voiceName + spot.getSpotInfo().voiceDescription;
+        TextToSpeechManager.getInstance().speak(speechText);
+    }
+
+    @OnClick(R.id.tv_subtitle)
+    public void clickMiddleWhite() {
+        if (spot.getSpotInfo() == null) {
+            return;
+        }
+
+        String speechText = spot.getSpotInfo().getDirectionInfo(VeeverSensorManager.getInstance().getGeoDirection()).voiceTitle;
+        TextToSpeechManager.getInstance().speak(speechText);
+    }
+
+    @OnClick(R.id.bottomView)
+    public void clickBottomGreen() {
+        String speechText = VeeverSensorManager.getInstance().getDirectionText(getContext());
+        TextToSpeechManager.getInstance().speak(speechText);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:name="com.veever.main.PopUpFragment"
-            tools:layout="@layout/fragment_dialog"/> -->
+            tools:layout="@layout/fragment_popup"/> -->
 
     </FrameLayout>
 

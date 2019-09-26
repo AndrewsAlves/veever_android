@@ -108,7 +108,7 @@ public class PopupManager {
 
         String popupTitle = spotInfo.name;
         String popUpDescription = mainActivity.getString(R.string.app_dialog_description_center);
-        String popUpDirection = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
+        String directionText = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
 
         String voiceTitle = " ";
 
@@ -120,7 +120,11 @@ public class PopupManager {
         }
 
         FirestoreManager.getInstance().writeHeats(beaconModel, spot, spot.getGeoLocation());
-        updatePopupFragment(popupTitle, popUpDescription, popUpDirection);
+
+        String speakTop = spotInfo.voiceName + spotInfo.voiceDescription;
+        String speakMiddle = spotInfo.getDirectionInfo(geoDirection).voiceTitle;
+        String speakBottom = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
+        updatePopupFragment(popupTitle, popUpDescription, directionText, speakTop, speakMiddle, speakBottom);
 
         //SPEAK
 
@@ -131,10 +135,16 @@ public class PopupManager {
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
         }
 
-        String speakSentence = voiceTitle + popUpDirection;
+        String speakSentence = voiceTitle + directionText;
 
         if (lastbeaconModel == null) {
-            speakSentence = spotInfo.name + spotInfo.voiceDescription + popUpDescription;
+            speakSentence = spotInfo.voiceName + spotInfo.voiceDescription;
+
+            lastbeaconModel = beaconModel;
+            TextToSpeechManager.getInstance().speak(speakSentence, true);
+
+            return;
+
         } else if (!lastbeaconModel.getUuid().equals(beaconModel.getUuid())) {
             speakSentence = spotInfo.name + spotInfo.voiceDescription + popUpDescription;
         }
@@ -215,12 +225,15 @@ public class PopupManager {
     ///// SHOW & HIDE DIALOG
     /////////////////////////////
 
-    private void updatePopupFragment(String title, String description, String direction) {
+    private void updatePopupFragment(String title, String description, String direction, String speakTop, String speakMiddle, String speakBottom) {
 
         if (popUpFragment != null) {
             popUpFragment.title = title;
             popUpFragment.description = description;
             popUpFragment.direction = direction;
+            popUpFragment.speakTop = speakTop;
+            popUpFragment.speakTop = speakMiddle;
+            popUpFragment.speakTop = speakBottom;
             popUpFragment.updateView();
             return;
         }
