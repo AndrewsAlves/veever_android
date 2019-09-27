@@ -127,6 +127,11 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        if (documentSnapshot == null) {
+                            return;
+                        }
+
                         user = documentSnapshot.toObject(User.class);
                         EventBus.getDefault().post(new FetchUserSuccessEvent());
                     }
@@ -151,6 +156,11 @@ public class FirestoreManager {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
+                            if (documentSnapshot == null) {
+                                continue;
+                            }
+
                             beaconModelList.add(documentSnapshot.toObject(BeaconModel.class));
                             Log.e(TAG, "onSuccess: beacon" + beaconModelList.toString());
                         }
@@ -172,12 +182,13 @@ public class FirestoreManager {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         for (int i = 0; i < queryDocumentSnapshots.size() ; i++) {
+
+                            if (queryDocumentSnapshots.getDocuments().get(i) == null) {
+                                continue;
+                            }
+
                             spotList.add(queryDocumentSnapshots.getDocuments().get(i).toObject(Spot.class));
                             spotList.get(i).documentId = queryDocumentSnapshots.getDocuments().get(i).getId();
-                            Log.e(TAG, "onSuccess: beacon" + spotList.toString());
-                            Log.e(TAG, "onSuccess: " + spotList.get(i).getDefaultLanguage());
-                            Log.e(TAG, "onSuccess: spot info name" + spotList.get(i).getPtBR().name);
-
                         }
                     }
                 })
@@ -196,6 +207,11 @@ public class FirestoreManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        if (documentSnapshot == null) {
+                            return;
+                        }
+
                         Log.d(TAG, "onSuccess() called with: documentSnapshot = [" + documentSnapshot + "]");
 
                         configs = documentSnapshot.toObject(Configs.class);
