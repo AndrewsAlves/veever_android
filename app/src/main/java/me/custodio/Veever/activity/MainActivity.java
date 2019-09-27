@@ -456,9 +456,4 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         public void onProviderDisabled(String provider) { }
 
     };
-
-    public interface OnOrientationChangeListener {
-
-         void onOrientationChange(GeoDirections direction);
-    }
 }
