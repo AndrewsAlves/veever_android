@@ -132,8 +132,10 @@ public class PopupManager {
         switch (spot.getDefaultLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
+                break;
             case PORTUGUESE:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
+                break;
         }
 
         String speakSentence = voiceTitle;

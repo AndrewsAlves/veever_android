@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.SwitchCompat;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,8 +140,10 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         switch (spot.getDefaultLanguageType()) {
             case ENGLISH:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_ENGLISH);
+                break;
             case PORTUGUESE:
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
+                break;
         }
 
         String speechText = spotInfo.getDirectionInfo(geoDirections).voiceTitle;

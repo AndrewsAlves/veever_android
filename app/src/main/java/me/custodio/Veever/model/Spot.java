@@ -1,5 +1,8 @@
 package me.custodio.Veever.model;
 
+import android.util.Log;
+
+import com.franmontiel.localechanger.LocaleChanger;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ServerTimestamp;
 
@@ -132,18 +135,49 @@ public class Spot {
     }
 
     public SpotInfo getSpotInfo() {
-        if (defaultLanguage.equals(Settings.PORTUGUESE)) {
-            return ptBR;
+
+        SpotInfo spotInfo;
+
+        if (LocaleChanger.getLocale().getLanguage().equals(Settings.LOCALE_PORTUGUESE.getLanguage())) {
+            spotInfo = ptBR;
         } else {
-            return enUS;
+            spotInfo = enUS;
         }
+
+        if (spotInfo == null) {
+            if (defaultLanguage.equals(Settings.PORTUGUESE)) {
+                return ptBR;
+            } else {
+                return enUS;
+            }
+        }
+
+        return spotInfo;
     }
 
     public LanguageType getDefaultLanguageType() {
-        if (defaultLanguage.equals("ptBR")) {
-            return LanguageType.PORTUGUESE;
+
+        SpotInfo spotInfo;
+        LanguageType type;
+
+        if (LocaleChanger.getLocale().getLanguage().equals(Settings.LOCALE_PORTUGUESE.getLanguage())) {
+            spotInfo = ptBR;
+            type = LanguageType.PORTUGUESE;
+
         } else {
-            return LanguageType.ENGLISH;
+            spotInfo = enUS;
+            type = LanguageType.ENGLISH;
+
         }
+
+        if (spotInfo == null) {
+            if (defaultLanguage.equals(Settings.PORTUGUESE)) {
+                return LanguageType.PORTUGUESE;
+            } else {
+                return LanguageType.ENGLISH;
+            }
+        }
+
+        return type;
     }
 }
