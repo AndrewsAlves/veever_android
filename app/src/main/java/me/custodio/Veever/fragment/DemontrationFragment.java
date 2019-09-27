@@ -127,6 +127,8 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
         if (orientationInfo != null) {
             description = orientationInfo.title;
+        } else {
+            description = " ";
         }
 
         textViewMainTitle.setText(title);
@@ -220,6 +222,10 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         }
 
         String speechText = spot.getSpotInfo().getDirectionInfo(VeeverSensorManager.getInstance().getGeoDirection()).voiceTitle;
+        if (speechText == null) {
+            speechText = getString(R.string.app_dialog_description_center);
+        }
+
         TextToSpeechManager.getInstance().speak(speechText);
     }
 

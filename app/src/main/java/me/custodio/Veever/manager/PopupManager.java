@@ -108,7 +108,10 @@ public class PopupManager {
 
         String popupTitle = spotInfo.name;
         String popUpDescription = mainActivity.getString(R.string.app_dialog_description_center);
-        String directionText = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
+
+        String speakTop = spotInfo.voiceName + spotInfo.voiceDescription;
+        String speakMiddle = mainActivity.getString(R.string.app_dialog_description_center);
+        String speakBottom = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
 
         String voiceTitle = " ";
 
@@ -117,14 +120,12 @@ public class PopupManager {
         if (orientationInfo != null) {
             popUpDescription = orientationInfo.title;
             voiceTitle = orientationInfo.voiceTitle;
+            speakMiddle = orientationInfo.voiceTitle;
         }
 
+        // update fragment
+        updatePopupFragment(popupTitle, popUpDescription, speakTop, speakMiddle, speakBottom);
         FirestoreManager.getInstance().writeHeats(beaconModel, spot, spot.getGeoLocation());
-
-        String speakTop = spotInfo.voiceName + spotInfo.voiceDescription;
-        String speakMiddle = spotInfo.getDirectionInfo(geoDirection).voiceTitle;
-        String speakBottom = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
-        updatePopupFragment(popupTitle, popUpDescription, directionText, speakTop, speakMiddle, speakBottom);
 
         //SPEAK
 
@@ -135,8 +136,9 @@ public class PopupManager {
                 TextToSpeechManager.getInstance().setLanguage(Settings.LOCALE_PORTUGUESE);
         }
 
-        String speakSentence = voiceTitle + directionText;
+        String speakSentence = voiceTitle;
 
+        // when new beacon is detected we should speak this
         if (lastbeaconModel == null) {
             speakSentence = spotInfo.voiceName + spotInfo.voiceDescription;
 
@@ -146,9 +148,15 @@ public class PopupManager {
             return;
 
         } else if (!lastbeaconModel.getUuid().equals(beaconModel.getUuid())) {
-            speakSentence = spotInfo.name + spotInfo.voiceDescription + popUpDescription;
+            speakSentence = spotInfo.voiceName + spotInfo.voiceDescription;
+
+            lastbeaconModel = beaconModel;
+            TextToSpeechManager.getInstance().speak(speakSentence, true);
+
+            return;
         }
 
+        // when changing orientation we speak this
         lastbeaconModel = beaconModel;
         TextToSpeechManager.getInstance().speak(speakSentence);
     }
@@ -225,12 +233,12 @@ public class PopupManager {
     ///// SHOW & HIDE DIALOG
     /////////////////////////////
 
-    private void updatePopupFragment(String title, String description, String direction, String speakTop, String speakMiddle, String speakBottom) {
+    private void updatePopupFragment(String title, String description, String speakTop, String speakMiddle, String speakBottom) {
 
         if (popUpFragment != null) {
             popUpFragment.title = title;
             popUpFragment.description = description;
-            popUpFragment.direction = direction;
+            popUpFragment.direction = VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext());
             popUpFragment.speakTop = speakTop;
             popUpFragment.speakMiddle = speakMiddle;
             popUpFragment.speakBottom = speakBottom;
@@ -238,7 +246,7 @@ public class PopupManager {
             return;
         }
 
-        popUpFragment = PopUpFragment.newInstance(title, description, direction);
+        popUpFragment = PopUpFragment.newInstance(title, description, VeeverSensorManager.getInstance().getDirectionText(mainActivity.getBaseContext()));
         FragmentTransaction fragmentTransaction = mainActivity.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(0,0);
         fragmentTransaction.replace(R.id.frame_dialog_fragment, popUpFragment);
