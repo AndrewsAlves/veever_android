@@ -76,13 +76,13 @@ public class FirestoreManager {
         ourInstance = new FirestoreManager(context);
     }
 
-    public BeaconModel getBeaconModel(Beacon beacon) {
-
-        String uuid = beacon.getId1().toString();
-        String major = beacon.getId2().toString();
-        String minor = beacon.getId3().toString();
+    public BeaconModel getBeaconModel(String uuid, int major, int minor) {
 
         if (beaconModelList == null) {
+            return null;
+        }
+
+        if (uuid == null) {
             return null;
         }
 

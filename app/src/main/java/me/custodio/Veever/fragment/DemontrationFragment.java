@@ -200,7 +200,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         spot = FirestoreManager.getInstance().getSpotByShortId(shortCode);
 
         if (spot == null) {
-            spot = FirestoreManager.getInstance().getSpotByShortId("VEEVER");
+            spot = FirestoreManager.getInstance().getSpotByShortId("TESTBE");
         }
 
         if (spot != null) {
@@ -211,6 +211,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
     @OnClick(R.id.topview)
     public void clickTopGreen() {
+
         if (spot == null) {
             return;
         }
