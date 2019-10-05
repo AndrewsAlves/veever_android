@@ -15,6 +15,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+import org.altbeacon.beacon.Beacon;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class FirestoreManager {
     public static final String DB_HEATS = "heats";
     public static final String DB_SPOTS = "spots";
 
+    public int iant = 50000224;
+
     public static final String DOC_CONFIGS = "a1uclGwKQXjOl0cP7gs2";
 
     private static FirestoreManager ourInstance;
@@ -73,12 +76,27 @@ public class FirestoreManager {
         ourInstance = new FirestoreManager(context);
     }
 
-    public BeaconModel getBeaconModel(String uuid, int major, int minor) {
+    public BeaconModel getBeaconModel(Beacon beacon) {
+
+        String uuid = beacon.getId1().toString();
+        String major = beacon.getId2().toString();
+        String minor = beacon.getId3().toString();
+
+        if (beaconModelList == null) {
+            return null;
+        }
+
         for (BeaconModel beaconModel : beaconModelList) {
-            if (beaconModel.getUuid().equals(uuid.toUpperCase())
-                    && beaconModel.getMajor() == major
-                    && beaconModel.getMinor() == minor ) {
-                return beaconModel;
+            if (beaconModel != null && beaconModel.getUuid() != null) {
+                try {
+                    if (beaconModel.getUuid().equals(uuid.toUpperCase())
+                            && beaconModel.getMajor() == Integer.parseInt(major)
+                            && beaconModel.getMinor() == Integer.parseInt(minor) ) {
+                        return beaconModel;
+                    }
+                } catch (UnsupportedOperationException op) {
+                    op.printStackTrace();
+                }
             }
         }
 
@@ -86,9 +104,16 @@ public class FirestoreManager {
     }
 
     public Spot getSpotByShortId(String shordId) {
+
+        if (spotList == null) {
+            return null;
+        }
+
         for (Spot spot : spotList) {
-            if (spot.getShortCode().equals(shordId)) {
-                return spot;
+            if (spot != null && spot.getShortCode() != null) {
+                if (spot.getShortCode().equals(shordId)) {
+                    return spot;
+                }
             }
         }
 

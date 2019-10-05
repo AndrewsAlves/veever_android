@@ -76,10 +76,7 @@ public class PopupManager {
         }
 
         // if not update last beacon
-        BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(
-                beacon.getId1().toString(),
-                beacon.getId2().toInt(),
-                beacon.getId3().toInt());
+        BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(beacon);
 
         if (beaconModel == null) {
             Log.e(TAG, "showDialog: beacon null");
@@ -168,10 +165,7 @@ public class PopupManager {
 
         for (Beacon beacon : beaconList) {
 
-            BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(
-                    beacon.getId1().toString(),
-                    beacon.getId2().toInt(),
-                    beacon.getId3().toInt());
+            BeaconModel beaconModel = FirestoreManager.getInstance().getBeaconModel(beacon);
 
             if (beaconModel == null) {
                 Log.e(TAG, "getDetectedBeacons: beacon model is null");
