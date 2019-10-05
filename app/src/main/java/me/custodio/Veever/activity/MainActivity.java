@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             }
         }
     }
-
+;
     public void enableMonitoring() {
         setupUIEnabled();
         beaconManager.bind(this);
