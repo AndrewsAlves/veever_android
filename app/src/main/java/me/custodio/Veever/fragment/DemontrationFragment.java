@@ -222,6 +222,11 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
     @OnClick(R.id.tv_subtitle)
     public void clickMiddleWhite() {
+
+        if (spot == null) {
+            return;
+        }
+
         if (spot.getSpotInfo() == null) {
             return;
         }

@@ -78,9 +78,17 @@ public class FirestoreManager {
 
     public BeaconModel getBeaconModel(Beacon beacon) {
 
-        String uuid = beacon.getId1().toString();
-        String major = beacon.getId2().toString();
-        String minor = beacon.getId3().toString();
+        String uuid = " ";
+        String major = " ";
+        String minor = " ";
+
+        try {
+            uuid = beacon.getId1().toString();
+            major = beacon.getId2().toString();
+            minor = beacon.getId3().toString();
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            ex.printStackTrace();
+        }
 
         if (beaconModelList == null) {
             return null;
