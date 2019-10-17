@@ -128,9 +128,9 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         OrientationInfo orientationInfo = spotInfo.getDirectionInfo(geoDirections);
 
         if (orientationInfo != null) {
-            description = orientationInfo.title;
-        } else {
-            description = getString(R.string.app_dialog_description_center);
+            if (orientationInfo.title != null) {
+                description = orientationInfo.title;
+            }
         }
 
         textViewMainTitle.setText(title);
@@ -209,7 +209,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
             VeeverSensorManager.getInstance().setDemo(true);
             updateBeaconDialog(true);
         }
-        
+
     }
 
     @OnClick(R.id.topview)
