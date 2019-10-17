@@ -24,6 +24,7 @@
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
 }
+
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
 # BUTTER KNIFE
@@ -34,4 +35,5 @@
 -keep class butterknife.*
 -keepclasseswithmembernames class * { @butterknife.* <methods>; }
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
+
 -keep public class me.custodio.Veever.model.** { *; }

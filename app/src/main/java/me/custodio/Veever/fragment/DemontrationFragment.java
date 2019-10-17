@@ -209,6 +209,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
             VeeverSensorManager.getInstance().setDemo(true);
             updateBeaconDialog(true);
         }
+        
     }
 
     @OnClick(R.id.topview)

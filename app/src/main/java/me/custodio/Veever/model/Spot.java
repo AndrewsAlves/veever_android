@@ -150,6 +150,12 @@ public class Spot {
             } else {
                 return enUS;
             }
+        } else if (spotInfo.name == null) {
+            if (defaultLanguage.equals(Settings.PORTUGUESE)) {
+                return ptBR;
+            } else {
+                return enUS;
+            }
         }
 
         return spotInfo;
