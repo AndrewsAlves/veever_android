@@ -12,9 +12,9 @@ public class SpotInfo {
 
     public Orientation orientation;
 
-    public String voiceDescription;
+    public String voiceDescription = "";
 
-    public String voiceName;
+    public String voiceName = "";
 
     public String zoneNotification;
 

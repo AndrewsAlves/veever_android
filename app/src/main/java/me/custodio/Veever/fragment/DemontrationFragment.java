@@ -130,7 +130,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         if (orientationInfo != null) {
             description = orientationInfo.title;
         } else {
-            description = " ";
+            description = getString(R.string.app_dialog_description_center);
         }
 
         textViewMainTitle.setText(title);
@@ -198,6 +198,8 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         }
 
         spot = FirestoreManager.getInstance().getSpotByShortId(shortCode);
+
+        Log.e(TAG, "clickContinue: spot short code: " + spot.getShortCode());
 
         if (spot == null) {
             spot = FirestoreManager.getInstance().getSpotByShortId("TESTBE");

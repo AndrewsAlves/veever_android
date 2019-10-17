@@ -68,6 +68,10 @@ public class TextToSpeechManager {
             return;
         }
 
+        if (string.isEmpty()) {
+            return;
+        }
+
         textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String utteranceId) { }
@@ -125,6 +129,7 @@ public class TextToSpeechManager {
     public void stopSpeech() {
         if (textToSpeech != null) {
             textToSpeech.stop();
+            noSpeechIntereption = false;
         }
     }
 
