@@ -34,3 +34,4 @@
 -keep class butterknife.*
 -keepclasseswithmembernames class * { @butterknife.* <methods>; }
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
+-keep public class me.custodio.Veever.model.** { *; }

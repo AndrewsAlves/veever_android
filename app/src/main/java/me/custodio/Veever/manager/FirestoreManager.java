@@ -46,8 +46,6 @@ public class FirestoreManager {
     public static final String DB_HEATS = "heats";
     public static final String DB_SPOTS = "spots";
 
-    public int iant = 50000224;
-
     public static final String DOC_CONFIGS = "a1uclGwKQXjOl0cP7gs2";
 
     private static FirestoreManager ourInstance;
@@ -198,8 +196,10 @@ public class FirestoreManager {
                                 continue;
                             }
 
-                            beaconModelList.add(documentSnapshot.toObject(BeaconModel.class));
-                            Log.e(TAG, "onSuccess: beacon" + beaconModelList.toString());
+                            BeaconModel beaconModel = documentSnapshot.toObject(BeaconModel.class);
+                            beaconModelList.add(beaconModel);
+
+                            Log.e(TAG, "onSuccess: beacon uuid" + beaconModel.getUuid());
                         }
 
                         EventBus.getDefault().post(new FetchBeaconSuccessEvent());
@@ -208,7 +208,7 @@ public class FirestoreManager {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        e.printStackTrace();
                     }
                 });
 
@@ -224,7 +224,11 @@ public class FirestoreManager {
                                 continue;
                             }
 
-                            spotList.add(queryDocumentSnapshots.getDocuments().get(i).toObject(Spot.class));
+                            Spot spot = queryDocumentSnapshots.getDocuments().get(i).toObject(Spot.class);
+                            spotList.add(spot);
+
+                            Log.e(TAG, "onSuccess: spot short code: " + spot.getShortCode());
+
                             spotList.get(i).documentId = queryDocumentSnapshots.getDocuments().get(i).getId();
                         }
                     }
@@ -232,7 +236,7 @@ public class FirestoreManager {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        e.printStackTrace();
                     }
                 });
     }

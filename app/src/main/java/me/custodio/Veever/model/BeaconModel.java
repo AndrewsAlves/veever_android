@@ -41,52 +41,13 @@ public class BeaconModel {
     public BeaconModel() {
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     public int getMajor() {
         return major;
     }
 
-    public void setMajor(int major) {
-        this.major = major;
-    }
-
     public int getMinor() {
         return minor;
-    }
-
-    public void setMinor(int minor) {
-        this.minor = minor;
     }
 
     public String getModel() {
@@ -101,36 +62,76 @@ public class BeaconModel {
         return rangingDistance;
     }
 
-    public void setRangingDistance(String rangingDistance) {
-        this.rangingDistance = rangingDistance;
-    }
-
     public DocumentReference getSpot() {
         return spot;
     }
 
-    public void setSpot(DocumentReference spot) {
-        this.spot = spot;
+    public String getUuid() {
+        return uuid;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public String getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public String getUuid() {
-        return uuid;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public void setMajor(int major) {
+        this.major = major;
+    }
+
+    public void setMinor(int minor) {
+        this.minor = minor;
+    }
+
+    public void setRangingDistance(String rangingDistance) {
+        this.rangingDistance = rangingDistance;
+    }
+
+    public void setSpot(DocumentReference spot) {
+        this.spot = spot;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public void setUuid(String uuid) {
