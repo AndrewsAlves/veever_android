@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
     TextView textViewCenter;
 
     @BindView(R.id.et_shortcode)
-    EditText EditTextShortCode;
+    EditText editTextShortCode;
 
     @BindView(R.id.cl_demo_dialog)
     ConstraintLayout dialogView;
@@ -85,6 +86,8 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
         switchDemo.setOnCheckedChangeListener(this);
         switchDemo.setChecked(false);
 
+        editTextShortCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+
         return v;
     }
 
@@ -110,7 +113,7 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
     public void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(EditTextShortCode.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(editTextShortCode.getWindowToken(), 0);
     }
 
     public void updateBeaconDialog(boolean readSpotDetails) {
@@ -193,8 +196,8 @@ public class DemontrationFragment extends Fragment implements CompoundButton.OnC
 
         String shortCode = "TESTBE";
 
-        if (!EditTextShortCode.getText().toString().isEmpty()) {
-            shortCode = EditTextShortCode.getText().toString().toUpperCase();
+        if (!editTextShortCode.getText().toString().isEmpty()) {
+            shortCode = editTextShortCode.getText().toString().toUpperCase();
         }
 
         spot = FirestoreManager.getInstance().getSpotByShortId(shortCode);

@@ -72,6 +72,11 @@ public class TextToSpeechManager {
             return;
         }
 
+        if (string.contains("null")) {
+            String removeNull = string;
+            string = removeNull.replace("null", "");
+        }
+
         textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String utteranceId) { }
@@ -79,7 +84,6 @@ public class TextToSpeechManager {
             @Override
             public void onDone(String utteranceId) {
                 noSpeechIntereption = false;
-                Log.e(TAG, "onDone: finished speaking: " + string);
             }
 
             @Override

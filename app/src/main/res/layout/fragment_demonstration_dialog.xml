@@ -28,7 +28,6 @@
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/sf_font_heavy"
             android:text="@string/app.settings.demonstration.title"
-            android:textAllCaps="true"
             android:textColor="@color/veeverblack"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
